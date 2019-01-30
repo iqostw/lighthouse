@@ -7,10 +7,25 @@
 
 /* eslint-env jest */
 
+const fs = require('fs');
 const path = require('path');
-const spawnSync = require('child_process').spawnSync;
+const {spawn, spawnSync} = require('child_process');
+const fetch = require('isomorphic-fetch');
 
 const CLI_PATH = path.join(__dirname, '../src/cli.js');
+
+function waitForCondition(fn) {
+  let resolve;
+  const promise = new Promise(r => resolve = r);
+
+  function checkConditionOrContinue() {
+    if (fn()) return resolve();
+    setTimeout(checkConditionOrContinue, 500);
+  }
+
+  checkConditionOrContinue();
+  return promise;
+}
 
 describe('Lighthouse CI CLI', () => {
   describe('collect', () => {
@@ -34,5 +49,46 @@ Would have beaconed LHR to http://localhost:9001/ fetched at <DATE>
       },
       20000
     );
+  });
+
+  describe('server', () => {
+    it('should bring up the server and accept requests', async () => {
+      const sqlFile = 'server-cmd-test.tmp.sql';
+      const serverProcess = spawn(CLI_PATH, [
+        'server',
+        '-p=0',
+        `--storage.sqlDatabasePath=${sqlFile}`,
+      ]);
+
+      let stdout = '';
+      serverProcess.stdout.on('data', chunk => stdout += chunk.toString());
+
+      try {
+        await waitForCondition(() => stdout.includes('listening'));
+
+        expect(stdout).toMatch(/port \d+/);
+        const port = stdout.match(/port (\d+)/)[1];
+
+        let response = await fetch(`http://localhost:${port}/v1/projects`);
+        let projects = await response.json();
+        expect(projects).toEqual([]);
+
+        const sampleProject = {name: 'Lighthouse', externalUrl: 'http://example.com'};
+        response = await fetch(`http://localhost:${port}/v1/projects`, {
+          method: 'POST',
+          headers: {'content-type': 'application/json'},
+          body: JSON.stringify(sampleProject),
+        });
+        const createdProject = await response.json();
+        expect(createdProject).toMatchObject(sampleProject);
+
+        response = await fetch(`http://localhost:${port}/v1/projects`);
+        projects = await response.json();
+        expect(projects).toEqual([createdProject]);
+      } finally {
+        if (fs.existsSync(sqlFile)) fs.unlinkSync(sqlFile);
+        serverProcess.kill();
+      }
+    });
   });
 });
