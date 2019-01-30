@@ -9,21 +9,29 @@
 const yargs = require('yargs');
 const getVersion = require('./shared/version.js').getVersion;
 const collectCmd = require('./collect/collect.js');
+const serverCmd = require('./server/server.js');
 
 async function run() {
   /** @type {any} */
   const argv = yargs
     .help('help')
-    .version(() => getVersion())
+    .version(getVersion())
     .usage('lighthouse-ci <command> <options>')
     .demand(1)
     .command('collect', 'Run Lighthouse and save the results to the server', commandYargs =>
       collectCmd.buildCommand(commandYargs)
-    ).argv;
+    )
+    .command('server', 'Run Lighthouse CI server', commandYargs =>
+      serverCmd.buildCommand(commandYargs)
+    )
+    .argv;
 
   switch (argv._[0]) {
     case 'collect':
       await collectCmd.runCommand(argv);
+      break;
+    case 'server':
+      await serverCmd.runCommand(argv);
       break;
     default:
       throw new Error(`Unrecognized command ${argv._[0]}`);
