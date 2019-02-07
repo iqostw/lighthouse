@@ -8,12 +8,13 @@ declare global {
   namespace LHCI {
     namespace CollectCommand {
       export interface Options {
-          auditUrl: string
+        token: string;
+        auditUrl: string;
 
-          method: 'node'|'docker'
-          numberOfRuns: number
+        method: 'node' | 'docker';
+        numberOfRuns: number;
 
-          serverBaseUrl: string
+        serverBaseUrl: string;
       }
     }
   }

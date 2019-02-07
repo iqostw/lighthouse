@@ -12,6 +12,7 @@ const LighthouseRunner = require('./lighthouse-runner.js');
  */
 function buildCommand(yargs) {
   return yargs.options({
+    token: {type: 'string', required: true},
     method: {type: 'string', choices: ['node', 'docker'], default: 'node'},
     auditUrl: {description: 'The URL to audit.', required: true},
     numberOfRuns: {
