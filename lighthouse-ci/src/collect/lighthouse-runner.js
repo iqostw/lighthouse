@@ -13,10 +13,10 @@ const LH_CLI_PATH = path.join(__dirname, '../../../lighthouse-cli/index.js');
 class LighthouseRunner {
   /**
    * @param {string} url
-   * @return {Promise<LH.Result>}
+   * @return {Promise<string>}
    */
   run(url) {
-    /** @type {(lhr: LH.Result) => void} */
+    /** @type {(lhr: string) => void} */
     let resolve;
     /** @type {(e: Error) => void} */
     let reject;
@@ -38,7 +38,7 @@ class LighthouseRunner {
     process.stderr.on('data', chunk => stderr += chunk.toString());
 
     process.on('exit', code => {
-      if (code === 0) return resolve(JSON.parse(stdout));
+      if (code === 0) return resolve(stdout);
 
       /** @type {any} */
       const error = new Error(`Lighthouse failed with exit code ${code}`);
