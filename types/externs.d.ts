@@ -11,7 +11,7 @@ declare global {
   // Augment global Error type to include node's optional `code` property
   // see https://nodejs.org/api/errors.html#errors_error_code
   interface Error {
-    code?: string;
+    code?: string | number;
   }
 
   // Augment Intl to include
