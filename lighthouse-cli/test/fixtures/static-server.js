@@ -25,9 +25,9 @@ function requestHandler(request, response) {
   const queryString = requestUrl.search && parseQueryString(requestUrl.search.slice(1));
   let absoluteFilePath = path.join(__dirname, filePath);
 
-  if (filePath.startsWith('/dist/viewer')) {
+  if (filePath.startsWith('/dist/viewer') || filePath.startsWith('/lighthouse-ci')) {
     // Rewrite lighthouse-viewer paths to point to that location.
-    absoluteFilePath = path.join(__dirname, '/../../../', filePath);
+    absoluteFilePath = path.join(lhRootDirPath, filePath);
   }
 
   if (filePath === '/zone.js') {
