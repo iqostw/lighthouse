@@ -9,48 +9,28 @@
  * @param {LH.Artifacts.Rect} rect
  * @param {{x:number, y:number}} point
  */
-// We sometimes run this as a part of a gatherer script injected into the page, so prevent
-// renaming the function for code coverage.
-/* istanbul ignore next */
 function rectContainsPoint(rect, {x, y}) {
   return rect.left <= x && rect.right >= x && rect.top <= y && rect.bottom >= y;
 }
 
 /**
+ * Returns whether rect2 is contained entirely within rect1;
  * @param {LH.Artifacts.Rect} rect1
  * @param {LH.Artifacts.Rect} rect2
+ * @return {boolean}
  */
 // We sometimes run this as a part of a gatherer script injected into the page, so prevent
 // renaming the function for code coverage.
 /* istanbul ignore next */
 function rectContains(rect1, rect2) {
-  return (
-    // top left corner
-    rectContainsPoint(rect1, {
-      x: rect2.left,
-      y: rect2.top,
-    }) &&
-    // top right corner
-    rectContainsPoint(rect1, {
-      x: rect2.right,
-      y: rect2.top,
-    }) &&
-    // bottom left corner
-    rectContainsPoint(rect1, {
-      x: rect2.left,
-      y: rect2.bottom,
-    }) &&
-    // bottom right corner
-    rectContainsPoint(rect1, {
-      x: rect2.right,
-      y: rect2.bottom,
-    })
-  );
+  return rect2.top >= rect1.top &&
+    rect2.right <= rect1.right &&
+    rect2.bottom <= rect1.bottom &&
+    rect2.left >= rect1.left;
 }
 
 
 const rectContainsString = `
-  ${rectContainsPoint.toString()}
   ${rectContains.toString()};
 `;
 
@@ -111,6 +91,46 @@ function rectsTouchOrOverlap(rectA, rectB) {
 }
 
 /**
+ * Returns a bounding rect for all the passed in rects, with padded with half of
+ * `minimumSize` on all sides.
+ * @param {LH.Artifacts.Rect[]} rects
+ * @param {number} minimumSize
+ * @return {LH.Artifacts.Rect}
+ */
+function getBoundingRectWithPadding(rects, minimumSize) {
+  if (rects.length === 0) {
+    throw new Error('No rects to take bounds of');
+  }
+
+  let left = Number.MAX_VALUE;
+  let right = -Number.MAX_VALUE;
+  let top = Number.MAX_VALUE;
+  let bottom = -Number.MAX_VALUE;
+  for (const rect of rects) {
+    left = Math.min(left, rect.left);
+    right = Math.max(right, rect.right);
+    top = Math.min(top, rect.top);
+    bottom = Math.max(bottom, rect.bottom);
+  }
+
+  // Pad on all sides.
+  const halfMinSize = minimumSize / 2;
+  left -= halfMinSize;
+  right += halfMinSize;
+  top -= halfMinSize;
+  bottom += halfMinSize;
+
+  return {
+    left,
+    right,
+    top,
+    bottom,
+    width: right - left,
+    height: bottom - top,
+  };
+}
+
+/**
  * @param {LH.Artifacts.Rect} rectA
  * @param {LH.Artifacts.Rect} rectB
  */
@@ -161,32 +181,15 @@ function addRectTopAndBottom({x, y, width, height}) {
  * @param {LH.Artifacts.Rect} rect1
  * @param {LH.Artifacts.Rect} rect2
  */
-function getRectXOverlap(rect1, rect2) {
-  // https://stackoverflow.com/a/9325084/1290545
-  return Math.max(
-    0,
-    Math.min(rect1.right, rect2.right) - Math.max(rect1.left, rect2.left)
-  );
-}
-
-/**
- * @param {LH.Artifacts.Rect} rect1
- * @param {LH.Artifacts.Rect} rect2
- */
-function getRectYOverlap(rect1, rect2) {
-  // https://stackoverflow.com/a/9325084/1290545
-  return Math.max(
-    0,
-    Math.min(rect1.bottom, rect2.bottom) - Math.max(rect1.top, rect2.top)
-  );
-}
-
-/**
- * @param {LH.Artifacts.Rect} rect1
- * @param {LH.Artifacts.Rect} rect2
- */
 function getRectOverlapArea(rect1, rect2) {
-  return getRectXOverlap(rect1, rect2) * getRectYOverlap(rect1, rect2);
+  // https://stackoverflow.com/a/9325084/1290545
+  const rectYOverlap = Math.min(rect1.bottom, rect2.bottom) - Math.max(rect1.top, rect2.top);
+  if (rectYOverlap <= 0) return 0;
+
+  const rectXOverlap = Math.min(rect1.right, rect2.right) - Math.max(rect1.left, rect2.left);
+  if (rectXOverlap <= 0) return 0;
+
+  return rectXOverlap * rectYOverlap;
 }
 
 /**
@@ -244,13 +247,12 @@ module.exports = {
   rectContainsString,
   addRectWidthAndHeight,
   addRectTopAndBottom,
-  getRectXOverlap,
-  getRectYOverlap,
   getRectOverlapArea,
   getRectAtCenter,
   getLargestRect,
   getRectCenterPoint,
   getBoundingRect,
+  getBoundingRectWithPadding,
   rectsTouchOrOverlap,
   allRectsContainedWithinEachOther,
   filterOutRectsContainedByOthers,

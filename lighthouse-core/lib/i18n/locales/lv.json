@@ -1,4 +1,322 @@
 {
+  "lighthouse-core/audits/accessibility/accesskeys.js | description": {
+    "message": "Piekļuves atslēgas ļauj lietotājiem ātri pievērsties lapas daļai. Lai navigācija būtu pareiza, katrai piekļuves atslēgai ir jābūt unikālai. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/accesskeys?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | failureTitle": {
+    "message": "Atribūta [accesskey] vērtības nav unikālas"
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | title": {
+    "message": "Atribūta [accesskey] vērtības ir unikālas"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | description": {
+    "message": "Katrs ARIA elements “role” atbalsta konkrētu atribūtu “aria-*” apakškopu. Ja tie netiek norādīti pareizi, atribūti “aria-*” nav derīgi. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-allowed-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | failureTitle": {
+    "message": "Atribūti [aria-*] neatbilst savām lomām"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | title": {
+    "message": "Atribūti [aria-*] atbilst savām lomām"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | description": {
+    "message": "Dažām ARIA lomām ir obligāti atribūti, kas ekrāna lasītājiem norāda elementa statusu. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-required-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | failureTitle": {
+    "message": "Atribūtiem [role] nav visu obligāto atribūtu [aria-*]"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | title": {
+    "message": "Atribūtiem [role] ir visi obligātie atribūti [aria-*]"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | description": {
+    "message": "Dažām ARIA vecāklomām ir jāietver konkrētas pakārtotās lomas, lai varētu nodrošināt piekļūstamības funkcijas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-required-children?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | failureTitle": {
+    "message": "Trūkst elementu ar atribūtu [role], kuriem ir nepieciešami konkrēti pakārtoti atribūti [role]."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | title": {
+    "message": "Ir elementi ar atribūtu [role], kuriem ir nepieciešami konkrēti pakārtoti atribūti [role]."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | description": {
+    "message": "Dažām ARIA pakārtotajām lomām ir jābūt ietvertām konkrētās vecāklomās, lai varētu nodrošināt piekļūstamības funkcijas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-required-parent?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | failureTitle": {
+    "message": "Atribūti [role] nav ietverti obligātajos vecākelementos"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | title": {
+    "message": "Atribūti [role] ir ietverti obligātajos vecākelementos"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | description": {
+    "message": "ARIA lomām ir nepieciešamas derīgas vērtības, lai varētu nodrošināt piekļūstamības funkcijas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-roles?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | failureTitle": {
+    "message": "Atribūta [role] vērtības nav derīgas"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | title": {
+    "message": "Atribūta [role] vērtības ir derīgas"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | description": {
+    "message": "Palīgtehnoloģijas, piemēram, ekrāna lasītāji, nevar interpretēt ARIA atribūtus ar nederīgām vērtībām. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr-value?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | failureTitle": {
+    "message": "Atribūtiem [aria-*] nav derīgu vērtību"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | title": {
+    "message": "Atribūtiem [aria-*] ir derīgas vērtības"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | description": {
+    "message": "Palīgtehnoloģijas, piemēram, ekrāna lasītāji, nevar interpretēt ARIA atribūtus ar nederīgiem nosaukumiem. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | failureTitle": {
+    "message": "Atribūti [aria-*] nav derīgi vai nav norādīti pareizi"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | title": {
+    "message": "Atribūti [aria-*] ir derīgi un norādīti pareizi"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | description": {
+    "message": "Izmantojot subtitrus, nedzirdīgi lietotāji vai lietotāji ar dzirdes traucējumiem var piekļūt audio elementiem, kuri nodrošina būtisku informāciju, piemēram, runātājus, sarunu saturu, kā arī citu informāciju, kas nav sarunas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/audio-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | failureTitle": {
+    "message": "Elementos <audio> nav elementu <track> ar atribūtu [kind=\"captions\"]."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | title": {
+    "message": "Elementos <audio> ir ietverti elementi <track> ar atribūtu [kind=\"captions\"]"
+  },
+  "lighthouse-core/audits/accessibility/axe-audit.js | failingElementsHeader": {
+    "message": "Elementi ar kļūdām"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | description": {
+    "message": "Ja pogai nav piekļūstamības principiem atbilstoša nosaukuma, ekrāna lasītāji to atskaņo kā “Poga”, tādējādi lietotājiem, kuri izmanto ekrāna lasītājus, tās nozīme nav saprotama. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/button-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | failureTitle": {
+    "message": "Pogām nav piekļūstamības principiem atbilstošu nosaukumu"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | title": {
+    "message": "Pogām ir piekļūstamības principiem atbilstoši nosaukumi"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | description": {
+    "message": "Ja nodrošināsiet iespēju apiet atkārtotu saturu, tastatūras lietotāji varēs labāk pārvietoties lapā. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/bypass?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | failureTitle": {
+    "message": "Lapā nav virsraksta, izlaišanas saites vai orientieru daļas"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | title": {
+    "message": "Lapā ir virsraksts, izlaišanas saite vai orientieru daļa"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | description": {
+    "message": "Daudziem lasītājiem ir grūti vai pat neiespējami izlasīt tekstu ar zemu kontrastu. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | failureTitle": {
+    "message": "Fona un priekšplāna krāsu kontrasta koeficients nav pietiekams."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | title": {
+    "message": "Fona un priekšplāna krāsām ir pietiekams kontrasta koeficients"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | description": {
+    "message": "Ja definīciju saraksti nav marķēti pareizi, ekrāna lasītāju atskaņotais saturs var būt mulsinošs vai neprecīzs. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/definition-list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | failureTitle": {
+    "message": "Elementi <dl> neietver tikai pareizi kārtotas <dt> un <dd> grupas, elementus <script> vai <template>."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | title": {
+    "message": "Elementi <dl> ietver tikai pareizi kārtotas <dt> un <dd> grupas, elementus <script> vai <template>."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | description": {
+    "message": "Definīciju saraksta vienumiem (<dt> un <dd>) ir jābūt ietvertiem vecākelementā <dl>, lai ekrāna lasītāji tos varētu pareizi atskaņot. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/dlitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | failureTitle": {
+    "message": "Definīciju saraksta vienumi nav ietverti elementos <dl>"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | title": {
+    "message": "Definīciju saraksta vienumi ir ietverti elementos <dl>"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | description": {
+    "message": "Nosaukums ļauj lietotājiem, kuri izmanto ekrāna lasītājus, uzzināt lapas kopsavilkumu. Lietotājiem, kuri izmanto meklētājprogrammas, nosaukums ļauj saprast, vai lapa atbilst meklētajam vaicājumam. [Uzziniet vairāk](https://developers.google.com/web/tools/lighthouse/audits/title)."
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | failureTitle": {
+    "message": "Dokumentam nav elementa <title>"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | title": {
+    "message": "Dokumentā ir elements <title>"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | description": {
+    "message": "ID atribūta vērtībai ir jābūt unikālai, lai palīgtehnoloģijas neizlaistu citas instances. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/duplicate-id?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | failureTitle": {
+    "message": "Lapas atribūti [id] nav unikāli"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | title": {
+    "message": "Lapas atribūti [id] ir unikāli"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | description": {
+    "message": "Ekrāna lasītāji izmanto ietvaru nosaukumus, lai raksturotu ietvaru saturu. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/frame-title?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | failureTitle": {
+    "message": "Elementiem <frame> vai <iframe> nav nosaukuma"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | title": {
+    "message": "Elementiem <frame> vai <iframe> ir nosaukums"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | description": {
+    "message": "Ja lapā nav norādīts atribūts “lang”, ekrāna lasītājā tiek pieņemts, ka lapas saturs ir noklusējuma valodā, kuru lietotājs izvēlējās, iestatot ekrāna lasītāju. Ja lapas saturs nav noklusējuma valodā, iespējams, ekrāna lasītājs tekstu neatskaņos pareizi. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/html-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | failureTitle": {
+    "message": "Elementā <html> nav atribūta [lang]"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | title": {
+    "message": "Elementam <html> ir atribūts [lang]"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | description": {
+    "message": "Ja norādīsiet derīgu [BCP 47 valodu](https://www.w3.org/International/questions/qa-choosing-language-tags#question), ekrāna lasītāji pareizi atskaņos tekstu. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | failureTitle": {
+    "message": "Elementa <html> atribūtā [lang] nav norādīta derīga vērtība."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | title": {
+    "message": "Elementa <html> atribūtā [lang] ir norādīta derīga vērtība"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | description": {
+    "message": "Informatīvajiem elementiem ir nepieciešams īss, aprakstošs alternatīvais teksts. Dekoratīvajiem elementiem atribūtu “alt” var atstāt tukšu. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | failureTitle": {
+    "message": "Attēlu elementiem nav atribūtu [alt]"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | title": {
+    "message": "Attēlu elementiem ir atribūti [alt]"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | description": {
+    "message": "Ja kā poga <input> tiek izmantots attēls, alternatīvais teksts var sniegt informāciju par pogas nozīmi lietotājiem, kuri izmanto ekrāna lasītāju. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/input-image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | failureTitle": {
+    "message": "Elementiem <input type=\"image\"> nav atribūta [alt] teksta"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | title": {
+    "message": "Elementiem <input type=\"image\"> ir atribūta [alt] teksts"
+  },
+  "lighthouse-core/audits/accessibility/label.js | description": {
+    "message": "Ja norādīsiet iezīmes, palīgtehnoloģijas, piemēram, ekrāna lasītāji, varēs pareizi atskaņot veidlapu vadīklas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/label?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/label.js | failureTitle": {
+    "message": "Veidlapu elementiem nav saistīto iezīmju"
+  },
+  "lighthouse-core/audits/accessibility/label.js | title": {
+    "message": "Veidlapu elementiem ir saistītas iezīmes"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | description": {
+    "message": "Tabulā, kas tiek izmantota izkārtojumam, nav ieteicams iekļaut datu elementus, piemēram, elementus “th” vai “caption”, kā arī atribūtu “summary”, jo tā var mulsināt lietotājus, kuri izmanto ekrāna lasītājus. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/layout-table?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | failureTitle": {
+    "message": "Attēlojumam paredzētajos elementos <table> tiek izmantoti elementi <th>, <caption> vai atribūts [summary]."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | title": {
+    "message": "Attēlojumam paredzētajos elementos <table> netiek izmantoti elementi <th>, <caption> vai atribūts [summary]."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | description": {
+    "message": "Atšķirams, unikāls un aktivizējams saites teksts (un alternatīvais teksts attēliem, kas tiek izmantoti kā saites) nodrošina labākas navigācijas iespējas lietotājiem, kuri izmanto ekrāna lasītājus. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/link-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | failureTitle": {
+    "message": "Saitēm nav atšķirama nosaukuma"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | title": {
+    "message": "Saitēm ir atšķirams nosaukums"
+  },
+  "lighthouse-core/audits/accessibility/list.js | description": {
+    "message": "Ekrāna lasītāji nolasa sarakstus īpašā veidā. Ja saraksta struktūra ir pareiza, tiek atvieglota satura atskaņošana ekrāna lasītājā. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/list.js | failureTitle": {
+    "message": "Sarakstos ir ietverti elementi <li> un skripta atbalsta elementi (<script> un <template>) un papildu saturs."
+  },
+  "lighthouse-core/audits/accessibility/list.js | title": {
+    "message": "Sarakstos ir ietverti tikai elementi <li> un skripta atbalsta elementi (<script> un <template>)."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | description": {
+    "message": "Lai ekrāna lasītāji varētu pareizi atskaņot saraksta vienumus (<li>), tiem ir jābūt ietvertiem vecākelementos <ul> vai <ol>. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/listitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | failureTitle": {
+    "message": "Saraksta vienumi (<li>) nav ietverti vecākelementos <ul> vai <ol>."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | title": {
+    "message": "Saraksta vienumi (<li>) ir ietverti vecākelementos <ul> vai <ol>"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | description": {
+    "message": "Lietotāji negaida, ka lapa tiks automātiski atsvaidzināta, un tādējādi atkal tiks pāriets uz lapas augšdaļu. Tas var būt kaitinoši vai mulsinoši. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/meta-refresh?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | failureTitle": {
+    "message": "Dokumentā tiek izmantots tags <meta http-equiv=\"refresh\">"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | title": {
+    "message": "Dokumentā netiek izmantots tags <meta http-equiv=\"refresh\">"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | description": {
+    "message": "Ja tālummaiņa ir atspējota, lietotājiem ar redzes traucējumiem, kuri izmanto ekrāna palielinājumu, ir grūtības piekļūt tīmekļa lapas saturam. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/meta-viewport?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | failureTitle": {
+    "message": "Elementā <meta name=\"viewport\"> tiek izmantots atribūts [user-scalable=\"no\"], vai atribūta [maximum-scale] vērtība ir mazāka par 5."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | title": {
+    "message": "Elementā <meta name=\"viewport\"> netiek izmantots atribūts [user-scalable=\"no\"], un atribūta [maximum-scale] vērtība nav mazāka par 5."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | description": {
+    "message": "Ekrāna lasītāji nevar tulkot saturu, kas nav teksts. Ja elementiem <object> pievienosiet alternatīvo tekstu, ekrāna lasītāji lietotājiem varēs paziņot teksta nozīmi. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/object-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | failureTitle": {
+    "message": "Elementiem <object> nav atribūta [alt] teksta"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | title": {
+    "message": "Elementiem <object> ir atribūta [alt] teksts"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | description": {
+    "message": "Ja vērtība ir lielāka par “0”, navigācijas secība ir atklāta. Lai gan tehniski šis risinājums ir derīgs, bieži vien tas mulsina lietotājus, kuri izmanto palīgtehnoloģijas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/tabindex?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | failureTitle": {
+    "message": "Dažiem elementiem atribūta [tabindex] vērtība ir lielāka par 0"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | title": {
+    "message": "Neviena elementa atribūta [tabindex] vērtība nav lielāka par 0"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | description": {
+    "message": "Ekrāna lasītāju funkcijas atvieglo pārvietošanos tabulās. Ja elementa <table> šūnās, kas izmanto atribūtu [headers], ir atsauces tikai uz citām šūnām tajā pašā tabulā, tiek nodrošināta labāka pieredze lietotājiem, kuri izmanto ekrāna lasītājus. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/td-headers-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | failureTitle": {
+    "message": "Elementa <table> šūnās, kas izmanto atribūtu [headers], ir atsauces uz citām šūnām tajā pašā tabulā."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | title": {
+    "message": "Elementa <table> šūnās, kas izmanto atribūtu [headers], ir atsauces tikai uz citām šūnām tajā pašā tabulā."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | description": {
+    "message": "Ekrāna lasītāju funkcijas atvieglo pārvietošanos tabulās. Ja tabulu virsrakstos vienmēr ir atsauces uz citām šūnām, var nodrošināt labāku pieredzi lietotājiem, kuri izmanto ekrāna lasītājus. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/th-has-data-cells?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | failureTitle": {
+    "message": "Elementiem <th> un elementiem ar atribūtu [role=\"columnheader\"/\"rowheader\"] nav datu šūnu, ko tie raksturo."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | title": {
+    "message": "Elementiem <th> un elementiem ar atribūtu [role=\"columnheader\"/\"rowheader\"] ir datu šūnas, ko tie raksturo."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | description": {
+    "message": "Ja elementos norādīsiet derīgu [BCP 47 valodu](https://www.w3.org/International/questions/qa-choosing-language-tags#question), ekrāna lasītājs pareizi atskaņos tekstu. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | failureTitle": {
+    "message": "Atribūtiem [lang] nav derīgu vērtību"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | title": {
+    "message": "Atribūtiem [lang] ir derīgas vērtības"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | description": {
+    "message": "Ja videoklipam ir subtitri, nedzirdīgi lietotāji un lietotāji ar dzirdes traucējumiem varēs vieglāk piekļūt informācijai. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/video-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | failureTitle": {
+    "message": "Elementos <video> nav elementu <track> ar atribūtu [kind=\"captions\"]."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | title": {
+    "message": "Elementos <video> ir ietverti elementi <track> ar atribūtu [kind=\"captions\"]"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | description": {
+    "message": "Audio apraksti sniedz noderīgu informāciju par videoklipiem, kas nav iekļauta dialogos, piemēram, sejas izteiksmes un ainas. [Uzziniet vairāk](https://dequeuniversity.com/rules/axe/2.2/video-description?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | failureTitle": {
+    "message": "Elementos <video> nav elementu <track> ar atribūtu [kind=\"description\"]."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | title": {
+    "message": "Elementos <video> ir ietverti elementi <track> ar atribūtu [kind=\"description\"]"
+  },
   "lighthouse-core/audits/bootup-time.js | chromeExtensionsWarning": {
     "message": "Chrome paplašinājumi negatīvi ietekmē šīs lapas ielādes veiktspēju. Mēģiniet lapas pārbaudi veikt inkognito režīmā vai no Chrome profila bez paplašinājumiem."
   },
@@ -245,6 +563,9 @@
   "lighthouse-core/audits/user-timings.js | title": {
     "message": "Lietotāju laika atzīmes un mērījumi"
   },
+  "lighthouse-core/audits/uses-rel-preconnect.js | crossoriginWarning": {
+    "message": "Elementam “{securityOrigin}” tika atrasta iepriekšējas pieslēgšanās saite, taču pārlūks to neizmantoja. Pārliecinieties, vai pareizi izmantojat atribūtu “crossorigin”."
+  },
   "lighthouse-core/audits/uses-rel-preconnect.js | description": {
     "message": "Ieteicams pievienot iepriekš pieslēgtu vai DNS sākotnējo datu iegūšanas resursa norādes, lai izveidotu laicīgus savienojumus ar svarīgiem trešās puses sākumpunktiem. [Uzzināt vairāk](https://developers.google.com/web/fundamentals/performance/resource-prioritization#preconnect)."
   },
@@ -256,6 +577,54 @@
   },
   "lighthouse-core/audits/uses-rel-preload.js | title": {
     "message": "Veiciet svarīgāko pieprasījumu iepriekšēju ielādi"
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupDescription": {
+    "message": "Šie ieteikumi ļauj uzlabot ARIA lietojumu jūsu lietojumprogrammā. Tādējādi varat uzlabot pieredzi lietotājiem, kuri izmanto palīgtehnoloģijas, piemēram, ekrāna lasītājus."
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupTitle": {
+    "message": "ARIA atribūti atbilst paraugprakses principiem"
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupDescription": {
+    "message": "Šie ieteikumi ļauj uzlabot satura lasāmību."
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupTitle": {
+    "message": "Krāsu kontrasts ir apmierinošs"
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupDescription": {
+    "message": "Šie ieteikumi ļauj uzlabot HTML elementu konfigurāciju."
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupTitle": {
+    "message": "Atribūti elementos tiek izmantoti pareizi"
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupDescription": {
+    "message": "Šie ieteikumi lietotājiem, kuri izmanto palīgtehnoloģijas, piemēram, ekrāna lasītājus, ļauj labāk izprast jūsu saturu."
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupTitle": {
+    "message": "Elementi labi raksturo saturu"
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupDescription": {
+    "message": "Šie ieteikumi ļauj uzlabot lietojumprogrammas vadīklu semantiku. Tādējādi var nodrošināt labāku pieredzi lietotājiem, kuri izmanto palīgtehnoloģijas, piemēram, ekrāna lasītājus."
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupTitle": {
+    "message": "Elementiem ir atšķirami nosaukumi"
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupDescription": {
+    "message": "Šie ieteikumi lietotājiem, kuri izmanto dažādas lokalizācijas, ļauj labāk izprast jūsu saturu."
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupTitle": {
+    "message": "Lapā ir norādīta derīga valoda"
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupDescription": {
+    "message": "Šie ieteikumi ļauj uzlabot lietotāju pieredzi jūsu vietnē."
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupTitle": {
+    "message": "Metatagi tiek izmantoti pareizi"
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupDescription": {
+    "message": "Šie ieteikumi ļauj pārliecināties, ka HTML elementi ir pareizi strukturēti."
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupTitle": {
+    "message": "Elementi ir labi strukturēti"
   },
   "lighthouse-core/config/default-config.js | diagnosticsGroupDescription": {
     "message": "Plašāka informācija par jūsu lietojumprogrammas veiktspēju"
@@ -287,6 +656,15 @@
   "lighthouse-core/config/default-config.js | performanceCategoryTitle": {
     "message": "Veiktspēja"
   },
+  "lighthouse-core/config/default-config.js | pwaFastReliableGroupTitle": {
+    "message": "Ātrums un uzticamība"
+  },
+  "lighthouse-core/config/default-config.js | pwaInstallableGroupTitle": {
+    "message": "Instalēšana"
+  },
+  "lighthouse-core/config/default-config.js | pwaOptimizedGroupTitle": {
+    "message": "PTL optimizācija"
+  },
   "lighthouse-core/lib/i18n/i18n.js | columnCacheTTL": {
     "message": "Kešatmiņas TTL vērtība"
   },
@@ -317,6 +695,45 @@
   "lighthouse-core/lib/i18n/i18n.js | seconds": {
     "message": "{timeInMs, number, seconds} s"
   },
+  "lighthouse-core/lib/lh-error.js | badTraceRecording": {
+    "message": "Nevarēja reģistrēt lapas ielādes trasējumu. Lūdzu, vēlreiz palaidiet Lighthouse. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | didntCollectScreenshots": {
+    "message": "Ielādējot lapu, Chrome neieguva ekrānuzņēmumus. Pārliecinieties, ka lapā ir redzams saturs, un pēc tam atkārtoti palaidiet Lighthouse. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | dnsFailure": {
+    "message": "DNS serveri nevarēja atrast norādīto domēnu."
+  },
+  "lighthouse-core/lib/lh-error.js | internalChromeError": {
+    "message": "Radās iekšēja Chrome kļūda. Lūdzu, restartējiet Chrome un mēģiniet atkārtoti palaist Lighthouse."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailed": {
+    "message": "Lighthouse nevarēja droši ielādēt jūsu pieprasīto lapu. Pārliecinieties, ka testējat pareizo URL un serveris pareizi reaģē uz visiem pieprasījumiem."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedHung": {
+    "message": "Lighthouse nevarēja droši ielādēt jūsu pieprasīto URL, jo lapa pārstāja reaģēt."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedInsecure": {
+    "message": "Jūsu norādītajam URL nav derīgu drošības akreditācijas datu. ({securityMessages})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithDetails": {
+    "message": "Lighthouse nevarēja droši ielādēt jūsu pieprasīto lapu. Pārliecinieties, ka testējat pareizo URL un serveris pareizi reaģē uz visiem pieprasījumiem. (Detalizēta informācija: {errorDetails})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithStatusCode": {
+    "message": "Lighthouse nevarēja droši ielādēt jūsu pieprasīto lapu. Pārliecinieties, ka testējat pareizo URL un serveris pareizi reaģē uz visiem pieprasījumiem. (Statusa kods: {statusCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadTookTooLong": {
+    "message": "Lapas ielādei bija nepieciešams pārāk daudz laika. Lūdzu, izmantojiet pārskatā sniegtos ieteikumus, lai saīsinātu lapas ielādes laiku, un pēc tam atkārtoti palaidiet Lighthouse. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | protocolTimeout": {
+    "message": "DevTools protokola atbildes gaidīšanai ir nepieciešams ilgāks laiks, nekā pieļaujams. (Metode: {protocolMethod})"
+  },
+  "lighthouse-core/lib/lh-error.js | requestContentTimeout": {
+    "message": "Resursu satura izgūšanai ir nepieciešams ilgāks laiks, nekā pieļaujams"
+  },
+  "lighthouse-core/lib/lh-error.js | urlInvalid": {
+    "message": "Šķiet, ka jūsu norādītais URL nav derīgs."
+  },
   "lighthouse-core/report/html/renderer/util.js | auditGroupExpandTooltip": {
     "message": "Rādīt pārbaudes"
   },
@@ -336,7 +753,7 @@
     "message": "Laboratorijas dati"
   },
   "lighthouse-core/report/html/renderer/util.js | lsPerformanceCategoryDescription": {
-    "message": "[Lighthouse] (https://developers.google.com/web/tools/lighthouse/) pašreizējās lapas analīze emulētajā 3G. Vērtības ir aptuvenas un var atšķirties."
+    "message": "Pašreizējās lapas [Lighthouse](https://developers.google.com/web/tools/lighthouse/) analīze emulētā mobilajā tīklā. Vērtības ir aptuvenas un var atšķirties."
   },
   "lighthouse-core/report/html/renderer/util.js | manualAuditsGroupTitle": {
     "message": "Papildu vienumi manuālai pārbaudei"

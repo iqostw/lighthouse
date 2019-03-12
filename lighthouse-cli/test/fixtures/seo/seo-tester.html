@@ -27,6 +27,11 @@
   </style>
 </head>
 <body>
+  <!-- PASS(hreflang): should ignore links in the body -->
+  <link rel="alternate" hreflang="nonsense" href="https://nonsense.example.com" />
+  <!-- PASS(canonical): should ignore links in the body -->
+  <link rel="canonical" href="http://localhost:10200/seo/" />
+
   <h1>SEO</h1>
 
   <h2>Anchor text</h2>

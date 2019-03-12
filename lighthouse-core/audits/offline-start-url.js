@@ -17,7 +17,7 @@ class OfflineStartUrl extends Audit {
       title: 'start_url responds with a 200 when offline',
       failureTitle: 'start_url does not respond with a 200 when offline',
       description: 'A service worker enables your web app to be reliable in unpredictable network conditions. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/http-200-when-offline).',
-      requiredArtifacts: ['Manifest', 'StartUrl'],
+      requiredArtifacts: ['WebAppManifest', 'StartUrl'],
     };
   }
 
@@ -29,7 +29,7 @@ class OfflineStartUrl extends Audit {
     // StartUrl gatherer will give explanations for failures, but need to take manifest parsing
     // warnings from the manifest itself (e.g. invalid `start_url`, so fell back to document URL).
     const warnings = [];
-    const manifest = artifacts.Manifest;
+    const manifest = artifacts.WebAppManifest;
     if (manifest && manifest.value && manifest.value.start_url.warning) {
       const manifestWarning = manifest.value.start_url.warning;
       warnings.push('We couldn\'t read the start_url from the manifest. As a result, the ' +

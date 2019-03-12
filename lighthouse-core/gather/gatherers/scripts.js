@@ -5,8 +5,11 @@
  */
 'use strict';
 
+const log = require('lighthouse-logger');
 const Gatherer = require('./gatherer');
 const NetworkRequest = require('../../lib/network-request');
+const getElementsInDocumentString = require('../../lib/page-functions.js').getElementsInDocumentString; // eslint-disable-line max-len
+const URL = require('../../lib/url-shim.js');
 
 /**
  * @fileoverview Gets JavaScript file contents.
@@ -20,8 +23,40 @@ class Scripts extends Gatherer {
   async afterPass(passContext, loadData) {
     const driver = passContext.driver;
 
-    /** @type {Object<string, string>} */
-    const scriptContentMap = {};
+    /** @type {LH.Artifacts['Scripts']} */
+    const scripts = [];
+
+    /** @type {string[]} */
+    const inlineScripts = await driver.evaluateAsync(`(() => {
+      ${getElementsInDocumentString};
+
+      return getElementsInDocument('script')
+        .filter(script => !script.src && script.text.trim())
+        .map(script => script.text);
+    })()`, {useIsolation: true});
+
+    if (inlineScripts.length) {
+      // TODO: use NetworkAnalyzer.findMainDocument() when
+      // this PR lands: https://github.com/GoogleChrome/lighthouse/pull/7080
+      // Then make requestId not optional.
+      const mainResource = loadData.networkRecords.find(request =>
+        passContext.url.startsWith(request.url) &&
+          URL.equalWithExcludedFragments(request.url, passContext.url));
+      if (!mainResource) {
+        log.warn('Scripts', 'could not locate mainResource');
+      }
+      const requestId = mainResource ? mainResource.requestId : undefined;
+      scripts.push(
+        ...inlineScripts.map(content => {
+          return {
+            content,
+            inline: true,
+            requestId,
+          };
+        })
+      );
+    }
+
     const scriptRecords = loadData.networkRecords
       .filter(record => record.resourceType === NetworkRequest.TYPES.Script);
 
@@ -29,12 +64,16 @@ class Scripts extends Gatherer {
       try {
         const content = await driver.getRequestContent(record.requestId);
         if (content) {
-          scriptContentMap[record.requestId] = content;
+          scripts.push({
+            content,
+            inline: false,
+            requestId: record.requestId,
+          });
         }
       } catch (e) {}
     }
 
-    return scriptContentMap;
+    return scripts;
   }
 }
 

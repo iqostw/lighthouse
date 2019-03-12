@@ -6,7 +6,7 @@
 'use strict';
 
 const Audit = require('./audit');
-const Parser = require('metaviewport-parser');
+const ComputedViewportMeta = require('../computed/viewport-meta.js');
 
 class Viewport extends Audit {
   /**
@@ -26,33 +26,22 @@ class Viewport extends Audit {
 
   /**
    * @param {LH.Artifacts} artifacts
-   * @return {LH.Audit.Product}
+   * @param {LH.Audit.Context} context
+   * @return {Promise<LH.Audit.Product>}
    */
-  static audit(artifacts) {
-    const viewportMeta = artifacts.MetaElements.find(meta => meta.name === 'viewport');
-    if (!viewportMeta) {
+  static async audit(artifacts, context) {
+    const viewportMeta = await ComputedViewportMeta.request(artifacts, context);
+
+    if (!viewportMeta.hasViewportTag) {
       return {
-        explanation: 'No viewport meta tag found',
         rawValue: false,
+        explanation: 'No viewport meta tag found',
       };
     }
 
-    const warnings = [];
-    const parsedProps = Parser.parseMetaViewPortContent(viewportMeta.content || '');
-
-    if (Object.keys(parsedProps.unknownProperties).length) {
-      warnings.push(`Invalid properties found: ${JSON.stringify(parsedProps.unknownProperties)}`);
-    }
-    if (Object.keys(parsedProps.invalidValues).length) {
-      warnings.push(`Invalid values found: ${JSON.stringify(parsedProps.invalidValues)}`);
-    }
-
-    const viewportProps = parsedProps.validProperties;
-    const hasMobileViewport = viewportProps.width || viewportProps['initial-scale'];
-
     return {
-      rawValue: !!hasMobileViewport,
-      warnings,
+      rawValue: viewportMeta.isMobileOptimized,
+      warnings: viewportMeta.parserWarnings,
     };
   }
 }

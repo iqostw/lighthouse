@@ -304,14 +304,25 @@ class NetworkRecorder extends EventEmitter {
   }
 
   /**
+   * Events from targets other than the main frame are proxied through `Target.receivedMessageFromTarget`.
+   * Their payloads are JSON-stringified into the `.message` property
+   * @param {LH.Crdp.Target.ReceivedMessageFromTargetEvent} data
+   */
+  onReceivedMessageFromTarget(data) {
+    /** @type {LH.Protocol.RawMessage} */
+    const protocolMessage = JSON.parse(data.message);
+
+    // Message was a response to some command, not an event, so we'll ignore it.
+    if ('id' in protocolMessage) return;
+    // Message was an event, replay it through our normal dispatch process.
+    this.dispatch(protocolMessage);
+  }
+
+  /**
    * Routes network events to their handlers, so we can construct networkRecords
    * @param {LH.Protocol.RawEventMessage} event
    */
   dispatch(event) {
-    if (!event.method.startsWith('Network.')) {
-      return;
-    }
-
     switch (event.method) {
       case 'Network.requestWillBeSent': return this.onRequestWillBeSent(event.params);
       case 'Network.requestServedFromCache': return this.onRequestServedFromCache(event.params);
@@ -320,6 +331,7 @@ class NetworkRecorder extends EventEmitter {
       case 'Network.loadingFinished': return this.onLoadingFinished(event.params);
       case 'Network.loadingFailed': return this.onLoadingFailed(event.params);
       case 'Network.resourceChangedPriority': return this.onResourceChangedPriority(event.params);
+      case 'Target.receivedMessageFromTarget': return this.onReceivedMessageFromTarget(event.params); // eslint-disable-line max-len
       default: return;
     }
   }
@@ -368,7 +380,9 @@ class NetworkRecorder extends EventEmitter {
     for (const record of records) {
       const stackFrames = (record.initiator.stack && record.initiator.stack.callFrames) || [];
       const initiatorURL = record.initiator.url || (stackFrames[0] && stackFrames[0].url);
-      const initiator = recordsByURL.get(initiatorURL) || record.redirectSource;
+      // If we were redirected to this request, our initiator is that redirect, otherwise, it's the
+      // initiator provided by the protocol. See https://github.com/GoogleChrome/lighthouse/pull/7352/
+      const initiator = record.redirectSource || recordsByURL.get(initiatorURL);
       if (initiator) {
         record.setInitiatorRequest(initiator);
       }

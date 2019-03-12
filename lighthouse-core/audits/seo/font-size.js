@@ -10,18 +10,26 @@
 const URL = require('../../lib/url-shim');
 const i18n = require('../../lib/i18n/i18n.js');
 const Audit = require('../audit');
-const ViewportAudit = require('../viewport');
+const ComputedViewportMeta = require('../../computed/viewport-meta.js');
 const MINIMAL_PERCENTAGE_OF_LEGIBLE_TEXT = 60;
 
 const UIStrings = {
-  /** Imperative title of a Lighthouse audit that tells the user that they should use font sizes that are easily read by the user. This is displayed in a list of audit titles that Lighthouse generates. */
+  /** Title of a Lighthouse audit that provides detail on the font sizes used on the page. This descriptive title is shown to users when the fonts used on the page are large enough to be considered legible. */
   title: 'Document uses legible font sizes',
-  /** Imperative title of a Lighthouse audit that tells the user that they should use font sizes that are easily read by the user. This imperative title is shown to users when there is a font that is too small to be read by the user. */
+  /** Title of a Lighthouse audit that provides detail on the font sizes used on the page. This descriptive title is shown to users when there is a font that may be too small to be read by users. */
   failureTitle: 'Document doesn\'t use legible font sizes',
   /** Description of a Lighthouse audit that tells the user *why* they need to use a larger font size. This is displayed after a user expands the section to see more. No character length limits. 'Learn More' becomes link text to additional documentation. */
   description: 'Font sizes less than 12px are too small to be legible and require mobile visitors to “pinch to zoom” in order to read. Strive to have >60% of page text ≥12px. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/font-sizes).',
-  /** [ICU Syntax] Label for the audit identifying font sizes that are too small. */
+  /** Label for the audit identifying font sizes that are too small. */
   displayValue: '{decimalProportion, number, extendedPercent} legible text',
+  /** Explanatory message stating that there was a failure in an audit caused by a missing page viewport meta tag configuration. "viewport" and "meta" are HTML terms and should not be translated. */
+  explanationViewport: 'Text is illegible because there\'s no viewport meta tag optimized ' +
+    'for mobile screens.',
+  /** Explanatory message stating that there was a failure in an audit caused by a certain percentage of the text on the page being too small. "decimalProportion" will be replaced by a percentage between 0 and 100%. */
+  explanation: '{decimalProportion, number, extendedPercent} of text is too small.',
+  /** Explanatory message stating that there was a failure in an audit caused by a certain percentage of the text on the page being too small, based on a sample size of text that was less than 100% of the text on the page. "decimalProportion" will be replaced by a percentage between 0 and 100%. */
+  explanationWithDisclaimer: '{decimalProportion, number, extendedPercent} of text is too ' +
+    'small (based on {decimalProportionVisited, number, extendedPercent} sample).',
 };
 
 const str_ = i18n.createMessageInstanceIdFn(__filename, UIStrings);
@@ -199,20 +207,29 @@ class FontSize extends Audit {
       title: str_(UIStrings.title),
       failureTitle: str_(UIStrings.failureTitle),
       description: str_(UIStrings.description),
-      requiredArtifacts: ['FontSize', 'URL', 'MetaElements'],
+      requiredArtifacts: ['FontSize', 'URL', 'MetaElements', 'TestedAsMobileDevice'],
     };
   }
 
   /**
    * @param {LH.Artifacts} artifacts
-   * @return {LH.Audit.Product}
+   * @param {LH.Audit.Context} context
+   * @return {Promise<LH.Audit.Product>}
    */
-  static audit(artifacts) {
-    const hasViewportSet = ViewportAudit.audit(artifacts).rawValue;
-    if (!hasViewportSet) {
+  static async audit(artifacts, context) {
+    if (!artifacts.TestedAsMobileDevice) {
+      // Font size isn't important to desktop SEO
+      return {
+        rawValue: true,
+        notApplicable: true,
+      };
+    }
+
+    const viewportMeta = await ComputedViewportMeta.request(artifacts, context);
+    if (!viewportMeta.isMobileOptimized) {
       return {
         rawValue: false,
-        explanation: 'Text is illegible because of a missing viewport config',
+        explanation: str_(UIStrings.explanationViewport),
       };
     }
 
@@ -235,6 +252,7 @@ class FontSize extends Audit {
       (visitedTextLength - failingTextLength) / visitedTextLength * 100;
     const pageUrl = artifacts.URL.finalUrl;
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'source', itemType: 'url', text: 'Source'},
       {key: 'selector', itemType: 'code', text: 'Selector'},
@@ -285,16 +303,20 @@ class FontSize extends Audit {
 
     let explanation;
     if (!passed) {
-      const percentageOfFailingText = parseFloat((100 - percentageOfPassingText).toFixed(2));
-      let disclaimer = '';
+      const percentageOfFailingText = (100 - percentageOfPassingText) / 100;
 
       // if we were unable to visit all text nodes we should disclose that information
       if (visitedTextLength < totalTextLength) {
-        const percentageOfVisitedText = visitedTextLength / totalTextLength * 100;
-        disclaimer = ` (based on ${percentageOfVisitedText.toFixed()}% sample)`;
+        const percentageOfVisitedText = (visitedTextLength / totalTextLength);
+        explanation = str_(UIStrings.explanationWithDisclaimer,
+          {
+            decimalProportion: percentageOfFailingText,
+            decimalProportionVisited: percentageOfVisitedText,
+          });
+      } else {
+        explanation = str_(UIStrings.explanation,
+          {decimalProportion: percentageOfFailingText});
       }
-
-      explanation = `${percentageOfFailingText}% of text is too small${disclaimer}.`;
     }
 
     return {

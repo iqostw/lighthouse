@@ -60,7 +60,7 @@ class TTFBMetric extends Audit {
     const passed = ttfb < TTFB_THRESHOLD;
     const displayValue = str_(UIStrings.displayValue, {timeInMs: ttfb});
 
-    /** @type {LH.Result.Audit.OpportunityDetails} */
+    /** @type {LH.Audit.Details.Opportunity} */
     const details = {
       type: 'opportunity',
       overallSavingsMs: ttfb - TTFB_THRESHOLD,

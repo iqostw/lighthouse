@@ -1,4 +1,322 @@
 {
+  "lighthouse-core/audits/accessibility/accesskeys.js | description": {
+    "message": "Met toegangstoetsen kunnen gebruikers snel de focus op een gedeelte van de pagina plaatsen. Voor correcte navigatie moet elke toegangstoets uniek zijn. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/accesskeys?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | failureTitle": {
+    "message": "'[accesskey]'-waarden zijn niet uniek"
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | title": {
+    "message": "'[accesskey]'-waarden zijn uniek"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | description": {
+    "message": "Elke ARIA-rol ondersteunt een specifieke subset van 'aria-*'-kenmerken. Als deze niet overeenkomen, zijn de 'aria-*'-kenmerken ongeldig. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-allowed-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | failureTitle": {
+    "message": "'[aria-*]'-kenmerken komen niet overeen met hun rollen"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | title": {
+    "message": "'[aria-*]'-kenmerken komen overeen met hun rollen"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | description": {
+    "message": "Sommige ARIA-rollen hebben vereiste kenmerken die de status van het element beschrijven voor schermlezers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-required-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | failureTitle": {
+    "message": "'[role]'-elementen bevatten niet alle vereiste '[aria-*]'-kenmerken"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | title": {
+    "message": "'[role]'-elementen bevatten alle vereiste '[aria-*]'-kenmerken"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | description": {
+    "message": "Sommige bovenliggende ARIA-rollen moeten specifieke onderliggende rollen bevatten om de beoogde toegankelijkheidsfuncties uit te voeren. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-required-children?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | failureTitle": {
+    "message": "Er ontbreken elementen met '[role]' waarvoor specifieke onderliggende '[role]'-elementen zijn vereist."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | title": {
+    "message": "Er zijn elementen met '[role]' aanwezig waarvoor specifieke onderliggende '[role]'-elementen zijn vereist"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | description": {
+    "message": "Sommige onderliggende ARIA-rollen moeten zijn opgenomen in specifieke bovenliggende rollen om de beoogde toegankelijkheidsfuncties op de juiste manier uit te voeren. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-required-parent?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | failureTitle": {
+    "message": "'[role]'-elementen zijn niet opgenomen in het vereiste bovenliggende element"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | title": {
+    "message": "'[role]'-elementen zijn opgenomen in het vereiste bovenliggende element"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | description": {
+    "message": "ARIA-rollen moeten geldige waarden hebben om hun beoogde toegankelijkheidsfuncties uit te voeren. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-roles?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | failureTitle": {
+    "message": "'[role]'-waarden zijn niet geldig"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | title": {
+    "message": "'[role]'-waarden zijn geldig"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | description": {
+    "message": "ARIA-kenmerken met ongeldige waarden kunnen niet worden geïnterpreteerd door hulptechnologieën, zoals schermlezers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr-value?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | failureTitle": {
+    "message": "'[aria-*]'-kenmerken hebben geen geldige waarden"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | title": {
+    "message": "'[aria-*]'-kenmerken hebben geldige waarden"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | description": {
+    "message": "ARIA-kenmerken met ongeldige namen kunnen niet worden geïnterpreteerd door hulptechnologieën, zoals schermlezers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | failureTitle": {
+    "message": "'[aria-*]'-kenmerken zijn niet geldig of zijn verkeerd gespeld"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | title": {
+    "message": "'[aria-*]'-kenmerken zijn geldig en niet verkeerd gespeld"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | description": {
+    "message": "Ondertiteling zorgt ervoor dat audio-elementen kunnen worden gebruikt voor dove of slechthorende gebruikers. De ondertiteling biedt essentiële informatie zoals wie praat, wat de persoon zegt en andere niet-gesproken informatie. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/audio-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | failureTitle": {
+    "message": "Voor '<audio>'-elementen ontbreekt een '<track>'-element met '[kind=\"captions\"]'."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | title": {
+    "message": "'<audio>'-elementen bevatten een '<track>'-element met '[kind=\"captions\"]'"
+  },
+  "lighthouse-core/audits/accessibility/axe-audit.js | failingElementsHeader": {
+    "message": "Mislukte elementen"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | description": {
+    "message": "Wanneer een knop geen toegankelijke naam heeft, kondigen schermlezers deze aan als 'knop', waardoor de knop onbruikbaar wordt voor gebruikers die afhankelijk zijn van schermlezers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/button-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | failureTitle": {
+    "message": "Knoppen hebben geen toegankelijke naam"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | title": {
+    "message": "Knoppen hebben een toegankelijke naam"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | description": {
+    "message": "Als je manieren toevoegt om herhaalde content te omzeilen, kunnen toetsenbordgebruikers efficiënter navigeren op de pagina. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/bypass?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | failureTitle": {
+    "message": "De pagina bevat geen kop, link voor overslaan of herkenningspuntregio"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | title": {
+    "message": "De pagina bevat een kop, link voor overslaan of herkenningspuntregio"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | description": {
+    "message": "Voor veel gebruikers is tekst met weinig contrast moeilijk of onmogelijk te lezen. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | failureTitle": {
+    "message": "De contrastverhouding van achtergrond- en voorgrondkleuren is niet voldoende"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | title": {
+    "message": "De contrastverhouding van achtergrond- en voorgrondkleuren is voldoende"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | description": {
+    "message": "Wanneer definitielijsten niet correct zijn opgemaakt, kunnen schermlezers verwarrende of onjuiste uitvoer produceren. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/definition-list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | failureTitle": {
+    "message": "'<dl>'-elementen bevatten niet alleen correct geordende '<dt>'- en '<dd>'-groepen, '<script>'- of '<template>'-elementen."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | title": {
+    "message": "'<dl>'-elementen bevatten alleen correct geordende '<dt>'- en '<dd>'-groepen, '<script>'- of '<template>'-elementen."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | description": {
+    "message": "Definitielijstitems ('<dt>' en '<dd>') moeten zijn verpakt in een bovenliggend '<dl>'-element om ervoor te zorgen dat schermlezers ze correct kunnen aankondigen. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/dlitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | failureTitle": {
+    "message": "Definitielijstitems zijn niet verpakt in '<dl>'-elementen"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | title": {
+    "message": "Definitielijstitems zijn verpakt in '<dl>'-elementen"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | description": {
+    "message": "De titel geeft gebruikers van een schermlezer een overzicht van de pagina. Gebruikers van een zoekmachine vertrouwen in hoge mate hierop om te bepalen of een pagina relevant is voor hun zoekopdracht. [Meer informatie](https://developers.google.com/web/tools/lighthouse/audits/title)."
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | failureTitle": {
+    "message": "Document bevat geen '<title>'-element"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | title": {
+    "message": "Document bevat een '<title>'-element"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | description": {
+    "message": "De waarde van een id-kenmerk moet uniek zijn om te voorkomen dat andere instanties over het hoofd worden gezien door hulptechnologieën. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/duplicate-id?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | failureTitle": {
+    "message": "De '[id]'-kenmerken op de pagina zijn niet uniek"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | title": {
+    "message": "De '[id]'-kenmerken op de pagina zijn uniek"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | description": {
+    "message": "Gebruikers van een schermlezer zijn afhankelijk van frametitels die de content van de frames beschrijven. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/frame-title?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | failureTitle": {
+    "message": "'<frame>'- of '<iframe>'-elementen hebben geen titel"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | title": {
+    "message": "'<frame>'- of '<iframe>'-elementen hebben een titel"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | description": {
+    "message": "Als de pagina geen lang-kenmerk specificeert, neemt een schermlezer aan dat de pagina is geschreven in de standaardtaal die de gebruiker heeft gekozen toen de schermlezer werd ingesteld. Als de pagina niet in de standaardtaal is geschreven, kan de schermlezer de tekst van de pagina mogelijk niet correct aankondigen. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/html-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | failureTitle": {
+    "message": "'<html>'-element heeft geen '[lang]'-kenmerk"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | title": {
+    "message": "'<html>'-element heeft een '[lang]'-kenmerk"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | description": {
+    "message": "Als je een geldige [BCP 47-taal](https://www.w3.org/International/questions/qa-choosing-language-tags#question) opgeeft, zorg je ervoor dat schermlezers de tekst correct kunnen aankondigen. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | failureTitle": {
+    "message": "'<html>'-element heeft geen geldige waarde voor het bijbehorende '[lang]'-kenmerk."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | title": {
+    "message": "'<html>'-element heeft een geldige waarde voor het bijbehorende '[lang]'-kenmerk"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | description": {
+    "message": "Voor informatieve elementen moet een korte, beschrijvende alternatieve tekst worden gebruikt. Decoratieve elementen kunnen worden genegeerd met een leeg alt-kenmerk. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | failureTitle": {
+    "message": "Afbeeldingselementen hebben geen '[alt]'-kenmerken"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | title": {
+    "message": "Afbeeldingselementen hebben '[alt]'-kenmerken"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | description": {
+    "message": "Wanneer een afbeelding wordt gebruikt als '<input>'-knop en je hiervoor alternatieve tekst opgeeft, kunnen gebruikers van een schermlezer beter begrijpen wat het doel van de knop is. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/input-image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | failureTitle": {
+    "message": "'<input type=\"image\">'-elementen hebben geen '[alt]'-tekst"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | title": {
+    "message": "'<input type=\"image\">'-elementen hebben '[alt]'-tekst"
+  },
+  "lighthouse-core/audits/accessibility/label.js | description": {
+    "message": "Labels zorgen ervoor dat formulieropties correct worden aangekondigd door hulptechnologieën, zoals schermlezers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/label?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/label.js | failureTitle": {
+    "message": "Formulierelementen hebben geen bijbehorende labels"
+  },
+  "lighthouse-core/audits/accessibility/label.js | title": {
+    "message": "Formulierelementen hebben bijbehorende labels"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | description": {
+    "message": "Een tabel die wordt gebruikt voor indelingsdoeleinden, mag geen gegevenselementen (zoals th- of caption-elementen of het summary-kenmerk) bevatten omdat dit verwarrend kan zijn voor gebruikers van een schermlezer. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/layout-table?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | failureTitle": {
+    "message": "In '<table>'-presentatie-elementen wordt het gebruik van '<th>', '<caption>' of het '[summary]'-kenmerk niet vermeden."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | title": {
+    "message": "In '<table>'-presentatie-elementen wordt het gebruik van '<th>', '<caption>' of het '[summary]'-kenmerk vermeden."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | description": {
+    "message": "Met linktekst (en alternatieve tekst voor afbeeldingen, indien gebruikt als links) die herkenbaar en uniek is en waarop kan worden gefocust, verbeter je de navigatiefunctionaliteit voor gebruikers van een schermlezer. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/link-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | failureTitle": {
+    "message": "Links hebben geen herkenbare naam"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | title": {
+    "message": "Links hebben een herkenbare naam"
+  },
+  "lighthouse-core/audits/accessibility/list.js | description": {
+    "message": "Schermlezers hebben een specifieke manier om lijsten aan te kondigen. Als je voor een correcte lijststructuur zorgt, wordt de uitvoer van schermlezers verbeterd. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/list.js | failureTitle": {
+    "message": "Lijsten bevatten niet alleen '<li>'-elementen en elementen voor scriptondersteuning ('<script>' en '<template>')."
+  },
+  "lighthouse-core/audits/accessibility/list.js | title": {
+    "message": "Lijsten bevatten alleen '<li>'-elementen en elementen voor scriptondersteuning ('<script>' en '<template>')."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | description": {
+    "message": "Voor schermlezers moeten lijstitems ('<li>') binnen een bovenliggende '<ul>' of '<ol>' worden geplaatst om correct te worden aangekondigd. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/listitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | failureTitle": {
+    "message": "Lijstitems ('<li>') zijn niet tussen bovenliggende '<ul>'- of '<ol>'-elementen geplaatst."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | title": {
+    "message": "Lijstitems ('<li>') zijn tussen bovenliggende '<ul>'- of '<ol>'-elementen geplaatst"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | description": {
+    "message": "Gebruikers verwachten niet dat een pagina automatisch wordt vernieuwd. Als dit wel gebeurt, wordt de focus teruggezet op de bovenkant van de pagina. Dit kan vervelend of verwarrend zijn voor gebruikers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/meta-refresh?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | failureTitle": {
+    "message": "Het document maakt gebruik van '<meta http-equiv=\"refresh\">'"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | title": {
+    "message": "Het document maakt geen gebruik van '<meta http-equiv=\"refresh\">'"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | description": {
+    "message": "Het uitschakelen van de zoomfunctie is problematisch voor gebruikers met slecht zicht die afhankelijk zijn van schermvergroting om de content van een webpagina te zien. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/meta-viewport?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | failureTitle": {
+    "message": "'[user-scalable=\"no\"]' wordt gebruikt in het '<meta name=\"viewport\">'-element of het '[maximum-scale]'-kenmerk is kleiner dan 5."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | title": {
+    "message": "'[user-scalable=\"no\"]' wordt niet gebruikt in het '<meta name=\"viewport\">'-element en het '[maximum-scale]'-kenmerk is niet kleiner dan 5."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | description": {
+    "message": "Schermlezers kunnen geen andere content dan tekst vertalen. Als je alt-tekst aan '<object>'-elementen toevoegt, kunnen schermlezers de betekenis overbrengen aan gebruikers. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/object-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | failureTitle": {
+    "message": "'<object>'-elementen hebben geen '[alt]'-tekst"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | title": {
+    "message": "'<object>'-elementen hebben '[alt]'-tekst"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | description": {
+    "message": "Een waarde groter dan 0 impliceert een expliciete navigatievolgorde. Hoewel dit technisch geldig is, is dit vaak frustrerend voor gebruikers die afhankelijk zijn van hulptechnologieën. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/tabindex?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | failureTitle": {
+    "message": "Sommige elementen hebben een '[tabindex]'-waarde die groter is dan 0"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | title": {
+    "message": "Geen element dat een '[tabindex]'-waarde heeft die groter is dan 0"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | description": {
+    "message": "Schermlezers hebben functies waarmee gemakkelijker kan worden genavigeerd in tabellen. Als je ervoor zorgt dat '<td>'-cellen die het '[headers]'-kenmerk gebruiken, alleen verwijzen naar andere cellen in dezelfde tabel, kun je de functionaliteit verbeteren voor gebruikers van een schermlezer. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/td-headers-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | failureTitle": {
+    "message": "Cellen in een '<table>'-element die het '[headers]'-kenmerk gebruiken, verwijzen naar andere cellen in dezelfde tabel."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | title": {
+    "message": "Cellen in een '<table>'-element die het '[headers]'-kenmerk gebruiken, verwijzen alleen naar andere cellen in dezelfde tabel."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | description": {
+    "message": "Schermlezers hebben functies waarmee gemakkelijker kan worden genavigeerd in tabellen. Als je ervoor zorgt dat tabelheaders altijd verwijzen naar een bepaalde reeks cellen, kun je de functionaliteit verbeteren voor gebruikers van een schermlezer. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/th-has-data-cells?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | failureTitle": {
+    "message": "'<th>'-elementen en elementen met '[role=\"columnheader\"/\"rowheader\"]' bevatten niet de gegevenscellen die ze beschrijven."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | title": {
+    "message": "'<th>'-elementen en elementen met '[role=\"columnheader\"/\"rowheader\"]' bevatten de gegevenscellen die ze beschrijven."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | description": {
+    "message": "Als je een geldige [BCP 47-taal](https://www.w3.org/International/questions/qa-choosing-language-tags#question) voor elementen opgeeft, zorg je ervoor dat de tekst correct wordt uitgesproken door een schermlezer. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | failureTitle": {
+    "message": "'[lang]'-kenmerken hebben geen geldige waarde"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | title": {
+    "message": "'[lang]'-kenmerken hebben een geldige waarde"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | description": {
+    "message": "Wanneer een video een ondertiteling biedt, hebben dove of slechthorende gebruikers gemakkelijker toegang tot de bijbehorende informatie. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/video-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | failureTitle": {
+    "message": "'<video>'-elementen bevatten geen '<track>'-element met '[kind=\"captions\"]'."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | title": {
+    "message": "'<video>'-elementen bevatten een '<track>'-element met '[kind=\"captions\"]'"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | description": {
+    "message": "Audiobeschrijvingen bieden relevante informatie over video's die dialoog niet kan bieden, zoals gezichtsuitdrukkingen en scènes. [Meer informatie](https://dequeuniversity.com/rules/axe/2.2/video-description?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | failureTitle": {
+    "message": "'<video>'-elementen bevatten geen '<track>'-element met '[kind=\"description\"]'."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | title": {
+    "message": "'<video>'-elementen bevatten een '<track>'-element met '[kind=\"description\"]'"
+  },
   "lighthouse-core/audits/bootup-time.js | chromeExtensionsWarning": {
     "message": "Chrome-extensies hadden een negatieve invloed op de laadprestaties van deze pagina. Controleer de pagina in de incognitomodus of via een Chrome-profiel zonder extensies."
   },
@@ -245,6 +563,9 @@
   "lighthouse-core/audits/user-timings.js | title": {
     "message": "Markeringen en metingen voor gebruikerstiming"
   },
+  "lighthouse-core/audits/uses-rel-preconnect.js | crossoriginWarning": {
+    "message": "Er is een <link> voor vooraf verbinden gevonden voor '{securityOrigin}' maar deze is niet gebruikt door de browser. Controleer of je het 'crossorigin'-kenmerk correct gebruikt."
+  },
   "lighthouse-core/audits/uses-rel-preconnect.js | description": {
     "message": "Overweeg hints voor het vooraf verbinden of dns-prefetchen van bronnen toe te voegen om vroege verbindingen met belangrijke externe herkomsten tot stand te brengen. [Meer informatie](https://developers.google.com/web/fundamentals/performance/resource-prioritization#preconnect)."
   },
@@ -256,6 +577,54 @@
   },
   "lighthouse-core/audits/uses-rel-preload.js | title": {
     "message": "Laad belangrijke verzoeken vooraf"
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupDescription": {
+    "message": "Dit zijn suggesties om het gebruik van ARIA in je app te verbeteren, wat kan leiden tot betere functionaliteit voor gebruikers van hulptechnologie, zoals een schermlezer."
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupTitle": {
+    "message": "Voor ARIA-kenmerken worden de praktische tips gevolgd"
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupDescription": {
+    "message": "Dit zijn suggesties om de leesbaarheid van je content te verbeteren."
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupTitle": {
+    "message": "Kleurcontrast is voldoende"
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupDescription": {
+    "message": "Dit zijn suggesties om de configuratie van je html-elementen te verbeteren."
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupTitle": {
+    "message": "Kenmerken worden correct gebruikt door elementen"
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupDescription": {
+    "message": "Dit zijn suggesties om ervoor te zorgen dat je content gemakkelijker te begrijpen is voor een gebruiker van hulptechnologie, zoals een schermlezer."
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupTitle": {
+    "message": "De content wordt correct beschreven door elementen"
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupDescription": {
+    "message": "Dit zijn suggesties om de semantiek van de opties in je app te verbeteren. Zo kun je de functionaliteit verbeteren voor gebruikers van hulptechnologie, zoals een schermlezer."
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupTitle": {
+    "message": "Elementen hebben herkenbare namen"
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupDescription": {
+    "message": "Dit zijn suggesties om de interpretatie van je content door gebruikers in verschillende landen te verbeteren."
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupTitle": {
+    "message": "Pagina specificeert een geldige taal"
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupDescription": {
+    "message": "Dit zijn suggesties om de gebruikerservaring op je site te verbeteren."
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupTitle": {
+    "message": "Metatags zijn correct gebruikt"
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupDescription": {
+    "message": "Dit zijn suggesties om ervoor te zorgen dat je html correct is gestructureerd."
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupTitle": {
+    "message": "Elementen zijn goed gestructureerd"
   },
   "lighthouse-core/config/default-config.js | diagnosticsGroupDescription": {
     "message": "Meer informatie over de prestaties van je app."
@@ -287,6 +656,15 @@
   "lighthouse-core/config/default-config.js | performanceCategoryTitle": {
     "message": "Prestaties"
   },
+  "lighthouse-core/config/default-config.js | pwaFastReliableGroupTitle": {
+    "message": "Snel en betrouwbaar"
+  },
+  "lighthouse-core/config/default-config.js | pwaInstallableGroupTitle": {
+    "message": "Installeerbaar"
+  },
+  "lighthouse-core/config/default-config.js | pwaOptimizedGroupTitle": {
+    "message": "Geoptimaliseerd voor PWA"
+  },
   "lighthouse-core/lib/i18n/i18n.js | columnCacheTTL": {
     "message": "Cache-TTL"
   },
@@ -317,6 +695,45 @@
   "lighthouse-core/lib/i18n/i18n.js | seconds": {
     "message": "{timeInMs, number, seconds} s"
   },
+  "lighthouse-core/lib/lh-error.js | badTraceRecording": {
+    "message": "Er is een fout opgetreden bij het opnemen van het netwerkspoor voor het laden van je pagina. Voer Lighthouse opnieuw uit. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | didntCollectScreenshots": {
+    "message": "Chrome heeft geen screenshots verzameld tijdens het laden van de pagina. Zorg ervoor dat er content zichtbaar is op de pagina en probeer daarna Lighthouse opnieuw uit te voeren. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | dnsFailure": {
+    "message": "DNS-servers kunnen het opgegeven domein niet omzetten."
+  },
+  "lighthouse-core/lib/lh-error.js | internalChromeError": {
+    "message": "Er is een interne Chrome-fout opgetreden. Start Chrome opnieuw op en probeer Lighthouse nogmaals uit te voeren."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailed": {
+    "message": "Lighthouse kan de door jou aangevraagde pagina niet goed laden. Zorg ervoor dat je de juiste URL test en dat de server correct reageert op alle verzoeken."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedHung": {
+    "message": "Lighthouse kan de door jou aangevraagde URL niet goed laden omdat de pagina niet meer reageert."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedInsecure": {
+    "message": "De URL die je hebt opgegeven, heeft geen geldige beveiligingsgegevens. ({securityMessages})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithDetails": {
+    "message": "Lighthouse kan de door jou aangevraagde pagina niet goed laden. Zorg ervoor dat je de juiste URL test en dat de server correct reageert op alle verzoeken. (Details: {errorDetails})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithStatusCode": {
+    "message": "Lighthouse kan de door jou aangevraagde pagina niet goed laden. Zorg ervoor dat je de juiste URL test en dat de server correct reageert op alle verzoeken. (Statuscode: {statusCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadTookTooLong": {
+    "message": "Het laden van je pagina duurde te lang. Volg de suggesties in het rapport om de laadtijd van je pagina te beperken. Probeer daarna Lighthouse opnieuw uit te voeren. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | protocolTimeout": {
+    "message": "Tijdens het wachten op een reactie van het DevTools-protocol is de toegewezen tijd overschreden. (Methode: {protocolMethod})"
+  },
+  "lighthouse-core/lib/lh-error.js | requestContentTimeout": {
+    "message": "Voor het ophalen van broncontent is de toegewezen tijd overschreden"
+  },
+  "lighthouse-core/lib/lh-error.js | urlInvalid": {
+    "message": "Het lijkt erop dat je een ongeldige URL hebt opgegeven."
+  },
   "lighthouse-core/report/html/renderer/util.js | auditGroupExpandTooltip": {
     "message": "Controles weergeven"
   },
@@ -336,7 +753,7 @@
     "message": "Labgegevens"
   },
   "lighthouse-core/report/html/renderer/util.js | lsPerformanceCategoryDescription": {
-    "message": "Analyse met [Lighthouse](https://developers.google.com/web/tools/lighthouse/) van de huidige pagina bij een 3G-emulatie. Waarden worden geschat en kunnen variëren."
+    "message": "Analyse met [Lighthouse](https://developers.google.com/web/tools/lighthouse/) van de huidige pagina via een geëmuleerd mobiel netwerk. Waarden worden geschat en kunnen variëren."
   },
   "lighthouse-core/report/html/renderer/util.js | manualAuditsGroupTitle": {
     "message": "Aanvullende items om handmatig te controleren"

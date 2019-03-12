@@ -16,9 +16,10 @@ const resourceType = 'Script';
 describe('Page uses optimized responses', () => {
   it('fails when given unminified scripts', () => {
     const auditResult = UnminifiedJavascriptAudit.audit_({
-      Scripts: {
-        '123.1':
-          `
+      Scripts: [
+        {
+          requestId: '123.1',
+          content: `
             var foo = new Set();
             foo.add(1);
             foo.add(2);
@@ -26,9 +27,11 @@ describe('Page uses optimized responses', () => {
             if (foo.has(2)) {
               console.log('hello!')
             }
-          `,
-        '123.2':
-          `
+        `,
+        },
+        {
+          requestId: '123.2',
+          content: `
             const foo = new Set();
             foo.add(1);
 
@@ -36,15 +39,21 @@ describe('Page uses optimized responses', () => {
               await foo.has(1)
               console.log('yay esnext!')
             }
-          `,
-        '123.3':
-          /* eslint-disable no-useless-escape */
+        `,
+        },
+        {
+          requestId: '123.3',
+          content: /* eslint-disable no-useless-escape */
           `
             const foo = 1
             /Edge\/\d*\.\d*/.exec('foo')
           `,
-        '123.4': '#$*%dense',
-      },
+        },
+        {
+          requestId: '123.4',
+          content: '#$*%dense',
+        },
+      ],
     }, [
       {requestId: '123.1', url: 'foo.js', transferSize: 20 * KB, resourceType},
       {requestId: '123.2', url: 'other.js', transferSize: 50 * KB, resourceType},
@@ -58,30 +67,67 @@ describe('Page uses optimized responses', () => {
     }));
 
     expect(results).toMatchObject([
-      {url: 'foo.js', wastedPercent: 57, wastedKB: 11},
-      {url: 'other.js', wastedPercent: 53, wastedKB: 27},
+      {url: 'foo.js', wastedPercent: 56, wastedKB: 11},
+      {url: 'other.js', wastedPercent: 53, wastedKB: 26},
       {url: 'valid-ish.js', wastedPercent: 39, wastedKB: 39},
     ]);
   });
 
+  it('fails when given unminified scripts even with missing network record', () => {
+    const auditResult = UnminifiedJavascriptAudit.audit_({
+      Scripts: [
+        {
+          requestId: '123.1',
+          content: `
+            var foo = new Set();
+            foo.add(1);
+            foo.add(2);
+
+            if (foo.has(2)) {
+              console.log('hello!')
+            }
+            // we can't fake the size to get over the threshold w/o a network record,
+            // so make some really big code instead
+            var a = 0;
+            // ${'a++;'.repeat(2000)}
+        `,
+        },
+      ],
+    }, []);
+
+    assert.strictEqual(auditResult.items.length, 1);
+    const item = auditResult.items[0];
+    if (!item.url.startsWith('inline: ')) {
+      assert.fail('url should start with "inline: "');
+    }
+    assert.strictEqual(Math.round(item.wastedBytes / 1024), 3);
+    assert.strictEqual(Math.round(item.wastedPercent), 99);
+  });
+
   it('passes when scripts are already minified', () => {
     const auditResult = UnminifiedJavascriptAudit.audit_({
-      Scripts: {
-        '123.1':
-          'var f=new Set();f.add(1);f.add(2);if(f.has(2))console.log(1234)',
-        '123.2':
-          `
-            const foo = new Set();
-            foo.add(1);
+      Scripts: [
+        {
+          requestId: '123.1',
+          content: 'var f=new Set();f.add(1);f.add(2);if(f.has(2))console.log(1234)',
+        },
+        {
+          requestId: '123.2',
+          content: `
+          const foo = new Set();
+          foo.add(1);
 
-            async function go() {
-              await foo.has(1)
-              console.log('yay esnext!')
-            }
-          `,
-        '123.3':
-          'for{(wtf',
-      },
+          async function go() {
+            await foo.has(1)
+            console.log('yay esnext!')
+          }
+        `,
+        },
+        {
+          requestId: '123.3',
+          content: 'for{(wtf',
+        },
+      ],
     }, [
       {requestId: '123.1', url: 'foo.js', transferSize: 20 * KB, resourceType},
       {requestId: '123.2', url: 'other.js', transferSize: 3 * KB, resourceType}, // too small

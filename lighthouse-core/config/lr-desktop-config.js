@@ -18,7 +18,7 @@ const config = {
       throughputKbps: 10 * 1024,
       cpuSlowdownMultiplier: 1,
     },
-    // Skip the h2 audit so it doesn't lie to us. See #6539
+    // Skip the h2 audit so it doesn't lie to us. See https://github.com/GoogleChrome/lighthouse/issues/6539
     skipAudits: ['uses-http2'],
   },
   audits: [

@@ -30,7 +30,7 @@ class ThemedOmnibox extends MultiCheckAudit {
       failureTitle: 'Does not set an address-bar theme color',
       description: 'The browser address bar can be themed to match your site. ' +
           '[Learn more](https://developers.google.com/web/tools/lighthouse/audits/address-bar).',
-      requiredArtifacts: ['Manifest', 'MetaElements'],
+      requiredArtifacts: ['WebAppManifest', 'MetaElements'],
     };
   }
 
@@ -80,7 +80,7 @@ class ThemedOmnibox extends MultiCheckAudit {
     const failures = [];
 
     const themeColorMeta = artifacts.MetaElements.find(meta => meta.name === 'theme-color');
-    const manifestValues = await ManifestValues.request(artifacts.Manifest, context);
+    const manifestValues = await ManifestValues.request(artifacts.WebAppManifest, context);
     ThemedOmnibox.assessManifest(manifestValues, failures);
     ThemedOmnibox.assessMetaThemecolor(themeColorMeta, failures);
 

@@ -102,10 +102,10 @@ class Audit {
   }
 
   /**
-   * @param {Array<LH.Audit.Heading>} headings
-   * @param {Array<Object<string, LH.Audit.DetailsItem>>} results
-   * @param {LH.Audit.DetailsRendererDetailsSummary=} summary
-   * @return {LH.Audit.DetailsRendererDetailsJSON}
+   * @param {LH.Audit.Details.Table['headings']} headings
+   * @param {LH.Audit.Details.Table['items']} results
+   * @param {LH.Audit.Details.Table['summary']=} summary
+   * @return {LH.Audit.Details.Table}
    */
   static makeTableDetails(headings, results, summary) {
     if (results.length === 0) {
@@ -126,11 +126,77 @@ class Audit {
   }
 
   /**
-   * @param {Array<LH.ResultLite.Audit.ColumnHeading>} headings
-   * @param {Array<LH.ResultLite.Audit.WastedBytesDetailsItem>|Array<LH.ResultLite.Audit.WastedTimeDetailsItem>} items
+   * @param {LH.Audit.Details.List['items']} items
+   * @returns {LH.Audit.Details.List}
+   */
+  static makeListDetails(items) {
+    return {
+      type: 'list',
+      items: items,
+    };
+  }
+
+  /** @typedef {{
+   * content: string;
+   * title: string;
+   * lineMessages: LH.Audit.Details.SnippetValue['lineMessages'];
+   * generalMessages: LH.Audit.Details.SnippetValue['generalMessages'];
+   * node?: LH.Audit.Details.NodeValue;
+   * maxLineLength?: number;
+   * maxLinesAroundMessage?: number;
+   * }} SnippetInfo */
+  /**
+   * @param {SnippetInfo} snippetInfo
+   * @return {LH.Audit.Details.SnippetValue}
+   */
+  static makeSnippetDetails({
+    content,
+    title,
+    lineMessages,
+    generalMessages,
+    node,
+    maxLineLength = 200,
+    maxLinesAroundMessage = 20,
+  }) {
+    const allLines = Audit._makeSnippetLinesArray(content, maxLineLength);
+    const lines = Util.filterRelevantLines(allLines, lineMessages, maxLinesAroundMessage);
+    return {
+      type: 'snippet',
+      lines,
+      title,
+      lineMessages,
+      generalMessages,
+      lineCount: allLines.length,
+      node,
+    };
+  }
+
+  /**
+   * @param {string} content
+   * @param {number} maxLineLength
+   * @returns {LH.Audit.Details.SnippetValue['lines']}
+   */
+  static _makeSnippetLinesArray(content, maxLineLength) {
+    return content.split('\n').map((line, lineIndex) => {
+      const lineNumber = lineIndex + 1;
+      /** @type LH.Audit.Details.SnippetValue['lines'][0] */
+      const lineDetail = {
+        content: line.slice(0, maxLineLength),
+        lineNumber,
+      };
+      if (line.length > maxLineLength) {
+        lineDetail.truncated = true;
+      }
+      return lineDetail;
+    });
+  }
+
+  /**
+   * @param {LH.Audit.Details.Opportunity['headings']} headings
+   * @param {LH.Audit.Details.Opportunity['items']} items
    * @param {number} overallSavingsMs
    * @param {number=} overallSavingsBytes
-   * @return {LH.Result.Audit.OpportunityDetails}
+   * @return {LH.Audit.Details.Opportunity}
    */
   static makeOpportunityDetails(headings, items, overallSavingsMs, overallSavingsBytes) {
     return {

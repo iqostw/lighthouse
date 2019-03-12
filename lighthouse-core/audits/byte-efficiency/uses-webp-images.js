@@ -50,11 +50,31 @@ class UsesWebPImages extends ByteEfficiencyAudit {
   }
 
   /**
+   * @param {LH.Artifacts.ImageElement} imageElement
+   * @return {number}
+   */
+  static estimateWebPSizeFromDimensions(imageElement) {
+    const totalPixels = imageElement.naturalWidth * imageElement.naturalHeight;
+    // See uses-optimized-images for the rationale behind our 2 byte-per-pixel baseline and
+    // JPEG compression ratio of 8:1.
+    // WebP usually gives ~20% additional savings on top of that, so we will use 10:1.
+    // This is quite pessimistic as their study shows a photographic compression ratio of ~29:1.
+    // https://developers.google.com/speed/webp/docs/webp_lossless_alpha_study#results
+    const expectedBytesPerPixel = 2 * 1 / 10;
+    return Math.round(totalPixels * expectedBytesPerPixel);
+  }
+
+  /**
    * @param {LH.Artifacts} artifacts
    * @return {ByteEfficiencyAudit.ByteEfficiencyProduct}
    */
   static audit_(artifacts) {
+    const pageURL = artifacts.URL.finalUrl;
     const images = artifacts.OptimizedImages;
+    const imageElements = artifacts.ImageElements;
+    /** @type {Map<string, LH.Artifacts.ImageElement>} */
+    const imageElementsByURL = new Map();
+    imageElements.forEach(img => imageElementsByURL.set(img.src, img));
 
     /** @type {Array<LH.Audit.ByteEfficiencyItem>} */
     const items = [];
@@ -63,23 +83,38 @@ class UsesWebPImages extends ByteEfficiencyAudit {
       if (image.failed) {
         warnings.push(`Unable to decode ${URL.getURLDisplayName(image.url)}`);
         continue;
-      } else if (image.originalSize < image.webpSize + IGNORE_THRESHOLD_IN_BYTES) {
-        continue;
       }
 
+      let webpSize = image.webpSize;
+      let fromProtocol = true;
+
+      if (typeof webpSize === 'undefined') {
+        const imageElement = imageElementsByURL.get(image.url);
+        if (!imageElement) {
+          warnings.push(`Unable to locate resource ${URL.getURLDisplayName(image.url)}`);
+          continue;
+        }
+
+        webpSize = UsesWebPImages.estimateWebPSizeFromDimensions(imageElement);
+        fromProtocol = false;
+      }
+
+      if (image.originalSize < webpSize + IGNORE_THRESHOLD_IN_BYTES) continue;
+
       const url = URL.elideDataURI(image.url);
-      const webpSavings = UsesWebPImages.computeSavings(image);
+      const isCrossOrigin = !URL.originsMatch(pageURL, image.url);
+      const webpSavings = UsesWebPImages.computeSavings({...image, webpSize: webpSize});
 
       items.push({
         url,
-        fromProtocol: image.fromProtocol,
-        isCrossOrigin: !image.isSameOrigin,
+        fromProtocol,
+        isCrossOrigin,
         totalBytes: image.originalSize,
         wastedBytes: webpSavings.bytes,
       });
     }
 
-    /** @type {LH.Result.Audit.OpportunityDetails['headings']} */
+    /** @type {LH.Audit.Details.Opportunity['headings']} */
     const headings = [
       {key: 'url', valueType: 'thumbnail', label: ''},
       {key: 'url', valueType: 'url', label: str_(i18n.UIStrings.columnURL)},

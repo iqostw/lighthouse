@@ -5,7 +5,7 @@
  */
 'use strict';
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 const path = require('path');
 const assert = require('assert');
@@ -36,10 +36,7 @@ describe('Lighthouse chrome popup', function() {
   let page;
   const pageErrors = [];
 
-  before(async function() {
-    // eslint-disable-next-line
-    this.timeout(90 * 1000);
-
+  beforeAll(async function() {
     // start puppeteer
     browser = await puppeteer.launch({
       headless: false,
@@ -81,9 +78,9 @@ describe('Lighthouse chrome popup', function() {
     });
 
     await page.goto('file://' + path.join(lighthouseExtensionPath, 'popup.html'), {waitUntil: 'networkidle2'});
-  });
+  }, 90 * 1000);
 
-  after(async () => {
+  afterAll(async () => {
     if (browser) {
       await browser.close();
     }

@@ -129,6 +129,7 @@ class MixedContent extends Audit {
       const displayValue = `${Util.formatNumber(upgradeableResources.length)}
           ${upgradeableResources.length === 1 ? 'request' : 'requests'}`;
 
+      /** @type {LH.Audit.Details.Table['headings']} */
       const headings = [
         {key: 'fullUrl', itemType: 'url', text: 'URL'},
       ];

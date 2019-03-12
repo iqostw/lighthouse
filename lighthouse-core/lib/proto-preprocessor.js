@@ -17,8 +17,11 @@ const fs = require('fs');
 
 /**
   * @param {string} result
+  * @param {{keepRawValues?: boolean}} opts
   */
-function processForProto(result) {
+function processForProto(result, opts = {}) {
+  const {keepRawValues = false} = opts;
+
   /** @type {LH.Result} */
   const reportJson = JSON.parse(result);
 
@@ -53,8 +56,8 @@ function processForProto(result) {
           audit.scoreDisplayMode = 'notApplicable';
         }
       }
-      // Drop raw values. #6199
-      if ('rawValue' in audit) {
+      // Drop raw values. https://github.com/GoogleChrome/lighthouse/issues/6199
+      if (!keepRawValues && 'rawValue' in audit) {
         delete audit.rawValue;
       }
       // Normalize displayValue to always be a string, not an array. #6200

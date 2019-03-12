@@ -189,9 +189,10 @@ class RenderBlockingResources extends Audit {
     const wastedBytesByUrl = new Map();
     try {
       const results = await UnusedCSS.audit(artifacts, context);
-      // @ts-ignore - TODO(bckenny): details types.
-      for (const item of results.details.items) {
-        wastedBytesByUrl.set(item.url, item.wastedBytes);
+      if (results.details && results.details.type === 'opportunity') {
+        for (const item of results.details.items) {
+          wastedBytesByUrl.set(item.url, item.wastedBytes);
+        }
       }
     } catch (_) {}
 
@@ -211,7 +212,7 @@ class RenderBlockingResources extends Audit {
       displayValue = str_(i18n.UIStrings.displayValueMsSavings, {wastedMs});
     }
 
-    /** @type {LH.Result.Audit.OpportunityDetails['headings']} */
+    /** @type {LH.Audit.Details.Opportunity['headings']} */
     const headings = [
       {key: 'url', valueType: 'url', label: str_(i18n.UIStrings.columnURL)},
       {key: 'totalBytes', valueType: 'bytes', label: str_(i18n.UIStrings.columnSize)},

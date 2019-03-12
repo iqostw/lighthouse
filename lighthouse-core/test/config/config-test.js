@@ -186,7 +186,7 @@ describe('Config', () => {
   it('loads an audit from node_modules/', () => {
     return assert.throws(_ => new Config({
       // Use a lighthouse dep as a stand in for a module.
-      audits: ['mocha'],
+      audits: ['lighthouse-logger'],
     }), function(err) {
       // Should throw an audit validation error, but *not* an audit not found error.
       return !/locate audit/.test(err) && /audit\(\) method/.test(err);
@@ -696,6 +696,125 @@ describe('Config', () => {
     });
   });
 
+  describe('mergePlugins', () => {
+    // Include a configPath flag so that config.js looks for the plugins in the fixtures dir.
+    const configFixturePath = __dirname + '/../fixtures/config-plugins/';
+
+    it('should append audits', () => {
+      const configJson = {
+        audits: ['installable-manifest', 'metrics'],
+        plugins: ['lighthouse-plugin-simple'],
+      };
+      const config = new Config(configJson, {configPath: configFixturePath});
+      assert.deepStrictEqual(config.audits.map(a => a.path),
+        ['installable-manifest', 'metrics', 'redirects', 'user-timings']);
+    });
+
+    it('should append and use plugin-prefixed groups', () => {
+      const configJson = {
+        audits: ['installable-manifest', 'metrics'],
+        plugins: ['lighthouse-plugin-simple'],
+        groups: {
+          configGroup: {title: 'This is a group in the base config'},
+        },
+      };
+      const config = new Config(configJson, {configPath: configFixturePath});
+
+      const groupIds = Object.keys(config.groups);
+      assert.ok(groupIds.length === 2);
+      assert.strictEqual(groupIds[0], 'configGroup');
+      assert.strictEqual(groupIds[1], 'lighthouse-plugin-simple-new-group');
+      assert.strictEqual(config.groups['lighthouse-plugin-simple-new-group'].title, 'New Group');
+      assert.strictEqual(config.categories['lighthouse-plugin-simple'].auditRefs[0].group,
+        'lighthouse-plugin-simple-new-group');
+    });
+
+    it('should append a category', () => {
+      const configJson = {
+        extends: 'lighthouse:default',
+        plugins: ['lighthouse-plugin-simple'],
+      };
+      const config = new Config(configJson, {configPath: configFixturePath});
+      const categoryNames = Object.keys(config.categories);
+      assert.ok(categoryNames.length > 1);
+      assert.strictEqual(categoryNames[categoryNames.length - 1], 'lighthouse-plugin-simple');
+      assert.strictEqual(config.categories['lighthouse-plugin-simple'].title, 'Simple');
+    });
+
+    it('should load plugins from the config and from passed-in flags', () => {
+      const baseConfigJson = {
+        audits: ['installable-manifest'],
+        categories: {
+          myManifest: {
+            auditRefs: [{id: 'installable-manifest', weight: 9000}],
+          },
+        },
+      };
+      const baseFlags = {configPath: configFixturePath};
+      const simplePluginName = 'lighthouse-plugin-simple';
+      const noGroupsPluginName = 'lighthouse-plugin-no-groups';
+
+      const allConfigConfigJson = {...baseConfigJson, plugins: [simplePluginName,
+        noGroupsPluginName]};
+      const allPluginsInConfigConfig = new Config(allConfigConfigJson, baseFlags);
+
+      const allFlagsFlags = {...baseFlags, plugins: [simplePluginName, noGroupsPluginName]};
+      const allPluginsInFlagsConfig = new Config(baseConfigJson, allFlagsFlags);
+
+      const mixedConfigJson = {...baseConfigJson, plugins: [simplePluginName]};
+      const mixedFlags = {...baseFlags, plugins: [noGroupsPluginName]};
+      const pluginsInConfigAndFlagsConfig = new Config(mixedConfigJson, mixedFlags);
+
+      // Double check that we're not comparing empty objects.
+      const categoryNames = Object.keys(allPluginsInConfigConfig.categories);
+      assert.deepStrictEqual(categoryNames,
+        ['myManifest', 'lighthouse-plugin-simple', 'lighthouse-plugin-no-groups']);
+
+      assert.deepStrictEqual(allPluginsInConfigConfig, allPluginsInFlagsConfig);
+      assert.deepStrictEqual(allPluginsInConfigConfig, pluginsInConfigAndFlagsConfig);
+    });
+
+    it('should throw if the plugin is invalid', () => {
+      const configJson = {
+        extends: 'lighthouse:default',
+        plugins: ['lighthouse-plugin-no-category'],
+      };
+      // Required to have a `category`, so plugin is invalid.
+      assert.throws(() => new Config(configJson, {configPath: configFixturePath}),
+        /^Error: lighthouse-plugin-no-category has no valid category/);
+    });
+
+    it('should throw if the plugin is not found', () => {
+      const configJson = {
+        extends: 'lighthouse:default',
+        plugins: ['lighthouse-plugin-not-a-plugin'],
+      };
+      assert.throws(() => new Config(configJson, {configPath: configFixturePath}),
+        /^Error: Unable to locate plugin: lighthouse-plugin-not-a-plugin/);
+    });
+
+    it('should throw if the plugin name does not begin with "lighthouse-plugin-"', () => {
+      const configJson = {
+        extends: 'lighthouse:default',
+        plugins: ['just-let-me-be-a-plugin'],
+      };
+      assert.throws(() => new Config(configJson, {configPath: configFixturePath}),
+        /^Error: plugin name 'just-let-me-be-a-plugin' does not start with 'lighthouse-plugin-'/);
+    });
+
+    it('should throw if the plugin name would shadow a category id', () => {
+      const configJson = {
+        extends: 'lighthouse:default',
+        plugins: ['lighthouse-plugin-simple'],
+        categories: {
+          'lighthouse-plugin-simple': {auditRefs: [{id: 'missing-audit'}]},
+        },
+      };
+      assert.throws(() => new Config(configJson, {configPath: configFixturePath}),
+        /^Error: plugin name 'lighthouse-plugin-simple' not allowed because it is the id of a category/); // eslint-disable-line max-len
+    });
+  });
+
   describe('getCategories', () => {
     it('returns the IDs & names of the categories', () => {
       const categories = Config.getCategories(origConfig);
@@ -927,7 +1046,7 @@ describe('Config', () => {
 
     it('loads a gatherer from node_modules/', () => {
       // Use a lighthouse dep as a stand in for a module.
-      assert.throws(_ => loadGatherer('mocha'), function(err) {
+      assert.throws(_ => loadGatherer('lighthouse-logger'), function(err) {
         // Should throw a gatherer validation error, but *not* a gatherer not found error.
         return !/locate gatherer/.test(err) && /beforePass\(\) method/.test(err);
       });

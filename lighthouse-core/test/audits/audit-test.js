@@ -99,4 +99,112 @@ describe('Audit', () => {
     assert.equal(result.score, null);
     assert.equal(result.scoreDisplayMode, 'error');
   });
+
+  describe('makeSnippetDetails', () => {
+    const maxLinesAroundMessage = 10;
+
+    it('Transforms code to lines array', () => {
+      const details = Audit.makeSnippetDetails({
+        content: 'a\nb\nc',
+        title: 'Title',
+        lineMessages: [],
+        generalMessages: [],
+      });
+
+      assert.equal(details.lines.length, 3);
+      assert.deepEqual(details.lines[1], {
+        lineNumber: 2,
+        content: 'b',
+      });
+    });
+
+    it('Truncates long lines', () => {
+      const details = Audit.makeSnippetDetails({
+        content: Array(1001).join('-'),
+        title: 'Title',
+        lineMessages: [],
+        generalMessages: [],
+      });
+
+      assert.equal(details.lines[0].truncated, true);
+      assert.ok(details.lines[0].content.length < 1000);
+    });
+
+    function makeLines(lineCount) {
+      return Array(lineCount + 1).join('-\n');
+    }
+
+    it('Limits the number of lines if there are no line messages', () => {
+      const details = Audit.makeSnippetDetails({
+        content: makeLines(100),
+        title: 'Title',
+        lineMessages: [],
+        generalMessages: [{
+          message: 'General',
+        }],
+        maxLinesAroundMessage,
+      });
+      expect(details.lines.length).toBe(2 * maxLinesAroundMessage + 1);
+    });
+
+    it('Does not omit lines if fewer than 4 lines would be omitted', () => {
+      const details = Audit.makeSnippetDetails({
+        content: makeLines(200),
+        title: 'Title',
+        lineMessages: [
+          // without the special logic for small gaps lines 71-73 would be missing
+          {
+            // putting last message first to make sure makeSnippetDetails doesn't depend on order
+            lineNumber: 84,
+            message: 'Message 2',
+          }, {
+            lineNumber: 60,
+            message: 'Message 1',
+          }],
+        generalMessages: [],
+        maxLinesAroundMessage,
+      });
+
+      const normalExpectedLineNumber = 2 * (maxLinesAroundMessage * 2 + 1);
+      assert.equal(details.lines.length, normalExpectedLineNumber + 3);
+    });
+
+    it('Limits the number of lines around line messages', () => {
+      const content = makeLines(99) + 'A\n' + makeLines(99) + '\nB';
+      const allLines = content.split('\n');
+      const details = Audit.makeSnippetDetails({
+        content,
+        title: 'Title',
+        lineMessages: [{
+          lineNumber: allLines.findIndex(l => l === 'A') + 1,
+          message: 'a',
+        }, {
+          lineNumber: allLines.findIndex(l => l === 'B') + 1,
+          message: 'b',
+        }],
+        generalMessages: [],
+        maxLinesAroundMessage,
+      });
+
+      // 2 line messages and their surounding lines, second line with message only has preceding lines
+      const lineCount = maxLinesAroundMessage * 3 + 2;
+      assert.equal(details.lines.length, lineCount);
+      const lastLine = details.lines.slice(-1)[0];
+      assert.deepEqual(lastLine, {
+        lineNumber: 201,
+        content: 'B',
+      });
+    });
+  });
+
+  describe('makeListDetails', () => {
+    it('Generates list details', () => {
+      const details = Audit.makeListDetails([1, 2, 3]);
+
+      assert.deepEqual(details, {
+        type: 'list',
+        items: [1, 2, 3],
+      });
+    });
+  });
 });

@@ -44,11 +44,11 @@ class AxeAudit extends Audit {
     const impact = rule && rule.impact;
     const tags = rule && rule.tags;
 
-    /** @type {Array<{node: LH.Audit.DetailsRendererNodeDetailsJSON}>} */
+    /** @type {LH.Audit.Details.Table['items']}>} */
     let items = [];
     if (rule && rule.nodes) {
       items = rule.nodes.map(node => ({
-        node: /** @type {LH.Audit.DetailsRendererNodeDetailsJSON} */ ({
+        node: /** @type {LH.Audit.Details.NodeValue} */ ({
           type: 'node',
           selector: Array.isArray(node.target) ? node.target.join(' ') : '',
           path: node.path,
@@ -58,16 +58,27 @@ class AxeAudit extends Audit {
       }));
     }
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'node', itemType: 'node', text: str_(UIStrings.failingElementsHeader)},
     ];
+
+    /** @type {LH.Audit.Details.Diagnostic|undefined} */
+    let diagnostic;
+    if (impact || tags) {
+      diagnostic = {
+        type: 'diagnostic',
+        impact,
+        tags,
+      };
+    }
 
     return {
       rawValue: typeof rule === 'undefined',
       extendedInfo: {
         value: rule,
       },
-      details: {...Audit.makeTableDetails(headings, items), impact, tags},
+      details: {...Audit.makeTableDetails(headings, items), diagnostic},
     };
   }
 }

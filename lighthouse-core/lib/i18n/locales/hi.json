@@ -1,4 +1,322 @@
 {
+  "lighthouse-core/audits/accessibility/accesskeys.js | description": {
+    "message": "एक्सेस कुंजी से उपयोगकर्ता तेज़ी से पेज के किसी भाग पर फ़ोकस कर सकते हैं. सही नेविगेशन के लिए, सह एक्सेस कुंजी सबसे अलग होनी चाहिए. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/accesskeys?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | failureTitle": {
+    "message": "`[accesskey]` मान सबसे अलग नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | title": {
+    "message": "`[accesskey]` मान सबसे अलग हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | description": {
+    "message": "`aria-*` विशेषताओं के खास सबसेट के लिए, हर ARIA `role` काम करती है. इनमें मिलान नहीं होने से `aria-*` विशेषताएं गलत हो जाती हैं. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/aria-allowed-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | failureTitle": {
+    "message": "`[aria-*]` विशेषताओं का मिलान उनकी भूमिकाओं से नहीं होता है"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | title": {
+    "message": "`[aria-*]` विशेषताओं के मिलान उनकी भूमिकाओं से होता है"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | description": {
+    "message": "कुछ ARIA भूमिकाओं में ऐसी विशेषताओं की ज़रूरत होती है, जो एलिमेंट की स्थिति स्क्रीन रीडरों को बताती ही. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/aria-required-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | failureTitle": {
+    "message": "`[role]` की ज़रूरी `[aria-*]` विशेषताएं नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | title": {
+    "message": "`[role]`के पास ज़रूरी `[aria-*]` विशेषताएं हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | description": {
+    "message": "कुछ ARIA अभिभावक भूमिकाओं में खास चाइल्ड भूमिकाएं होनी चाहिए जिससे वे चाहे गए सुलभता फ़ंक्शन कर सकें. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/aria-required-children?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | failureTitle": {
+    "message": "`[role]` वाले एलिमेंट जिन्हें खास चिल्ड्रन `[role]` की ज़रूरत होती है, वे मिल नहीं रहे हैं."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | title": {
+    "message": "`[role]` वाले एलिमेंट जिन्हें खास चिल्ड्रन `[role]`की ज़रूरत होती है, वे मिल नहीं रहे हैं."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | description": {
+    "message": "कुछ ARIA चाइल्ड रोल अपने तय सुलभता फ़ंक्शनों को ठीक से करें, इसके लिए उन्हें खास अभिभावक रोल में होना चाहिए. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/aria-required-parent?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | failureTitle": {
+    "message": "`[role]` अपने ज़रूरी अभिभावक एलिमेंट में नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | title": {
+    "message": "`[role]` अपने ज़रूरी अभिभावक एलिमेंट में होते हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | description": {
+    "message": "ARIA भूमिकाओं में सही मान होने चाहिए जिससे वे चाहे गए सुलभता फ़ंक्शन को कर सकें. [और जानें](https://dequeuniversity.com/rules/axe/2.2/aria-roles?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | failureTitle": {
+    "message": "`[role]` मान सही नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | title": {
+    "message": "`[role]` मान सही हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | description": {
+    "message": "स्क्रीन रीडर जैसी सहायक तकनीक, गलत मानों वाली ARIA विशेषताओं को समझ नहीं सकतीं. [और जानें](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr-value?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | failureTitle": {
+    "message": "`[aria-*]` विशेषताओं में सही मान नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | title": {
+    "message": "`[aria-*]` विशेषताओं में सही मान हैं"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | description": {
+    "message": "स्क्रीन रीडर जैसी सहायक तकनीक, गलत नामों वाली ARIA विशेषताओं को समझ नहीं सकतीं. [और जानें](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | failureTitle": {
+    "message": "`[aria-*]` विशेषताएं गलत हैं या उनकी वर्तनी गलत है"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | title": {
+    "message": "`[aria-*]` विशेषताएं मान्य हैं और उनकी वर्तनी गलत नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | description": {
+    "message": "सुन नहीं सकने वाले या सुनने में परेशानी वाले उपयोगकर्ताओं के लिए कैप्शन, ऑडियो एलिमेंट को इस्तेमाल करने लायक बनाते हैं, ये खास जानकारी देते हैं, जैसे कौन बा़त कर रहा है, वे क्या बोल रहे हैं और दूसरी नहीं बोली जाने वाली जानकारी. [और जानें](https://dequeuniversity.com/rules/axe/2.2/audio-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | failureTitle": {
+    "message": "`<audio>` एलिमेंट में `[kind=\"captions\"]` वाला `<track>` एलिमेंट नहीं है."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | title": {
+    "message": "`<audio>` एलिमेंट में `[kind=\"captions\"]` वाला `<track>` एलिमेंट है"
+  },
+  "lighthouse-core/audits/accessibility/axe-audit.js | failingElementsHeader": {
+    "message": "विफल रहने वाले एलिमेंट"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | description": {
+    "message": "जब किसी बटन का कोई सुलभता नाम नहीं होता है, तो स्क्रीन रीडर उसे एक \"बटन\" के रूप में बताते हैं. ऐसा होने से, स्क्रीन रीडर पर भरोसा करने वाले उपयोगकर्ताओं के लिए वह इस्तेमाल करने लायक नहीं रहता. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/button-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | failureTitle": {
+    "message": "बटन के नाम एक्सेस करने लायक नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | title": {
+    "message": "बटनों का एक सुलभता नाम है"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | description": {
+    "message": "दोहराव वाली सामग्री को अनदेखा करके आगे बढ़ने का तरीका जोड़ने से, कीबोर्ड उपयोगकर्ता पेज को ज़्यादा अच्छे से नेविगेट कर सकते हैं. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/bypass?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | failureTitle": {
+    "message": "पेज में 'हेडिंग', 'स्किप लिंक' या 'लैंडमार्क' क्षेत्र नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | title": {
+    "message": "पेज में 'हेडिंग', 'स्किप लिंक' या 'लैंडमार्क' क्षेत्र हैं"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | description": {
+    "message": "कम-कंट्रास्ट वाले टेक्स्ट पढ़ना बहुत सारे उपयोगकर्ताओं के लिए कठिन या नामुमकिन हो जाता है. [और जानें](https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | failureTitle": {
+    "message": "बैकग्राउंड और फ़ोरग्राउंड रंगों में काफ़ी कंट्रास्ट अनुपात नहीं है."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | title": {
+    "message": "बैकग्राउंड और फ़ोरग्राउंड के रंगों का कंट्रास्ट अनुपात काफ़ी है"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | description": {
+    "message": "जब परिभाषाओं की सूचियां ठीक से मार्क नहीं की गई होती हैं, तो स्क्रीन रीडर भ्रम वाले या गलत आउटपुट दे सकते हैं. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/definition-list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | failureTitle": {
+    "message": "`<dl>` में सिर्फ़ ठीक तरह से क्रम में लगे `<dt>` और `<dd>` समूह, `<script>` या `<template>` एलिमेंट नहीं हैं."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | title": {
+    "message": "`<dl>` में सिर्फ़ ठीक तरह से क्रम में लगे `<dt>` और `<dd>` समूह, `<script>` या `<template>` एलिमेंट होते हैं."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | description": {
+    "message": "परिभाषा सूची आइटम (<dt>` और `<dd>`) को पैरेंट `<dl>` एलिमेंट में रैप होना चाहिए, ताकि यह पक्का हो सके कि स्क्रीन रीडर उन्हें ठीक तरीके से अनाउंस कर सकते हैं. [और जानें](https://dequeuniversity.com/rules/axe/2.2/dlitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | failureTitle": {
+    "message": "`<dl>` एलिमेंट में परिभाषा सूची के आइटम नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | title": {
+    "message": "परिभाषा सूची के आइटम `<dl>` एलिमेंट में हैं"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | description": {
+    "message": "शीर्षक से स्क्रीन रीडर उपयोगकर्ताओं को पेज की खास जानकारी मिलती है और खोज इंजन के उपयोगकर्ता यह तय करने में बहुत ज़्यादा भरोसा करते हैं कि कोई पेज उनकी खोज के संगत है या नहीं. [ज़्यादा जानें](https://developers.google.com/web/tools/lighthouse/audits/title)."
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | failureTitle": {
+    "message": "दस्तावेज़ में `<title>` एलिमेंट नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | title": {
+    "message": "दस्तावेज़ में `<title>` एलिमेंट है"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | description": {
+    "message": "सहायक तकनीकों को दूसरे इंस्टेंस अनदेखा करने से रोकने के लिए, आईडी विशेषता का मान सबसे अलग होना चाहिए. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/duplicate-id?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | failureTitle": {
+    "message": "पेज पर `[id]` विशेषताएं सबसे अलग नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | title": {
+    "message": "पेज पर `[id]` विशेषताएं सबसे अलग हैं"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | description": {
+    "message": "स्क्रीन रीडर उपयोगकर्ता फ़्रेम की सामग्रियों के बारे में जानने के लिए फ़्रेम के शीर्षकों पर भरोसा करते हैं. [और जानें](https://dequeuniversity.com/rules/axe/2.2/frame-title?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | failureTitle": {
+    "message": "`<frame>` या `<iframe>` एलिमेंट का कोई शीर्षक नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | title": {
+    "message": "`<frame>` या `<iframe>` एलिमेंट में शीर्षक हैं"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | description": {
+    "message": "अगर कोई पेज भाषा विशेषता तय नहीं करता है, तो स्क्रीन रीडर को लगता है कि पेज उस डिफ़ॉल्ट भाषा में है जो उपयोगकर्ता ने स्क्रीन रीडर सेट अप करते समय चुनी थी. दरअसल, पेज अगर डिफ़ॉल्ट भाषा में नहीं होता है, तो फिर स्क्रीन रीडर पेज के टेक्स्ट को ठीक से नहीं बोल पाता है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/html-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | failureTitle": {
+    "message": "`<html>` एलिमेंट में एक `[lang]` विशेषता नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | title": {
+    "message": "`<html>` एलिमेंट में एक `[lang]` विशेषता है"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | description": {
+    "message": "एलिमेंट पर एक सही [BCP 47 भाषा](https://www.w3.org/International/questions/qa-choosing-language-tags#question) से स्क्रीन रीडर को सही तरीके से टेक्स्ट बोलने में सहायता मिलती है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | failureTitle": {
+    "message": "`<html>` एलिमेंट के पास इसकी `[lang]` विशेषता के लिए सही मान नहीं है."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | title": {
+    "message": "`<html>` एलिमेंट में इसकी `[lang]` विशेषता के लिए सही मान है"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | description": {
+    "message": "जानकारी वाले एलिमेंट का मकसद छोटे, विवरण वाले वैकल्पिक टेक्स्ट होना चाहिए. सजावटी एलिमेंट को एक खाली alt विशेषता के साथ अनदेखा किया जा सकता है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | failureTitle": {
+    "message": "इमेज एलिमेंट में `[alt]` विशेषताएं नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | title": {
+    "message": "इमेज एलिमेंट में `[alt]` विशेषताएं हैं"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | description": {
+    "message": "जब किसी इमेज का इस्तेमाल एक `<input>` बटन के रूप में हो रहा हो, तो वैकल्पिक टेक्स्ट उपलब्ध कराने से स्क्रीन रीडर उपयोगकर्ताओं को बटन के इस्तेमाल को समझने में मदद मिलती है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/input-image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | failureTitle": {
+    "message": "`<input type=\"image\">` एलिमेंट में `[alt]` टेक्स्ट नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | title": {
+    "message": "`<input type=\"image\">` एलिमेंट में `[alt]` टेक्स्ट है"
+  },
+  "lighthouse-core/audits/accessibility/label.js | description": {
+    "message": "लेबल यह पक्का करते हैं कि फ़ॉर्म नियंत्रणों की घोषणा, स्क्रीन रीडर जैसी सहायक तकनीकें उचित रूप से करती हैं. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/label?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/label.js | failureTitle": {
+    "message": "फ़ॉर्म एलिमेंट में जुड़े हुए लेबल नहीं हैं"
+  },
+  "lighthouse-core/audits/accessibility/label.js | title": {
+    "message": "फ़ॉर्म एलिमेंट में सहभागी लेबल हैं"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | description": {
+    "message": "लेआउट मकसदों के इस्तेमाल की जाने वाली टेबल में डेटा एलिमेंट शामिल नहीं होना चाहिए जैसे th या कैप्शन वाले एलिमेंट या सारांश विशेषता, क्योंकि इससे स्क्रीन रीडर उपयोगकर्ताओं को भ्रम का अनुभव हो सकता है. [और जानें](https://dequeuniversity.com/rules/axe/2.2/layout-table?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | failureTitle": {
+    "message": "प्रस्तुतिकरण `<table>` वाले तत्व `<th>`, `<caption>` या `[summary]` विशेषता के इस्तेमाल को अनदेखा नहीं कर सकते."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | title": {
+    "message": "प्रस्तुतिकरण `<table>` वाले एलिमेंट में `<th>`, `<caption>` या `[summary]` विशेषता के इस्तेमाल को अनदेखा किया गया है."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | description": {
+    "message": "जो लिंक टेक्स्ट (और इमेज के लिए इस्तेमाल किया वैकल्पिक टेक्स्ट) समझने लायक, सबसे अलग और फ़ोकस करने लायक है, उससे स्क्रीन रीडर उपयोगकर्ताओं का नेविगेशन अनुभव बेहतर बनता है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/link-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | failureTitle": {
+    "message": "लिंक का समझने लायक नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | title": {
+    "message": "लिंक का समझने लायक नाम है"
+  },
+  "lighthouse-core/audits/accessibility/list.js | description": {
+    "message": "स्क्रीन रीडर एक खास तरीके से सूचियों की घोषणा करते हैं. सूची की उचित संरचना तय करने से स्क्रीन रीडर को आउटपुट देने में आसानी हो जाती है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/list.js | failureTitle": {
+    "message": "सूचियों में सिर्फ़ `<li>`एलिमेंट और स्क्रिप्ट के साथ काम करने वाले एलिमेंट (`<script>` और `<template>`) ही शामिल नहीं हैं."
+  },
+  "lighthouse-core/audits/accessibility/list.js | title": {
+    "message": "सूचियों में सिर्फ़ `<li>` एलिमेंट और स्क्रिप्ट के साथ काम करने वाले एलिमेंट (`<script>` और `<template>`) ही शामिल हैं."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | description": {
+    "message": "स्क्रीन रीडर के लिए ज़रूरी है कि उसमें अभिभावक `<ul>` या `<ol>` में सूची आइटम (`<li>`) शामिल हों, ताकि उन्हें ठीक तरह से अनाउंस किया जा सके. [और जानें](https://dequeuniversity.com/rules/axe/2.2/listitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | failureTitle": {
+    "message": "सूची वाले आइटम (`<li>`), `<ul>` या `<ol>` अभिभावक एलिमेंट में नहीं होते हैं."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | title": {
+    "message": "सूची वाले आइटम (`<li>`), `<ul>` या `<ol>` अभिभावक एलिमेंट में हैं"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | description": {
+    "message": "उपयोगकर्ताओं को यह उम्मीद नहीं होती है कि कोई पेज अपने आप रीफ़्रेश हो जाएगा और होने से फ़ोकस वापस पेज के सबसे ऊपर चला जाएगा. इससे निराशा या भ्रम की स्थिति का अनुभव हो सकता है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/meta-refresh?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | failureTitle": {
+    "message": "दस्तावेज़ `<meta http-equiv=\"refresh\">` का इस्तेमाल करता है"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | title": {
+    "message": "यह दस्तावेज़ `<meta http-equiv=\"refresh\">` का इस्तेमाल नहीं करता है"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | description": {
+    "message": "ज़ूम करने की सुविधा को बंद करना उन उपयोगकर्ताओं के लिए परेशानी भरा होता है जिन्हें कम दिखाई देता है, ये उपयोगकर्ता वेब पेज की सामग्रियों को ठीक तरह से देखने के लिए स्क्रीन को बड़ा करते हैं. [और जानें](https://dequeuniversity.com/rules/axe/2.2/meta-viewport?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | failureTitle": {
+    "message": "`[user-scalable=\"no\"]` का इस्तेमाल `<meta name=\"viewport\">` एलिमेंट में किया जाता है या `[maximum-scale]` विशेषता पाँच से कम है."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | title": {
+    "message": "`[user-scalable=\"no\"]` का इस्तेमाल `<meta name=\"viewport\">` एलिमेंट में नहीं किया जा सकता और `[maximum-scale]` विशेषता पाँच से कम नहीं है."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | description": {
+    "message": "स्क्रीन री़डर ऐसी सामग्री का अनुवाद नहीं कर सकते जिसमें टेक्स्ट नहीं है. `<object>` एलिमेंट में वैकप्लिक टेक्स्ट शामिल करने से, स्क्रीन रीडरों को उपयोगकर्ताओं को मतलब समझाने में मदद मिलती है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/object-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | failureTitle": {
+    "message": "`<object>` एलिमेंट में `[alt]` टेक्स्ट नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | title": {
+    "message": "`<object>` एलिमेंट में `[alt]` टेक्स्ट है"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | description": {
+    "message": "0 से ज़्यादा मान स्पष्ट नेविगेशन क्रमों को लागू करता है. हालांकि तकनीकी तौर पर मान्य है, यह अक्सर उन उपयोगकर्ताओं को निराशाजनक अनुभव देता है जो सहायक तकनीकों पर भरोसा करते हैं. [और जानें](https://dequeuniversity.com/rules/axe/2.2/tabindex?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | failureTitle": {
+    "message": "कुछ एलिमेंट का `[tabindex]` मान 0 से ज़्यादा होता है"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | title": {
+    "message": "किसी भी एलिमेंट का `[tabindex]` मान 0 से ज़्यादा नहीं हो सकता"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | description": {
+    "message": "स्क्रीन रीडरों में ऐसी सुविधाएं होती हैं जिनसे टेबल में जाना आसान हो जाता है. यह पक्का करने पर कि `<td>` विशेषता का इस्तेमाल करने वाले `[headers]` सेल सिर्फ़ उसी टेबल में दूसरे सेल का हवाला देते हैं, तो इससे स्क्रीन रीडर उपयोगकर्ताओं को बेहतर अनुभव मिल सकता है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/td-headers-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | failureTitle": {
+    "message": "`[headers]` विशेषता का इस्तेमाल करने वाले `<table>` एलिमेंट में मौजूद सेल, उसी टेबल में दूसरे सेल का हवाला देते हैं."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | title": {
+    "message": "`<table>` विशेषता का इस्तेमाल करने वाले `[headers]` एलिमेंट में मौजूद सेल सिर्फ़ उसी टेबल के दूसरे सेल का हवाला देते हैं."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | description": {
+    "message": "स्क्रीन रीडरों में ऐसी सुविधाएं होती हैं जिनसे टेबल में जाना आसान हो जाता है. यह पक्का करने पर कि टेबल हेडर हमेशा कुछ सेल के सेट के बारे में बताते हैं, इससे स्क्रीन रीडर उपयोगकर्ताओं को बेहतर अनुभव मिल सकता है. [और जानें](https://dequeuniversity.com/rules/axe/2.2/th-has-data-cells?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | failureTitle": {
+    "message": "`<th>` एलिमेंट और `[role=\"columnheader\"/\"rowheader\"]` वाले एलिमेंट के पास उनके बताए हुए डेटा सेल नहीं हैं."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | title": {
+    "message": "`<th>` एलिमेंट और `[role=\"columnheader\"/\"rowheader\"]` वाले एलिमेंट के पास उनके बताए हुए डेटा सेल हैं."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | description": {
+    "message": "एलिमेंट पर एक सही [BCP 47 भाषा](https://www.w3.org/International/questions/qa-choosing-language-tags#question) तय करने से यह पक्का करने में मदद मिलती है कि स्क्रीन रीडर ने टेक्स्ट को सही तरीके से बोला है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | failureTitle": {
+    "message": "`[lang]` विशेषताओं का कोई सही मान नहीं है"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | title": {
+    "message": "`[lang]` विशेषताओं में सही मान है"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | description": {
+    "message": "जब कोई वीडियो कैप्शन उपलब्ध कराता है तो सुन नहीं सकने वाले और सुनने में परेशानी वाले उपयोगकर्ताओं के लिए जानकारी को समझना आसान हो जाता है. [ज़्यादा जानें](https://dequeuniversity.com/rules/axe/2.2/video-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | failureTitle": {
+    "message": "`<video>` एलिमेंट में `[kind=\"captions\"]` वाले `<track>` नहीं हैं."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | title": {
+    "message": "`<video>` एलिमेंट में `[kind=\"captions\"]`वाला `<track>` एलिमेंट है"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | description": {
+    "message": "ऑडियो विवरण वीडियो के बारे में प्रासंगिक जानकारी देते हैं जो डायलॉग नहीं कर सकते, जैसे चेहरे के हावभाव और सीन. [और जानें](https://dequeuniversity.com/rules/axe/2.2/video-description?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | failureTitle": {
+    "message": "`<video>` एलिमेंट में `[kind=\"description\"]`वाले `<track>` एलिमेंट शामिल नहीं हैं."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | title": {
+    "message": "`<video>` एलिमेंट में `[kind=\"description\"]` के साथ `<track>` एलिमेंट होता है"
+  },
   "lighthouse-core/audits/bootup-time.js | chromeExtensionsWarning": {
     "message": "Chrome एक्सटेंशन ने इस पेज के लोड परफ़ॉर्मेंस पर नकारात्मक रूप से असर डाला है. 'गुप्त मोड' में या बिना किसी एक्सटेंशन के Chrome प्रोफ़ाइल से पेज ऑडिट करके देखें."
   },
@@ -245,6 +563,9 @@
   "lighthouse-core/audits/user-timings.js | title": {
     "message": "उपयोगकर्ता समय अंक और मापन"
   },
+  "lighthouse-core/audits/uses-rel-preconnect.js | crossoriginWarning": {
+    "message": "\"{securityOrigin}\" के लिए एक पहले से कनेक्ट <link> मिला, लेकिन ब्राउज़र ने इस्तेमाल नहीं किया था. यह जाँचें कि आप `crossorigin` विशेषता का इस्तेमाल ठीक से कर रहे हैं."
+  },
   "lighthouse-core/audits/uses-rel-preconnect.js | description": {
     "message": "तीसरे पक्ष के अहम मूल से जल्दी कनेक्शन बनाने के लिए प्री-कनेक्ट या dns-प्रीफ़ेच संसाधन संकेत जोड़ने पर विचार करें. [ज़्यादा जानें](https://developers.google.com/web/fundamentals/performance/resource-prioritization#preconnect)."
   },
@@ -256,6 +577,54 @@
   },
   "lighthouse-core/audits/uses-rel-preload.js | title": {
     "message": "प्रमुख अनुरोधों को पहले से लोड करें"
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupDescription": {
+    "message": "ये आपके ऐप्लिकेशन में ARIA के इस्तेमाल को बेहतर बनाने के अवसर हैं, जिससे उपयोगकर्ताओं का स्क्रीन रीडर जैसी सहायक तकनीक का अनुभव बेहतर हो सकता है."
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupTitle": {
+    "message": "ARIA की विशेषताएं सबसे अच्छे व्यवहार को फ़ॉलो करती हैं"
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupDescription": {
+    "message": "आपकी सामग्री को पढ़ने में आसान बनाने के अवसर मौजूद हैं."
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupTitle": {
+    "message": "रंग कंट्रास्ट संतोषजनक है"
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupDescription": {
+    "message": "ये अवसर आपके एचटीएमएल एलिमेंट के कॉन्फ़िगरेशन को बेहतर बनाने के लिए हैं."
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupTitle": {
+    "message": "विशेषता का सही तरीके से इस्तेमाल करने वाले एलिमेंट"
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupDescription": {
+    "message": "इन अवसरों से आप स्क्रीन रीडर जैसी सहायक तकनीक के उपयोगकर्ता के लिए आपकी सामग्री को समझने में आसान बनाते हैं."
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupTitle": {
+    "message": "एलिमेंट, सामग्री के बारे में बेहतर ढंग से बताते हैं"
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupDescription": {
+    "message": "इन अवसरों से आपके ऐप्लिकेशन में नियंत्रणों के सीमेंटिक (शब्दार्थ विज्ञान) को बेहतर बनाया जा सकता है. इससे उपयोगकर्ता का स्क्रीन रीडर जैसी सहायक तकनीक का अनुभव बेहतर हो सकता है."
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupTitle": {
+    "message": "एलिमेंट के समझने लायक नाम नहीं हैं"
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupDescription": {
+    "message": "इन अवसरों की मदद से कई भाषाओं में उपयोगकर्ताओं के ज़रिए आपकी सामग्री के प्रस्तुतिकरण को बेहतर बनाया जा सकता है."
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupTitle": {
+    "message": "पेज, मान्य भाषा तय करता है"
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupDescription": {
+    "message": "ये अवसर आपकी साइट पर उपयोगकर्ता अनुभव को बेहतर बनाते हैं."
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupTitle": {
+    "message": "मेटा टैग का इस्तेमाल ठीक से हुआ है"
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupDescription": {
+    "message": "ये अवसर इस बात को पक्का करने के लिए हैं कि आपका एचटीएमएल सही तरह से बनाया गया है."
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupTitle": {
+    "message": "एलिमेंट सही तरीके से बनाए गए हैं"
   },
   "lighthouse-core/config/default-config.js | diagnosticsGroupDescription": {
     "message": "आपके ऐप्लिकेशन के परफ़ॉर्मेंस के बारे में ज़्यादा जानकारी."
@@ -287,6 +656,15 @@
   "lighthouse-core/config/default-config.js | performanceCategoryTitle": {
     "message": "परफ़ॉर्मेंस"
   },
+  "lighthouse-core/config/default-config.js | pwaFastReliableGroupTitle": {
+    "message": "तेज़ और भरोसेमंद"
+  },
+  "lighthouse-core/config/default-config.js | pwaInstallableGroupTitle": {
+    "message": "इंस्टॉल किया जा सकता है"
+  },
+  "lighthouse-core/config/default-config.js | pwaOptimizedGroupTitle": {
+    "message": "PWA ऑप्टिमाइज़ किया गया"
+  },
   "lighthouse-core/lib/i18n/i18n.js | columnCacheTTL": {
     "message": "कैश TTL"
   },
@@ -317,6 +695,45 @@
   "lighthouse-core/lib/i18n/i18n.js | seconds": {
     "message": "{timeInMs, number, seconds} सेकंड"
   },
+  "lighthouse-core/lib/lh-error.js | badTraceRecording": {
+    "message": "आपके पेज लोड में ट्रेस की रिकॉर्डिंग करते समय कुछ गलत हुआ. कृपया Lighthouse को फिर से चलाएं. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | didntCollectScreenshots": {
+    "message": "Chrome पेज लोड के दौरान कोई भी स्क्रीन शॉट इकट्ठा नहीं करता है. कृपया पक्का करें कि पेज पर सामग्री दिखाई दे रही है और तब Lighthouse को फिर से चलाकर देखें. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | dnsFailure": {
+    "message": "DNS सर्वर दिए गए डोमेन को हल नहीं कर सका."
+  },
+  "lighthouse-core/lib/lh-error.js | internalChromeError": {
+    "message": "एक अंदरूनी Chrome गड़बड़ी हुई. कृपया Chrome को रीस्टार्ट करें और Lighthouse को फिर से चलाकर देखें."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailed": {
+    "message": "Lighthouse आपका अनुरोध किया गया पेज ठीक से लोड नहीं कर सका. पक्का करें कि आप सही यूआरएल को टेस्ट कर रहे हैं और सर्वर सभी अनुरोधों के लिए ठीक से काम कर रहा है."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedHung": {
+    "message": "Lighthouse उस यूआरएल को भरोसेमंद रूप से लोड नहीं कर सका जिसका आपने अनुरोध किया था क्योंकि पेज ने काम करना बंद कर दिया था."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedInsecure": {
+    "message": "आपके दिए हुए यूआरएल के लिए सही सुरक्षा क्रेडेंशियल नहीं हैं. ({securityMessages})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithDetails": {
+    "message": "Lighthouse आपका अनुरोध किया गया पेज ठीक से लोड नहीं कर सका. पक्का करें कि आप सही यूआरएल को टेस्ट कर रहे हैं और सर्वर सभी अनुरोधों के लिए ठीक से काम कर रहा है. (जानकारी: {errorDetails})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithStatusCode": {
+    "message": "Lighthouse आपका अनुरोध किया गया पेज ठीक से लोड नहीं कर सका. पक्का करें कि आप सही यूआरएल को टेस्ट कर रहे हैं और सर्वर सभी अनुरोधों के लिए ठीक से काम कर रहा है. (स्थिति कोड: {statusCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadTookTooLong": {
+    "message": "आपके पेज को लोड होने में बहुत ज़्यादा समय लगा. अपने पेज के लोड होने का समय कम करने के लिए, कृपया रिपोर्ट में दिए गए अवसरों का फ़ायदा उठाएं. इसके बाद, Lighthouse को फिर से चलाकर देखें. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | protocolTimeout": {
+    "message": "DevTools प्रोटोकॉल जवाब के लिए इंतज़ार का समय, तय समय से ज़्यादा हो गया है. (तरीका: {protocolMethod})"
+  },
+  "lighthouse-core/lib/lh-error.js | requestContentTimeout": {
+    "message": "संसाधन की सामग्री लाने में दिए गए समय से ज़्यादा समय लगा"
+  },
+  "lighthouse-core/lib/lh-error.js | urlInvalid": {
+    "message": "आपका दिया हुआ यूआरएल गलत लगता है."
+  },
   "lighthouse-core/report/html/renderer/util.js | auditGroupExpandTooltip": {
     "message": "ऑडिट दिखाएं"
   },
@@ -336,7 +753,7 @@
     "message": "किसी नई या दुबारा जाँची जाने वाली ऐप्लिकेशन के लिए तैयार किया गया डेटा"
   },
   "lighthouse-core/report/html/renderer/util.js | lsPerformanceCategoryDescription": {
-    "message": "एम्युलेट किए गए 3G पर मौजूदा पेज का [लाइटहाउस](https://developers.google.com/web/tools/lighthouse/) विश्लेषण. मान अनुमानित हैं और इनमें अंतर हो सकता है."
+    "message": "[Lighthouse](https://developers.google.com/web/tools/lighthouse/) प्रतियोगी मोबाइल नेटवर्क पर मौजूदा पेज के आंकड़े. मान अनुमानित हैं और इनमें अंतर हो सकता है."
   },
   "lighthouse-core/report/html/renderer/util.js | manualAuditsGroupTitle": {
     "message": "मैन्युअल रूप से देखे जाने वाले और ज़्यादा आइटम"

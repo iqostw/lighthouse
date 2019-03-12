@@ -87,8 +87,8 @@ function collectImageElementInfo() {
       displayedHeight: element.clientHeight,
       clientRect: getClientRect(element),
       // CSS Images do not expose natural size, we'll determine the size later
-      naturalWidth: Number.MAX_VALUE,
-      naturalHeight: Number.MAX_VALUE,
+      naturalWidth: 0,
+      naturalHeight: 0,
       isCss: true,
       isPicture: false,
       usesObjectFit: false,
@@ -130,12 +130,14 @@ class ImageElements extends Gatherer {
   async fetchElementWithSizeInformation(driver, element) {
     const url = JSON.stringify(element.src);
     try {
+      // We don't want this to take forever, 250ms should be enough for images that are cached
+      driver.setNextProtocolTimeout(250);
       /** @type {{naturalWidth: number, naturalHeight: number}} */
       const size = await driver.evaluateAsync(`(${determineNaturalSize.toString()})(${url})`);
       return Object.assign(element, size);
     } catch (_) {
       // determineNaturalSize fails on invalid images, which we treat as non-visible
-      return Object.assign(element, {naturalWidth: 0, naturalHeight: 0});
+      return element;
     }
   }
 
@@ -147,7 +149,9 @@ class ImageElements extends Gatherer {
   async afterPass(passContext, loadData) {
     const driver = passContext.driver;
     const indexedNetworkRecords = loadData.networkRecords.reduce((map, record) => {
-      if (/^image/.test(record.mimeType) && record.finished) {
+      // The network record is only valid for size information if it finished with a successful status
+      // code that indicates a complete resource response.
+      if (/^image/.test(record.mimeType) && record.finished && record.statusCode === 200) {
         map[record.url] = record;
       }
 
@@ -163,6 +167,9 @@ class ImageElements extends Gatherer {
     const elements = await driver.evaluateAsync(expression);
 
     const imageUsage = [];
+    const top50Images = Object.values(indexedNetworkRecords)
+      .sort((a, b) => b.resourceSize - a.resourceSize)
+      .slice(0, 50);
     for (let element of elements) {
       // Pull some of our information directly off the network record.
       const networkRecord = indexedNetworkRecords[element.src] || {};
@@ -177,8 +184,13 @@ class ImageElements extends Gatherer {
 
       // Images within `picture` behave strangely and natural size information isn't accurate,
       // CSS images have no natural size information at all. Try to get the actual size if we can.
-      // Additional fetch is expensive; don't bother if we don't have a networkRecord for the image.
-      if ((element.isPicture || element.isCss) && networkRecord) {
+      // Additional fetch is expensive; don't bother if we don't have a networkRecord for the image,
+      // or it's not in the top 50 largest images.
+      if (
+        (element.isPicture || element.isCss) &&
+        networkRecord &&
+        top50Images.includes(networkRecord)
+      ) {
         element = await this.fetchElementWithSizeInformation(driver, element);
       }
 

@@ -1,4 +1,322 @@
 {
+  "lighthouse-core/audits/accessibility/accesskeys.js | description": {
+    "message": "Klawisze dostępu umożliwiają szybkie ustawienie fokusu na określonej części strony. Aby nawigacja działała dobrze, każdy klawisz dostępu musi być unikalny. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/accesskeys?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | failureTitle": {
+    "message": "Wartości atrybutu [accesskey] nie są unikalne"
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | title": {
+    "message": "Wartości [accesskey] są unikalne"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | description": {
+    "message": "Każda „rola” ARIA obsługuje podzbiór atrybutów „aria-*”. Niezgodność powoduje, że atrybuty „aria-*” stają się nieprawidłowe. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-allowed-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | failureTitle": {
+    "message": "Atrybuty [aria-*] nie pasują do swoich ról"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | title": {
+    "message": "Atrybuty [aria-*] odpowiadają swoim rolom"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | description": {
+    "message": "Niektóre role ARIA mają atrybuty wymagane, które opisują stan elementu na potrzeby czytników ekranu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-required-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | failureTitle": {
+    "message": "Elementy z atrybutem [role] nie mają wszystkich wymaganych atrybutów [aria-*]"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | title": {
+    "message": "Elementy z atrybutem [role] mają wszystkie wymagane atrybuty [aria-*]"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | description": {
+    "message": "Niektóre role nadrzędne ARIA muszą zawierać określone role podrzędne, by poprawnie realizować funkcje ułatwień dostępu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-required-children?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | failureTitle": {
+    "message": "Elementy z atrybutem [role] wymagają elementów podrzędnych z określonym atrybutem [role], których brak."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | title": {
+    "message": "Obecne są elementy z atrybutem [role], które wymagają elementów podrzędnych z określonym atrybutem [role]"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | description": {
+    "message": "Niektóre role podrzędne ARIA muszą znajdować się wewnątrz określonych ról nadrzędnych, by poprawnie realizować funkcje ułatwień dostępu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-required-parent?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | failureTitle": {
+    "message": "Elementy [role] nie znajdują się wewnątrz wymaganych elementów nadrzędnych"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | title": {
+    "message": "Elementy z atrybutami [role] znajdują się wewnątrz wymaganych elementów nadrzędnych"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | description": {
+    "message": "Role ARIA muszą mieć prawidłowe wartości, by poprawnie realizować funkcje ułatwień dostępu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-roles?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | failureTitle": {
+    "message": "Wartości atrybutów [role] są nieprawidłowe"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | title": {
+    "message": "Wartości [role] są prawidłowe"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | description": {
+    "message": "Technologie wspomagające, takie jak czytniki ekranu, nie potrafią interpretować atrybutów ARIA o nieprawidłowej wartości. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr-value?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | failureTitle": {
+    "message": "Atrybuty [aria-*] nie mają prawidłowych wartości"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | title": {
+    "message": "Atrybuty [aria-*] mają prawidłowe wartości"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | description": {
+    "message": "Technologie wspomagające, takie jak czytniki ekranu, nie potrafią interpretować atrybutów ARIA o nieprawidłowych nazwach. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | failureTitle": {
+    "message": "Atrybuty [aria-*] są nieprawidłowe lub są w nich literówki"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | title": {
+    "message": "Atrybuty [aria-*] są prawidłowe i nie ma w nich literówek"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | description": {
+    "message": "Dzięki napisom z elementów audio mogą korzystać osoby niesłyszące i słabosłyszące. Napisy zawierają ważne informacje na przykład o tym, kto i co mówi, a także informacje niedotyczące mowy. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/audio-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | failureTitle": {
+    "message": "Elementy <audio> nie zawierają elementu <track> z atrybutem [kind=\"captions\"]."
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | title": {
+    "message": "Elementy <audio> zawierają element <track> z atrybutem [kind=\"captions\"]"
+  },
+  "lighthouse-core/audits/accessibility/axe-audit.js | failingElementsHeader": {
+    "message": "Nieprawidłowe elementy"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | description": {
+    "message": "Gdy przycisk nie ma nazwy na potrzeby ułatwień dostępu, czytniki ekranu określają go jako „przycisk”, przez co jest on bezużyteczny dla ich użytkowników. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/button-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | failureTitle": {
+    "message": "Przyciski nie mają nazw dostępnych dla czytników ekranu"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | title": {
+    "message": "Przyciski mają nazwy dostępne dla czytników ekranu"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | description": {
+    "message": "Dodanie sposobu na ominięcie powtarzających się treści ułatwia nawigację na stronie za pomocą klawiatury. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/bypass?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | failureTitle": {
+    "message": "Strona nie zawiera nagłówka, linku pomijającego ani regionu orientacyjnego"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | title": {
+    "message": "Strona zawiera nagłówek, link pomijający lub region orientacyjny"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | description": {
+    "message": "Wielu użytkowników ma problemy z czytaniem tekstu o niskim kontraście. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | failureTitle": {
+    "message": "Kolory tła i pierwszego planu mają niewystarczający współczynnik kontrastu."
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | title": {
+    "message": "Kolory tła i pierwszego planu mają wystarczający współczynnik kontrastu"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | description": {
+    "message": "Gdy listy definicji nie mają właściwej struktury, czytniki ekranu mogą odczytywać je niedokładnie lub błędnie. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/definition-list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | failureTitle": {
+    "message": "Elementy <dl> nie zawierają tylko właściwie uporządkowanych grup elementów <dt> i <dd> oraz elementów <script> lub <template>."
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | title": {
+    "message": "Elementy <dl> zawierają tylko właściwie uporządkowane grupy elementów <dt> i <dd> oraz elementy <script> lub <template>."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | description": {
+    "message": "Elementy listy definicji (<dt> i <dd>) muszą znajdować się wewnątrz nadrzędnego elementu <dl>, by czytniki ekranu mogły je poprawnie odczytać. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/dlitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | failureTitle": {
+    "message": "Elementy listy definicji nie znajdują się wewnątrz elementów <dl>"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | title": {
+    "message": "Elementy listy definicji znajdują się wewnątrz elementów <dl>"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | description": {
+    "message": "Tytuł informuje użytkowników czytnika ekranu o ogólnej zawartości strony, a użytkownicy wyszukiwarki mogą dowiedzieć się z niego, czy strona zawiera szukane informacje. [Więcej informacji](https://developers.google.com/web/tools/lighthouse/audits/title)."
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | failureTitle": {
+    "message": "Dokument nie ma elementu <title>"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | title": {
+    "message": "Dokument ma element <title>"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | description": {
+    "message": "Wartość atrybutu id musi być unikalna, by inne wystąpienia nie zostały pominięte przez technologie wspomagające. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/duplicate-id?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | failureTitle": {
+    "message": "Atrybuty [id] na stronie nie są unikalne"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | title": {
+    "message": "Atrybuty [id] na stronie są unikalne"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | description": {
+    "message": "Tytuły ramek służą użytkownikom czytników ekranu jako opisy zawartości ramek. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/frame-title?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | failureTitle": {
+    "message": "Elementy <frame> lub <iframe> bez tytułu"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | title": {
+    "message": "Elementy <frame> i <iframe> mają tytuły"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | description": {
+    "message": "Jeśli strona nie ma atrybutu lang, czytnik ekranu przyjmuje, że strona jest w języku domyślnym wybranym przez użytkownika podczas konfigurowania czytnika. Jeśli strona nie jest w języku domyślnym, czytnik ekranu może niepoprawnie wymawiać tekst strony. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/html-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | failureTitle": {
+    "message": "Element <html> nie ma atrybutu [lang]"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | title": {
+    "message": "Element <html> ma atrybut [lang]"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | description": {
+    "message": "Określenie prawidłowego [języka BCP 47](https://www.w3.org/International/questions/qa-choosing-language-tags#question) pomaga czytnikom ekranu prawidłowo wymawiać tekst. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | failureTitle": {
+    "message": "Element <html> nie ma prawidłowej wartości atrybutu [lang]."
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | title": {
+    "message": "Element <html> ma prawidłową wartość atrybutu [lang]"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | description": {
+    "message": "Elementy informacyjne powinny mieć krótki, opisowy tekst zastępczy. Elementy dekoracyjne można zignorować, podając pusty atrybut alt. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | failureTitle": {
+    "message": "Elementy graficzne nie mają atrybutów [alt]"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | title": {
+    "message": "Elementy graficzne mają atrybuty [alt]"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | description": {
+    "message": "Gdy jako przycisk <input> używany jest obraz, podanie tekstu zastępczego może ułatwić użytkownikom czytnika ekranu zrozumienie, do czego służy ten przycisk. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/input-image-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | failureTitle": {
+    "message": "Elementy <input type=\"image\"> nie mają tekstu [alt]"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | title": {
+    "message": "Elementy <input type=\"image\"> mają atrybut [alt] z tekstem"
+  },
+  "lighthouse-core/audits/accessibility/label.js | description": {
+    "message": "Etykiety zapewniają prawidłowe odczytywanie kontrolek formularzy przez technologie wspomagające takie jak czytniki ekranu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/label?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/label.js | failureTitle": {
+    "message": "Z elementami formularzy nie są powiązane etykiety"
+  },
+  "lighthouse-core/audits/accessibility/label.js | title": {
+    "message": "Z elementami formularzy są powiązane etykiety"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | description": {
+    "message": "Tabela używana do tworzenia układu nie powinna zawierać elementów danych, takich jak elementy th czy caption albo atrybut summary, ponieważ mogą one utrudniać korzystanie z czytnika ekranu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/layout-table?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | failureTitle": {
+    "message": "W prezentacyjnych elementach <table> są używane elementy <th> lub <caption> albo atrybut [summary]."
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | title": {
+    "message": "W prezentacyjnych elementach <table> nie są używane elementy <th> lub <caption> albo atrybut [summary]."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | description": {
+    "message": "Tekst linków (i tekst zastępczy obrazów używanych jako linki), który jest charakterystyczny, unikalny i możliwy do wybrania, ułatwia nawigację użytkownikom czytników ekranu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/link-name?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | failureTitle": {
+    "message": "Linki nie mają wyróżniających je nazw"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | title": {
+    "message": "Linki mają wyróżniające je nazwy"
+  },
+  "lighthouse-core/audits/accessibility/list.js | description": {
+    "message": "Czytniki ekranu odczytują listy w specjalny sposób. Właściwa struktura list pomaga czytnikom poprawnie odczytać tekst. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/list?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/list.js | failureTitle": {
+    "message": "Listy nie zawierają tylko elementów <li> i elementów skryptowych (<script> i <template>)."
+  },
+  "lighthouse-core/audits/accessibility/list.js | title": {
+    "message": "Listy zawierają tylko elementy <li> i elementy skryptowe (<script> i <template>)."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | description": {
+    "message": "Elementy list (<li>) muszą być zawarte w elementach nadrzędnych <ul> lub <ol>, by czytniki ekranu mogły je poprawnie odczytać. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/listitem?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | failureTitle": {
+    "message": "Elementy listy (<li>) nie znajdują się wewnątrz elementów nadrzędnych <ul> lub <ol>."
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | title": {
+    "message": "Elementy list (<li>) znajdują się wewnątrz elementów nadrzędnych <ul> lub <ol>"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | description": {
+    "message": "Użytkownicy nie spodziewają się automatycznego odświeżania strony – powoduje ono powrót fokusu na początek strony. Może to dezorientować i irytować użytkowników. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/meta-refresh?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | failureTitle": {
+    "message": "Dokument używa <meta http-equiv=\"refresh\">"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | title": {
+    "message": "W dokumencie nie jest używany element <meta http-equiv=\"refresh\">"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | description": {
+    "message": "Wyłączenie powiększania to problem dla użytkowników niedowidzących, którzy muszą korzystać z powiększenia ekranu, by dobrze widzieć zawartość stron internetowych. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/meta-viewport?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | failureTitle": {
+    "message": "W elemencie <meta name=\"viewport\"> jest używany atrybut [user-scalable=\"no\"] albo atrybut [maximum-scale] ma wartość mniejszą niż 5."
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | title": {
+    "message": "Atrybut [user-scalable=\"no\"] nie jest używany w elemencie <meta name=\"viewport\">, a atrybut [maximum-scale] ma wartość nie mniejszą niż 5."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | description": {
+    "message": "Czytniki ekranu nie potrafią tłumaczyć treści innych niż tekst. Dodanie do elementów <object> tekstu zastępczego pomaga czytnikom ekranu w przekazywaniu użytkownikom właściwego znaczenia. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/object-alt?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | failureTitle": {
+    "message": "Elementy <object> nie mają tekstu [alt]"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | title": {
+    "message": "Elementy <object> mają tekst [alt]"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | description": {
+    "message": "Wartość większa niż 0 implikuje określoną wprost kolejność nawigacji. Chociaż takie rozwiązanie jest technicznie poprawne, często powoduje frustrację użytkowników technologii wspomagających. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/tabindex?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | failureTitle": {
+    "message": "Niektóre elementy mają atrybut [tabindex] o wartości większej niż 0"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | title": {
+    "message": "Żaden element nie ma wartości atrybutu [tabindex] większej niż 0"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | description": {
+    "message": "Czytniki ekranu mają funkcje, które ułatwiają nawigację w tabelach. Gdy komórki <td> używające atrybutu [headers] odwołują się tylko do innych komórek w tej samej tabeli, użytkownicy czytników ekranu mogą wygodniej korzystać z tabel. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/td-headers-attr?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | failureTitle": {
+    "message": "Komórki elementu <table>, które używają atrybutu [headers], odwołują się do innych komórek tej samej tabeli."
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | title": {
+    "message": "Komórki elementu <table>, które używają atrybutu [headers], odwołują się tylko do innych komórek tej samej tabeli."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | description": {
+    "message": "Czytniki ekranu mają funkcje, które ułatwiają nawigację w tabelach. Gdy nagłówki tabel zawsze odwołują się do jakiegoś zbioru komórek, użytkownicy czytników ekranu mogą wygodniej korzystać z tabel. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/th-has-data-cells?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | failureTitle": {
+    "message": "Nie istnieją komórki danych opisywane przez elementy <th> i elementy z atrybutem [role=\"columnheader\"/\"rowheader\"]."
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | title": {
+    "message": "Istnieją komórki danych opisywane przez elementy <th> i elementy z atrybutem [role=\"columnheader\"/\"rowheader\"]."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | description": {
+    "message": "Określenie prawidłowego [języka BCP 47](https://www.w3.org/International/questions/qa-choosing-language-tags#question) elementów pomaga zapewnić prawidłową wymowę tekstu przez czytnik ekranu. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | failureTitle": {
+    "message": "Atrybuty [lang] nie mają prawidłowej wartości"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | title": {
+    "message": "Atrybuty [lang] mają prawidłową wartość"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | description": {
+    "message": "Filmy z napisami są bardziej dostępne dla osób niesłyszących i niedosłyszących. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/video-caption?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | failureTitle": {
+    "message": "Elementy <video> nie zawierają elementu <track> z atrybutem [kind=\"captions\"]."
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | title": {
+    "message": "Elementy <video> zawierają element <track> z atrybutem [kind=\"captions\"]"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | description": {
+    "message": "Audiodeskrypcja dostarcza ważnych informacji, których nie ma w dialogach – na przykład o wyrazie twarzy i scenerii. [Więcej informacji](https://dequeuniversity.com/rules/axe/2.2/video-description?application=lighthouse)."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | failureTitle": {
+    "message": "Elementy <video> nie zawierają elementu <track> z atrybutem [kind=\"description\"]."
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | title": {
+    "message": "Elementy <video> zawierają element <track> z atrybutem [kind=\"description\"]"
+  },
   "lighthouse-core/audits/bootup-time.js | chromeExtensionsWarning": {
     "message": "Rozszerzenia Chrome pogorszyły szybkość ładowania tej strony. Przeprowadź audyt strony w trybie incognito lub w profilu Chrome bez rozszerzeń."
   },
@@ -189,10 +507,10 @@
     "message": "CPU bezczynny po raz pierwszy"
   },
   "lighthouse-core/audits/metrics/first-meaningful-paint.js | description": {
-    "message": "Pierwsze wyrenderowanie czegoś znaczącego oznacza czas pojawienia się na ekranie głównej zawartości strony. [Więcej informacji](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint)"
+    "message": "Pierwsze wyrenderowanie elementu znaczącego oznacza czas pojawienia się na ekranie głównej zawartości strony. [Więcej informacji](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint)"
   },
   "lighthouse-core/audits/metrics/first-meaningful-paint.js | title": {
-    "message": "Pierwsze wyrenderowanie czegoś znaczącego"
+    "message": "Pierwsze wyrenderowanie elementu znaczącego"
   },
   "lighthouse-core/audits/metrics/interactive.js | description": {
     "message": "Czas do pełnej interaktywności oznacza czas, po którym strona jest całkowicie interaktywna. [Więcej informacji](https://developers.google.com/web/tools/lighthouse/audits/consistently-interactive)"
@@ -245,6 +563,9 @@
   "lighthouse-core/audits/user-timings.js | title": {
     "message": "Znaczniki i odcinki Czasu działań użytkownika"
   },
+  "lighthouse-core/audits/uses-rel-preconnect.js | crossoriginWarning": {
+    "message": "Znaleziono element <link> wcześniejszego połączenia dla „{securityOrigin}”, który nie jest używany przez przeglądarkę. Sprawdź, czy poprawnie używasz atrybutu „crossorigin”."
+  },
   "lighthouse-core/audits/uses-rel-preconnect.js | description": {
     "message": "Rozważ dodanie wskazówek „preconnect” lub „dns-prefetch”, by wcześniej nawiązać połączenia z ważnymi źródłami w innych domenach. [Więcej informacji](https://developers.google.com/web/fundamentals/performance/resource-prioritization#preconnect)"
   },
@@ -257,6 +578,54 @@
   "lighthouse-core/audits/uses-rel-preload.js | title": {
     "message": "Załaduj wstępnie kluczowe żądania"
   },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupDescription": {
+    "message": "To są możliwości lepszego wykorzystania atrybutów ARIA w Twojej aplikacji, by była ona wygodniejsza dla użytkowników technologii wspomagających, takich jak czytniki ekranu."
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupTitle": {
+    "message": "Atrybuty ARIA są zgodne ze sprawdzonymi metodami"
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupDescription": {
+    "message": "To są możliwości poprawy czytelności treści."
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupTitle": {
+    "message": "Kontrast kolorów jest wystarczający"
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupDescription": {
+    "message": "To są możliwości ulepszenia konfiguracji elementów HTML."
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupTitle": {
+    "message": "Elementy poprawnie używają atrybutów"
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupDescription": {
+    "message": "To są możliwości dostosowania treści w taki sposób, by były bardziej przystępne dla użytkowników technologii wspomagających, takich jak czytniki ekranu."
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupTitle": {
+    "message": "Elementy dobrze opisują treści"
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupDescription": {
+    "message": "To są możliwości ulepszenia semantyki kontrolek aplikacji. Dzięki temu treści mogą stać się bardziej przystępne dla użytkowników technologii wspomagających, takich jak czytniki ekranu."
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupTitle": {
+    "message": "Elementy mają wyróżniające je nazwy"
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupDescription": {
+    "message": "To są możliwości ulepszenia interpretacji treści przez użytkowników mających różne ustawienia języka."
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupTitle": {
+    "message": "Strona ma prawidłowo określony język"
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupDescription": {
+    "message": "To są możliwości poprawy wygody użytkowników Twojej witryny."
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupTitle": {
+    "message": "Właściwy sposób używania metatagów"
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupDescription": {
+    "message": "To są możliwości zapewnienia właściwej struktury kodu HTML."
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupTitle": {
+    "message": "Elementy mają poprawną strukturę"
+  },
   "lighthouse-core/config/default-config.js | diagnosticsGroupDescription": {
     "message": "Więcej informacji o wydajności aplikacji."
   },
@@ -264,7 +633,7 @@
     "message": "Diagnostyka"
   },
   "lighthouse-core/config/default-config.js | firstPaintImprovementsGroupDescription": {
-    "message": "Najważniejszym aspektem wydajności jest to, jak szybko piksele zostaną wyświetlone na ekranie. Kluczowe wskaźniki: Pierwsze wyrenderowanie treści, Pierwsze wyrenderowanie czegoś znaczącego"
+    "message": "Najważniejszym aspektem wydajności jest to, jak szybko piksele zostaną wyświetlone na ekranie. Kluczowe wskaźniki: Pierwsze wyrenderowanie treści, Pierwsze wyrenderowanie elementu znaczącego"
   },
   "lighthouse-core/config/default-config.js | firstPaintImprovementsGroupTitle": {
     "message": "Ulepszenia pierwszego renderowania"
@@ -286,6 +655,15 @@
   },
   "lighthouse-core/config/default-config.js | performanceCategoryTitle": {
     "message": "Wydajność"
+  },
+  "lighthouse-core/config/default-config.js | pwaFastReliableGroupTitle": {
+    "message": "Szybka i niezawodna"
+  },
+  "lighthouse-core/config/default-config.js | pwaInstallableGroupTitle": {
+    "message": "Możliwa do zainstalowania"
+  },
+  "lighthouse-core/config/default-config.js | pwaOptimizedGroupTitle": {
+    "message": "Optymalizacja dla PWA"
   },
   "lighthouse-core/lib/i18n/i18n.js | columnCacheTTL": {
     "message": "Czas przechowywania danych w pamięci podręcznej"
@@ -317,6 +695,45 @@
   "lighthouse-core/lib/i18n/i18n.js | seconds": {
     "message": "{timeInMs, number, seconds} s"
   },
+  "lighthouse-core/lib/lh-error.js | badTraceRecording": {
+    "message": "Podczas rejestrowania śladu wczytywania strony wystąpił błąd. Uruchom Lighthouse ponownie. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | didntCollectScreenshots": {
+    "message": "Podczas wczytywania strony w Chrome nie zostały utworzone zrzuty ekranu. Zapewnij widoczność treści na stronie, a następnie ponownie uruchom Lighthouse. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | dnsFailure": {
+    "message": "Serwery DNS nie potrafiły ustalić adresu podanej domeny."
+  },
+  "lighthouse-core/lib/lh-error.js | internalChromeError": {
+    "message": "Wystąpił wewnętrzny błąd Chrome. Uruchom ponownie Chrome, a następnie Lighthouse."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailed": {
+    "message": "Lighthouse nie udało się całkowicie wczytać żądanej strony. Upewnij się, że testujesz właściwy URL, a serwer poprawnie odpowiada na wszystkie żądania."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedHung": {
+    "message": "Lighthouse nie udało się całkowicie wczytać żądanego URL-a, ponieważ strona przestała odpowiadać."
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedInsecure": {
+    "message": "Brak danych logowania dla podanego adresu URL. ({securityMessages})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithDetails": {
+    "message": "Lighthouse nie udało się całkowicie wczytać żądanej strony. Upewnij się, że testujesz właściwy URL, a serwer poprawnie odpowiada na wszystkie żądania. (Szczegóły: {errorDetails})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithStatusCode": {
+    "message": "Lighthouse nie udało się całkowicie wczytać żądanej strony. Upewnij się, że testujesz właściwy URL, a serwer poprawnie odpowiada na wszystkie żądania. (Kod stanu: {statusCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadTookTooLong": {
+    "message": "Wczytywanie strony trwało zbyt długo. Skorzystaj z możliwości przyspieszenia wczytywania strony podanych w raporcie, a następnie ponownie uruchom Lighthouse. ({errorCode})"
+  },
+  "lighthouse-core/lib/lh-error.js | protocolTimeout": {
+    "message": "Przekroczono przydzielony czas oczekiwania na odpowiedź protokołu DevTools. (Metoda: {protocolMethod})"
+  },
+  "lighthouse-core/lib/lh-error.js | requestContentTimeout": {
+    "message": "Przekroczono czas przydzielony na pobranie zasobów"
+  },
+  "lighthouse-core/lib/lh-error.js | urlInvalid": {
+    "message": "Podany URL jest nieprawidłowy."
+  },
   "lighthouse-core/report/html/renderer/util.js | auditGroupExpandTooltip": {
     "message": "Pokaż audyty"
   },
@@ -336,7 +753,7 @@
     "message": "Dane laboratoryjne"
   },
   "lighthouse-core/report/html/renderer/util.js | lsPerformanceCategoryDescription": {
-    "message": "Analiza [Lighthouse](https://developers.google.com/web/tools/lighthouse/) bieżącej strony przy emulowanym połączeniu 3G. Wartości są szacunkowe i mogą się zmieniać."
+    "message": "Analiza [Lighthouse](https://developers.google.com/web/tools/lighthouse/) bieżącej strony z emulacją sieci komórkowej. Wartości są szacunkowe i mogą się zmieniać."
   },
   "lighthouse-core/report/html/renderer/util.js | manualAuditsGroupTitle": {
     "message": "Dodatkowe elementy do ręcznego sprawdzenia"

@@ -13,7 +13,7 @@ const path = require('path');
 const esprima = require('esprima');
 
 const LH_ROOT = path.join(__dirname, '../../../');
-const UISTRINGS_REGEX = /UIStrings = (.|\s)*?\};\n/gim;
+const UISTRINGS_REGEX = /UIStrings = (.|\s)*?\};\n/im;
 
 /**
  * @typedef ICUMessageDefn

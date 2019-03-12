@@ -8,6 +8,7 @@
 const Audit = require('../audit');
 const URL = require('../../lib/url-shim');
 const BLOCKLIST = new Set([
+  // English
   'click here',
   'click this',
   'go',
@@ -17,7 +18,32 @@ const BLOCKLIST = new Set([
   'right here',
   'more',
   'learn more',
+  // Japanese
+  'ここをクリック',
+  'こちらをクリック',
+  'リンク',
+  '続きを読む',
+  '続く',
+  '全文表示',
 ]);
+const i18n = require('../../lib/i18n/i18n.js');
+
+const UIStrings = {
+  /** Title of a Lighthouse audit that tests if each link on a page contains a sufficient description of what a user will find when they click it. Generic, non-descriptive text like "click here" doesn't give an indication of what the link leads to. This descriptive title is shown when all links on the page have sufficient textual descriptions. */
+  title: 'Links have descriptive text',
+  /** Title of a Lighthouse audit that tests if each link on a page contains a sufficient description of what a user will find when they click it. Generic, non-descriptive text like "click here" doesn't give an indication of what the link leads to. This descriptive title is shown when one or more links on the page contain generic, non-descriptive text. */
+  failureTitle: 'Links do not have descriptive text',
+  /** Description of a Lighthouse audit that tells the user *why* they need to have descriptive text on the links in their page. This is displayed after a user expands the section to see more. No character length limits. 'Learn More' becomes link text to additional documentation. */
+  description: 'Descriptive link text helps search engines understand your content. ' +
+  '[Learn more](https://developers.google.com/web/tools/lighthouse/audits/descriptive-link-text).',
+  /** [ICU Syntax] Label for the audit identifying the number of links found. "link" here refers to the links in a web page to other web pages. */
+  displayValue: `{itemCount, plural,
+    =1 {1 link found}
+    other {# links found}
+    }`,
+};
+
+const str_ = i18n.createMessageInstanceIdFn(__filename, UIStrings);
 
 class LinkText extends Audit {
   /**
@@ -26,11 +52,10 @@ class LinkText extends Audit {
   static get meta() {
     return {
       id: 'link-text',
-      title: 'Links have descriptive text',
-      failureTitle: 'Links do not have descriptive text',
-      description: 'Descriptive link text helps search engines understand your content. ' +
-      '[Learn more](https://developers.google.com/web/tools/lighthouse/audits/descriptive-link-text).',
-      requiredArtifacts: ['URL', 'CrawlableLinks'],
+      title: str_(UIStrings.title),
+      failureTitle: str_(UIStrings.failureTitle),
+      description: str_(UIStrings.description),
+      requiredArtifacts: ['URL', 'AnchorElements'],
     };
   }
 
@@ -39,7 +64,8 @@ class LinkText extends Audit {
    * @return {LH.Audit.Product}
    */
   static audit(artifacts) {
-    const failingLinks = artifacts.CrawlableLinks
+    const failingLinks = artifacts.AnchorElements
+      .filter(link => link.href && !link.rel.includes('nofollow'))
       .filter(link => {
         const href = link.href.toLowerCase();
         if (
@@ -59,6 +85,7 @@ class LinkText extends Audit {
         };
       });
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'href', itemType: 'url', text: 'Link destination'},
       {key: 'text', itemType: 'text', text: 'Link Text'},
@@ -68,8 +95,7 @@ class LinkText extends Audit {
     let displayValue;
 
     if (failingLinks.length) {
-      displayValue = failingLinks.length > 1 ?
-        `${failingLinks.length} links found` : '1 link found';
+      displayValue = str_(UIStrings.displayValue, {itemCount: failingLinks.length});
     }
 
     return {
@@ -81,3 +107,4 @@ class LinkText extends Audit {
 }
 
 module.exports = LinkText;
+module.exports.UIStrings = UIStrings;

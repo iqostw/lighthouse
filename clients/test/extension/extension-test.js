@@ -5,7 +5,7 @@
  */
 'use strict';
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 const path = require('path');
 const assert = require('assert');
@@ -27,6 +27,7 @@ describe('Lighthouse chrome extension', function() {
   let browser;
   let extensionPage;
   let originalManifest;
+  let lhr;
 
   function getAuditElementsIds({category, selector}) {
     return extensionPage.evaluate(
@@ -48,10 +49,7 @@ describe('Lighthouse chrome extension', function() {
       });
   }
 
-  before(async function() {
-    // eslint-disable-next-line
-    this.timeout(90 * 1000);
-
+  beforeAll(async function() {
     // read original manifest
     originalManifest = fs.readFileSync(manifestLocation);
 
@@ -102,12 +100,14 @@ describe('Lighthouse chrome extension', function() {
       throw new Error(lighthouseResult.exceptionDetails.text);
     }
 
+    lhr = lighthouseResult.result.value.lhr;
+
     extensionPage = (await browser.pages()).find(page =>
       page.url().includes('blob:chrome-extension://')
     );
-  });
+  }, 90 * 1000);
 
-  after(async () => {
+  afterAll(async () => {
     // put the default manifest back
     fs.writeFileSync(manifestLocation, originalManifest);
 
@@ -175,5 +175,9 @@ describe('Lighthouse chrome extension', function() {
   it('should pass the is-crawlable audit', async () => {
     // this audit has regressed in the extension twice, so make sure it passes
     assert.ok(await extensionPage.$('#is-crawlable.lh-audit--pass'), 'did not pass is-crawlable');
+  });
+
+  it('should specify the channel as extension', async () => {
+    assert.equal(lhr.configSettings.channel, 'extension');
   });
 });

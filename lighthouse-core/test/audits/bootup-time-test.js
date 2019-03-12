@@ -32,12 +32,13 @@ describe('Performance: bootup-time audit', () => {
 
     return BootupTime.audit(artifacts, {options: auditOptions, computedCache}).then(output => {
       assert.deepEqual(roundedValueOf(output, 'https://pwa.rocks/script.js'), {scripting: 31.8, scriptParseCompile: 1.3, total: 36.8});
-      assert.deepEqual(roundedValueOf(output, 'https://www.googletagmanager.com/gtm.js?id=GTM-Q5SW'), {scripting: 96.9, scriptParseCompile: 6.5, total: 104.4});
+      assert.deepEqual(roundedValueOf(output, 'https://www.googletagmanager.com/gtm.js?id=GTM-Q5SW'), {scripting: 97.2, scriptParseCompile: 6.5, total: 104.7});
       assert.deepEqual(roundedValueOf(output, 'https://www.google-analytics.com/plugins/ua/linkid.js'), {scripting: 25.2, scriptParseCompile: 1.2, total: 26.4});
       assert.deepEqual(roundedValueOf(output, 'https://www.google-analytics.com/analytics.js'), {scripting: 40.6, scriptParseCompile: 9.6, total: 53.4});
+      assert.deepEqual(roundedValueOf(output, 'Other'), {scripting: 11.7, scriptParseCompile: 0, total: 1123.8}); // eslint-disable-line max-len
 
-      assert.equal(Math.round(output.rawValue), 221);
-      assert.equal(output.details.items.length, 4);
+      assert.equal(Math.round(output.rawValue), 225);
+      assert.equal(output.details.items.length, 5);
       assert.equal(output.score, 1);
     });
   }, 10000);
@@ -55,9 +56,9 @@ describe('Performance: bootup-time audit', () => {
 
     assert.deepEqual(roundedValueOf(output, 'https://pwa.rocks/script.js'), {scripting: 95.3, scriptParseCompile: 3.9, total: 110.5});
 
-    assert.equal(output.details.items.length, 7);
+    assert.equal(output.details.items.length, 8);
     assert.equal(output.score, 0.98);
-    assert.equal(Math.round(output.rawValue), 709);
+    assert.equal(Math.round(output.rawValue), 720);
   });
 
   it('should get no data when no events are present', () => {

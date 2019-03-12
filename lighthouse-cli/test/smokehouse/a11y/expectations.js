@@ -230,8 +230,12 @@ module.exports = [
         },
       },
       'accesskeys': {
-        score: null,
-        scoreDisplayMode: 'manual',
+        score: 0,
+        details: {
+          items: {
+            length: 1,
+          },
+        },
       },
     },
   },

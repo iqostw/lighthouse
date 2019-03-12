@@ -10,6 +10,7 @@ const networkRecordsToDevtoolsLog = require('../network-records-to-devtools-log.
 const assert = require('assert');
 const devtoolsLogItems = require('../fixtures/artifacts/perflog/defaultPass.devtoolslog.json');
 const redirectsDevtoolsLog = require('../fixtures/wikipedia-redirect.devtoolslog.json');
+const redirectsScriptDevtoolsLog = require('../fixtures/redirects-from-script.devtoolslog.json');
 
 /* eslint-env jest */
 describe('network recorder', function() {
@@ -45,6 +46,50 @@ describe('network recorder', function() {
     assert.equal(redirectC.resourceType, undefined);
     assert.equal(mainDocument.resourceType, 'Document');
   });
+
+  it('sets initiators to redirects when original initiator is script', () => {
+    // The test page features script-initiated redirects:
+    /*
+        <!DOCTYPE html>
+        <script>
+        setTimeout(_ => {
+          // add an iframe to the page via script
+          // the iframe will open :10200/redirects-script.html
+          // which redirects to :10503/redirects-script.html
+          // which redirects to airhorner.com
+          const elem = document.createElement('iframe');
+          elem.src = 'http://localhost:10200/redirects-script.html?redirect=http%3A%2F%2Flocalhost%3A10503%2Fredirects-script.html%3Fredirect%3Dhttps%253A%252F%252Fairhorner.com%252F';
+          document.body.append(elem);
+        }, 400);
+        </script>
+    */
+
+    const records = NetworkRecorder.recordsFromLogs(redirectsScriptDevtoolsLog);
+    assert.equal(records.length, 4);
+
+    const [mainDocument, iframeRedirectA, iframeRedirectB, iframeDocument] = records;
+    assert.equal(mainDocument.initiatorRequest, undefined);
+    assert.equal(mainDocument.redirectSource, undefined);
+    assert.equal(mainDocument.redirectDestination, undefined);
+    assert.equal(iframeRedirectA.initiatorRequest, mainDocument);
+    assert.equal(iframeRedirectA.redirectSource, undefined);
+    assert.equal(iframeRedirectA.redirectDestination, iframeRedirectB);
+    assert.equal(iframeRedirectB.initiatorRequest, iframeRedirectA);
+    assert.equal(iframeRedirectB.redirectSource, iframeRedirectA);
+    assert.equal(iframeRedirectB.redirectDestination, iframeDocument);
+    assert.equal(iframeDocument.initiatorRequest, iframeRedirectB);
+    assert.equal(iframeDocument.redirectSource, iframeRedirectB);
+    assert.equal(iframeDocument.redirectDestination, undefined);
+
+    const redirectURLs = iframeDocument.redirects.map(request => request.url);
+    assert.deepStrictEqual(redirectURLs, [iframeRedirectA.url, iframeRedirectB.url]);
+
+    assert.equal(mainDocument.resourceType, 'Document');
+    assert.equal(iframeRedirectA.resourceType, undefined);
+    assert.equal(iframeRedirectB.resourceType, undefined);
+    assert.equal(iframeDocument.resourceType, 'Document');
+  });
+
 
   it('recordsFromLogs ignores records with an invalid URL', function() {
     const logs = [

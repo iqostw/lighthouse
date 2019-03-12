@@ -15,11 +15,14 @@ module.exports = {
     '!**/test/',
     '!**/scripts/',
   ],
-  setupTestFrameworkScriptFile: './lighthouse-core/test/test-utils.js',
+  setupFilesAfterEnv: ['./lighthouse-core/test/test-utils.js'],
   testEnvironment: 'node',
   testMatch: [
     '**/lighthouse-core/**/*-test.js',
     '**/lighthouse-cli/**/*-test.js',
+    '**/lighthouse-viewer/**/*-test.js',
+    '**/lighthouse-viewer/**/*-test-pptr.js',
+    '**/clients/test/**/*-test.js',
     '**/sd-validation/**/*-test.js',
   ],
 };

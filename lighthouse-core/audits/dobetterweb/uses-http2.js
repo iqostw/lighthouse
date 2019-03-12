@@ -68,6 +68,7 @@ class UsesHTTP2Audit extends Audit {
         displayValue = `${resources.length} request not served via HTTP/2`;
       }
 
+      /** @type {LH.Audit.Details.Table['headings']} */
       const headings = [
         {key: 'url', itemType: 'url', text: 'URL'},
         {key: 'protocol', itemType: 'text', text: 'Protocol'},

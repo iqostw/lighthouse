@@ -62,6 +62,7 @@ class HTTPS extends Audit {
 
       const items = Array.from(new Set(insecureURLs)).map(url => ({url}));
 
+      /** @type {LH.Audit.Details.Table['headings']} */
       const headings = [
         {key: 'url', itemType: 'url', text: 'Insecure URL'},
       ];

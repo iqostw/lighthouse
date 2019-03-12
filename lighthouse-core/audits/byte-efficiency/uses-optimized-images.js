@@ -35,7 +35,7 @@ class UsesOptimizedImages extends ByteEfficiencyAudit {
       title: str_(UIStrings.title),
       description: str_(UIStrings.description),
       scoreDisplayMode: ByteEfficiencyAudit.SCORING_MODES.NUMERIC,
-      requiredArtifacts: ['OptimizedImages', 'devtoolsLogs', 'traces'],
+      requiredArtifacts: ['OptimizedImages', 'ImageElements', 'devtoolsLogs', 'traces'],
     };
   }
 
@@ -50,11 +50,30 @@ class UsesOptimizedImages extends ByteEfficiencyAudit {
   }
 
   /**
+   * @param {LH.Artifacts.ImageElement} imageElement
+   * @return {number}
+   */
+  static estimateJPEGSizeFromDimensions(imageElement) {
+    const totalPixels = imageElement.naturalWidth * imageElement.naturalHeight;
+    // Even JPEGs with lots of detail can usually be compressed down to <1 byte per pixel
+    // Using 4:2:2 subsampling already gets an uncompressed bitmap to 2 bytes per pixel.
+    // The compression ratio for JPEG is usually somewhere around 10:1 depending on content, so
+    // 8:1 is a reasonable expectation for web content which is 1.5MB for a 6MP image.
+    const expectedBytesPerPixel = 2 * 1 / 8;
+    return Math.round(totalPixels * expectedBytesPerPixel);
+  }
+
+  /**
    * @param {LH.Artifacts} artifacts
    * @return {ByteEfficiencyAudit.ByteEfficiencyProduct}
    */
   static audit_(artifacts) {
+    const pageURL = artifacts.URL.finalUrl;
     const images = artifacts.OptimizedImages;
+    const imageElements = artifacts.ImageElements;
+    /** @type {Map<string, LH.Artifacts.ImageElement>} */
+    const imageElementsByURL = new Map();
+    imageElements.forEach(img => imageElementsByURL.set(img.src, img));
 
     /** @type {Array<{url: string, fromProtocol: boolean, isCrossOrigin: boolean, totalBytes: number, wastedBytes: number}>} */
     const items = [];
@@ -63,24 +82,40 @@ class UsesOptimizedImages extends ByteEfficiencyAudit {
       if (image.failed) {
         warnings.push(`Unable to decode ${URL.getURLDisplayName(image.url)}`);
         continue;
-      } else if (/(jpeg|bmp)/.test(image.mimeType) === false ||
-                 image.originalSize < image.jpegSize + IGNORE_THRESHOLD_IN_BYTES) {
+      } else if (/(jpeg|bmp)/.test(image.mimeType) === false) {
         continue;
       }
 
+      let jpegSize = image.jpegSize;
+      let fromProtocol = true;
+
+      if (typeof jpegSize === 'undefined') {
+        const imageElement = imageElementsByURL.get(image.url);
+        if (!imageElement) {
+          warnings.push(`Unable to locate resource ${URL.getURLDisplayName(image.url)}`);
+          continue;
+        }
+
+        jpegSize = UsesOptimizedImages.estimateJPEGSizeFromDimensions(imageElement);
+        fromProtocol = false;
+      }
+
+      if (image.originalSize < jpegSize + IGNORE_THRESHOLD_IN_BYTES) continue;
+
       const url = URL.elideDataURI(image.url);
-      const jpegSavings = UsesOptimizedImages.computeSavings(image);
+      const isCrossOrigin = !URL.originsMatch(pageURL, image.url);
+      const jpegSavings = UsesOptimizedImages.computeSavings({...image, jpegSize});
 
       items.push({
         url,
-        fromProtocol: image.fromProtocol,
-        isCrossOrigin: !image.isSameOrigin,
+        fromProtocol,
+        isCrossOrigin,
         totalBytes: image.originalSize,
         wastedBytes: jpegSavings.bytes,
       });
     }
 
-    /** @type {LH.Result.Audit.OpportunityDetails['headings']} */
+    /** @type {LH.Audit.Details.Opportunity['headings']} */
     const headings = [
       {key: 'url', valueType: 'thumbnail', label: ''},
       {key: 'url', valueType: 'url', label: str_(i18n.UIStrings.columnURL)},

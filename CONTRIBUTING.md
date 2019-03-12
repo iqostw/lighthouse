@@ -47,7 +47,7 @@ If you have a contribution for our [documentation](https://developers.google.com
 
 ## Adding Images to a Readme
 
-If you are adding an image to a readme use the absolute path to the image for the specific commit hash where the image was introduced.  This requires mutliple commits.
+If you are adding an image to a readme use the absolute path to the image for the specific commit hash where the image was introduced.  This requires multiple commits.
 1. Make the commit to introduce the image.
 1. Get the [absolute path](https://help.github.com/articles/getting-permanent-links-to-files/) to the image with the commit hash e.g. `https://raw.githubusercontent.com/GoogleChrome/lighthouse/e7997b3db01de3553d8cb208a40f3d4fd350195c/assets/example_dev_tools.png`
 1. Add to readme as an absolute reference to that image.
@@ -75,7 +75,7 @@ both why the audit is important and how to fix it.
 
 ## Tracking Errors
 
-We track our errors in the wild with Sentry. In general, do not worry about wrapping your audits or gatherers in try/catch blocks and reporting every error that could possibly occur; `lighthouse-core/runner.js` and `lighthouse-core/gather/gather-runner.js` already catch and report any errors that occur while running a gatherer or audit, including errors fatal to the entire run. However, there are some situations when you might want to expliticly handle an error and report it to Sentry or wrap it to avoid reporting. Generally, you can interact with Sentry simply by requiring the `lighthouse-core/lib/sentry.js` file and call its methods. The module exports a delegate that will correctly handle the error reporting based on the user's opt-in preference and will simply no-op if they haven't so you don't need to check.
+We track our errors in the wild with Sentry. In general, do not worry about wrapping your audits or gatherers in try/catch blocks and reporting every error that could possibly occur; `lighthouse-core/runner.js` and `lighthouse-core/gather/gather-runner.js` already catch and report any errors that occur while running a gatherer or audit, including errors fatal to the entire run. However, there are some situations when you might want to explicitly handle an error and report it to Sentry or wrap it to avoid reporting. Generally, you can interact with Sentry simply by requiring the `lighthouse-core/lib/sentry.js` file and call its methods. The module exports a delegate that will correctly handle the error reporting based on the user's opt-in preference and will simply no-op if they haven't so you don't need to check.
 
 
 #### If you have an expected error that is recoverable but want to track how frequently it happens, *use Sentry.captureException*.

@@ -12,6 +12,7 @@ module.exports = {
   extends: 'lighthouse:full',
   settings: {
     onlyAudits: [
+      'network-requests',
       'offscreen-images',
       'uses-webp-images',
       'uses-optimized-images',

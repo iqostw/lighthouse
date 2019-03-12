@@ -87,8 +87,10 @@ function getFlags(manualArgv) {
         'list-trace-categories': 'Prints a list of all required trace categories and exits',
         'additional-trace-categories':
             'Additional categories to capture with the trace (comma-delimited).',
-        'config-path': 'The path to the config JSON.',
-        'preset': 'Use a built-in configuration.',
+        'config-path': `The path to the config JSON. 
+            An example config file: lighthouse-core/config/lr-desktop-config.js`,
+        'preset': `Use a built-in configuration.
+            WARNING: If the --config-path flag is provided, this preset will be ignored.`,
         'chrome-flags':
             `Custom flags to pass to Chrome (space-delimited). For a full list of flags, see https://bit.ly/chrome-flags
             Additionally, use the CHROME_PATH environment variable to use a specific Chrome binary. Requires Chromium version 66.0 or later. If omitted, any detected Chrome Canary or Chrome stable will be used.`,
@@ -97,9 +99,12 @@ function getFlags(manualArgv) {
         'max-wait-for-load':
             'The timeout (in milliseconds) to wait before the page is considered done loading and the run should continue. WARNING: Very high values can lead to large traces and instability',
         'extra-headers': 'Set extra HTTP Headers to pass with request',
+        'precomputed-lantern-data-path': 'Path to the file where lantern simulation data should be read from, overwriting the lantern observed estimates for RTT and server latency.',
+        'lantern-data-output-path': 'Path to the file where lantern simulation data should be written to, can be used in a future run with the `precomputed-lantern-data-path` flag.',
         'only-audits': 'Only run the specified audits',
         'only-categories': 'Only run the specified categories',
         'skip-audits': 'Run everything except these audits',
+        'plugins': 'Run the specified plugins',
         'print-config': 'Print the normalized config for the given config and options, then exit.',
       })
       // set aliases
@@ -132,7 +137,11 @@ function getFlags(manualArgv) {
       .array('onlyCategories')
       .array('skipAudits')
       .array('output')
+      .array('plugins')
       .string('extraHeaders')
+      .string('channel')
+      .string('precomputedLanternDataPath')
+      .string('lanternDataOutputPath')
 
       // default values
       .default('chrome-flags', '')
@@ -140,6 +149,7 @@ function getFlags(manualArgv) {
       .default('port', 0)
       .default('hostname', 'localhost')
       .default('enable-error-reporting', undefined) // Undefined so prompted by default
+      .default('channel', 'cli')
       .check(/** @param {LH.CliFlags} argv */ (argv) => {
         // Lighthouse doesn't need a URL if...
         //   - We're just listing the available options.

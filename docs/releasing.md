@@ -46,7 +46,7 @@ yarn build-all
 
 # * Test err'thing *
 echo "Test the CLI."
-yarn start "https://example.com"
+yarn start "https://example.com" --view
 yarn smoke
 
 echo "Test the extension"

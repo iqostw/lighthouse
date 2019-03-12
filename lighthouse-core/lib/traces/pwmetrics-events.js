@@ -15,7 +15,7 @@ const log = require('lighthouse-logger');
  */
 function getUberMetrics(auditResults) {
   const metricsAudit = auditResults.metrics;
-  if (!metricsAudit || !metricsAudit.details || !metricsAudit.details.items) return;
+  if (!metricsAudit || !metricsAudit.details || !('items' in metricsAudit.details)) return;
 
   return metricsAudit.details.items[0];
 }

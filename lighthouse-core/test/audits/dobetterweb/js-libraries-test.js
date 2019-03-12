@@ -55,7 +55,7 @@ describe('Returns detected front-end JavaScript libraries', () => {
       {
         name: 'lib2',
         npm: 'lib2',
-        version: null,
+        version: undefined,
       },
     ];
     assert.equal(auditResult.rawValue, true);

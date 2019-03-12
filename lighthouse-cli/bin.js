@@ -24,15 +24,15 @@ const path = require('path');
 const commands = require('./commands/commands.js');
 const printer = require('./printer.js');
 const getFlags = require('./cli-flags.js').getFlags;
-const runLighthouse = require('./run').runLighthouse;
+const runLighthouse = require('./run.js').runLighthouse;
 const generateConfig = require('../lighthouse-core/index.js').generateConfig;
 
 const log = require('lighthouse-logger');
 const pkg = require('../package.json');
-const Sentry = require('../lighthouse-core/lib/sentry');
+const Sentry = require('../lighthouse-core/lib/sentry.js');
 
 const updateNotifier = require('update-notifier');
-const askPermission = require('./sentry-prompt').askPermission;
+const askPermission = require('./sentry-prompt.js').askPermission;
 
 /**
  * @return {boolean}
@@ -41,74 +41,85 @@ function isDev() {
   return fs.existsSync(path.join(__dirname, '../.git'));
 }
 
-// Tell user if there's a newer version of LH.
-updateNotifier({pkg}).notify();
-
-const cliFlags = getFlags();
-
-// Process terminating command
-if (cliFlags.listAllAudits) {
-  commands.listAudits();
-}
-
-// Process terminating command
-if (cliFlags.listTraceCategories) {
-  commands.listTraceCategories();
-}
-
-const url = cliFlags._[0];
-
-/** @type {LH.Config.Json|undefined} */
-let configJson;
-if (cliFlags.configPath) {
-  // Resolve the config file path relative to where cli was called.
-  cliFlags.configPath = path.resolve(process.cwd(), cliFlags.configPath);
-  configJson = /** @type {LH.Config.Json} */ (require(cliFlags.configPath));
-} else if (cliFlags.preset) {
-  if (cliFlags.preset === 'mixed-content') {
-    // The mixed-content audits require headless Chrome (https://crbug.com/764505).
-    cliFlags.chromeFlags = `${cliFlags.chromeFlags} --headless`;
-  }
-
-  configJson = require(`../lighthouse-core/config/${cliFlags.preset}-config.js`);
-}
-
-// set logging preferences
-cliFlags.logLevel = 'info';
-if (cliFlags.verbose) {
-  cliFlags.logLevel = 'verbose';
-} else if (cliFlags.quiet) {
-  cliFlags.logLevel = 'silent';
-}
-log.setLevel(cliFlags.logLevel);
-
-if (
-  cliFlags.output.length === 1 &&
-  cliFlags.output[0] === printer.OutputMode.json &&
-  !cliFlags.outputPath
-) {
-  cliFlags.outputPath = 'stdout';
-}
-
-if (cliFlags.extraHeaders) {
-  // TODO: LH.Flags.extraHeaders is actually a string at this point, but needs to be
-  // copied over to LH.Settings.extraHeaders, which is LH.Crdp.Network.Headers. Force
-  // the conversion here, but long term either the CLI flag or the setting should have
-  // a different name.
-  // @ts-ignore
-  let extraHeadersStr = /** @type {string} */ (cliFlags.extraHeaders);
-  // If not a JSON object, assume it's a path to a JSON file.
-  if (extraHeadersStr.substr(0, 1) !== '{') {
-    extraHeadersStr = fs.readFileSync(extraHeadersStr, 'utf-8');
-  }
-
-  cliFlags.extraHeaders = JSON.parse(extraHeadersStr);
-}
-
 /**
  * @return {Promise<LH.RunnerResult|void>}
  */
 async function begin() {
+  // Tell user if there's a newer version of LH.
+  updateNotifier({pkg}).notify();
+
+  const cliFlags = getFlags();
+
+  // Process terminating command
+  if (cliFlags.listAllAudits) {
+    commands.listAudits();
+  }
+
+  // Process terminating command
+  if (cliFlags.listTraceCategories) {
+    commands.listTraceCategories();
+  }
+
+  const url = cliFlags._[0];
+
+  /** @type {LH.Config.Json|undefined} */
+  let configJson;
+  if (cliFlags.configPath) {
+    // Resolve the config file path relative to where cli was called.
+    cliFlags.configPath = path.resolve(process.cwd(), cliFlags.configPath);
+    configJson = /** @type {LH.Config.Json} */ (require(cliFlags.configPath));
+  } else if (cliFlags.preset) {
+    if (cliFlags.preset === 'mixed-content') {
+      // The mixed-content audits require headless Chrome (https://crbug.com/764505).
+      cliFlags.chromeFlags = `${cliFlags.chromeFlags} --headless`;
+    }
+
+    configJson = require(`../lighthouse-core/config/${cliFlags.preset}-config.js`);
+  }
+
+  // set logging preferences
+  cliFlags.logLevel = 'info';
+  if (cliFlags.verbose) {
+    cliFlags.logLevel = 'verbose';
+  } else if (cliFlags.quiet) {
+    cliFlags.logLevel = 'silent';
+  }
+  log.setLevel(cliFlags.logLevel);
+
+  if (
+    cliFlags.output.length === 1 &&
+    cliFlags.output[0] === printer.OutputMode.json &&
+    !cliFlags.outputPath
+  ) {
+    cliFlags.outputPath = 'stdout';
+  }
+
+  if (cliFlags.extraHeaders) {
+    // TODO: LH.Flags.extraHeaders is actually a string at this point, but needs to be
+    // copied over to LH.Settings.extraHeaders, which is LH.Crdp.Network.Headers. Force
+    // the conversion here, but long term either the CLI flag or the setting should have
+    // a different name.
+    // @ts-ignore
+    let extraHeadersStr = /** @type {string} */ (cliFlags.extraHeaders);
+    // If not a JSON object, assume it's a path to a JSON file.
+    if (extraHeadersStr.substr(0, 1) !== '{') {
+      extraHeadersStr = fs.readFileSync(extraHeadersStr, 'utf-8');
+    }
+
+    cliFlags.extraHeaders = JSON.parse(extraHeadersStr);
+  }
+
+  if (cliFlags.precomputedLanternDataPath) {
+    const lanternDataStr = fs.readFileSync(cliFlags.precomputedLanternDataPath, 'utf8');
+    /** @type {LH.PrecomputedLanternData} */
+    const data = JSON.parse(lanternDataStr);
+    if (!data.additionalRttByOrigin || !data.serverResponseTimeByOrigin) {
+      throw new Error('Invalid precomputed lantern data file');
+    }
+
+    cliFlags.precomputedLanternData = data;
+  }
+
   if (cliFlags.printConfig) {
     const config = generateConfig(configJson, cliFlags);
     process.stdout.write(config.getPrintString());

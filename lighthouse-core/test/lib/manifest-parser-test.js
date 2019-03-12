@@ -455,4 +455,99 @@ describe('Manifest Parser', function() {
       assert.equal(url0, undefined);
     });
   });
+
+  describe('background_color, theme_color', () => {
+    /**
+     * Create a manifest with the specified colors and return the parsed result.
+     * @param {string} backgroundColor
+     * @param {string} themeColor
+     */
+    function getParsedManifest(backgroundColor, themeColor) {
+      return manifestParser(`{
+        "background_color": "${backgroundColor}",
+        "theme_color": "${themeColor}"
+      }`, EXAMPLE_MANIFEST_URL, EXAMPLE_DOC_URL);
+    }
+
+    it('correctly parses hex colors', () => {
+      const bgColor = '#123';
+      const themeColor = '#1a5e25';
+      const parsedManifest = getParsedManifest(bgColor, themeColor).value;
+
+      assert.strictEqual(parsedManifest.background_color.value, bgColor);
+      assert.strictEqual(parsedManifest.background_color.warning, undefined);
+      assert.strictEqual(parsedManifest.theme_color.value, themeColor);
+      assert.strictEqual(parsedManifest.theme_color.warning, undefined);
+    });
+
+    it('correctly parses CSS3 and CSS4 nickname colors', () => {
+      const bgColor = 'cornflowerblue';
+      const themeColor = 'rebeccapurple'; // <3
+      const parsedManifest = getParsedManifest(bgColor, themeColor).value;
+
+      assert.strictEqual(parsedManifest.background_color.value, bgColor);
+      assert.strictEqual(parsedManifest.background_color.warning, undefined);
+      assert.strictEqual(parsedManifest.theme_color.value, themeColor);
+      assert.strictEqual(parsedManifest.theme_color.warning, undefined);
+    });
+
+    it('correctly parses RGB/RGBA colors', () => {
+      const bgColor = 'rgb(222, 184, 135)';
+      const themeColor = 'rgba(5%, 10%, 20%, 0.4)';
+      const parsedManifest = getParsedManifest(bgColor, themeColor).value;
+
+      assert.strictEqual(parsedManifest.background_color.value, bgColor);
+      assert.strictEqual(parsedManifest.background_color.warning, undefined);
+      assert.strictEqual(parsedManifest.theme_color.value, themeColor);
+      assert.strictEqual(parsedManifest.theme_color.warning, undefined);
+    });
+
+    it('correctly parses HSL/HSLA colors', () => {
+      const bgColor = 'hsl(120, 100%, 50%)';
+      const themeColor = 'hsla(120, 20%, 56%, 0.4)';
+      const parsedManifest = getParsedManifest(bgColor, themeColor).value;
+
+      assert.strictEqual(parsedManifest.background_color.value, bgColor);
+      assert.strictEqual(parsedManifest.background_color.warning, undefined);
+      assert.strictEqual(parsedManifest.theme_color.value, themeColor);
+      assert.strictEqual(parsedManifest.theme_color.warning, undefined);
+    });
+
+    it('warns on invalid colors', () => {
+      const bgColor = 'notarealcolor';
+      const themeColor = '#0123456789';
+      const parsedManifest = getParsedManifest(bgColor, themeColor).value;
+
+      assert.deepStrictEqual(parsedManifest.background_color, {
+        raw: bgColor,
+        value: undefined,
+        warning: 'ERROR: color parsing failed.',
+      });
+      assert.deepStrictEqual(parsedManifest.theme_color, {
+        raw: themeColor,
+        value: undefined,
+        warning: 'ERROR: color parsing failed.',
+      });
+    });
+
+    it('warns when colors are not strings', () => {
+      const bgColor = 15;
+      const themeColor = false;
+      const parsedManifest = manifestParser(`{
+        "background_color": ${bgColor},
+        "theme_color": ${themeColor}
+      }`, EXAMPLE_MANIFEST_URL, EXAMPLE_DOC_URL).value;
+
+      assert.deepStrictEqual(parsedManifest.background_color, {
+        raw: bgColor,
+        value: undefined,
+        warning: 'ERROR: expected a string.',
+      });
+      assert.deepStrictEqual(parsedManifest.theme_color, {
+        raw: themeColor,
+        value: undefined,
+        warning: 'ERROR: expected a string.',
+      });
+    });
+  });
 });

@@ -33,7 +33,7 @@ class SplashScreen extends MultiCheckAudit {
       description: 'A themed splash screen ensures a high-quality experience when ' +
           'users launch your app from their homescreens. [Learn ' +
           'more](https://developers.google.com/web/tools/lighthouse/audits/custom-splash-screen).',
-      requiredArtifacts: ['Manifest'],
+      requiredArtifacts: ['WebAppManifest'],
     };
   }
 
@@ -72,7 +72,7 @@ class SplashScreen extends MultiCheckAudit {
     /** @type {Array<string>} */
     const failures = [];
 
-    const manifestValues = await ManifestValues.request(artifacts.Manifest, context);
+    const manifestValues = await ManifestValues.request(artifacts.WebAppManifest, context);
     SplashScreen.assessManifest(manifestValues, failures);
 
     return {

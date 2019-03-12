@@ -7,24 +7,19 @@
 
 /* eslint-env jest */
 
-const OptimizedImages =
-    require('../../../../gather/gatherers/dobetterweb/optimized-images');
-const assert = require('assert');
+const OptimizedImages = require('../../../../gather/gatherers/dobetterweb/optimized-images');
 
 let options;
 let optimizedImages;
-const fakeImageStats = {
-  jpeg: {base64: 100, binary: 80},
-  webp: {base64: 80, binary: 60},
-};
+
 const traceData = {
   networkRecords: [
     {
       requestId: '1',
       url: 'http://google.com/image.jpg',
       mimeType: 'image/jpeg',
-      resourceSize: 10000,
-      transferSize: 20000,
+      resourceSize: 10000000,
+      transferSize: 20000000,
       resourceType: 'Image',
       finished: true,
     },
@@ -110,79 +105,67 @@ describe('Optimized images', () => {
     options = {
       url: 'http://google.com/',
       driver: {
-        evaluateAsync: function() {
-          return Promise.resolve(fakeImageStats);
-        },
-        sendCommand: function() {
-          return Promise.reject(new Error('wasn\'t found'));
+        sendCommand: function(command, params) {
+          const encodedSize = params.encoding === 'webp' ? 60 : 80;
+          return Promise.resolve({encodedSize});
         },
       },
     };
   });
 
-  it('returns all images', () => {
-    return optimizedImages.afterPass(options, traceData).then(artifact => {
-      assert.equal(artifact.length, 4);
-      assert.ok(/image.jpg/.test(artifact[0].url));
-      assert.ok(/transparent.png/.test(artifact[1].url));
-      assert.ok(/image.bmp/.test(artifact[2].url));
-      // skip cross-origin for now
-      // assert.ok(/gmail.*image.jpg/.test(artifact[3].url));
-      assert.ok(/data: image/.test(artifact[3].url));
-    });
-  });
-
-  it('computes sizes', () => {
-    const checkSizes = (stat, original, webp, jpeg) => {
-      assert.equal(stat.originalSize, original);
-      assert.equal(stat.webpSize, webp);
-      assert.equal(stat.jpegSize, jpeg);
-    };
-
-    return optimizedImages.afterPass(options, traceData).then(artifact => {
-      assert.equal(artifact.length, 4);
-      checkSizes(artifact[0], 10000, 60, 80);
-      checkSizes(artifact[1], 11000, 60, 80);
-      checkSizes(artifact[2], 9000, 60, 80);
-      // skip cross-origin for now
-      // checkSizes(artifact[3], 15000, 60, 80);
-      checkSizes(artifact[3], 20, 80, 100); // uses base64 data
-    });
+  it('returns all images, sorted with sizes', async () => {
+    const artifact = await optimizedImages.afterPass(options, traceData);
+    expect(artifact).toHaveLength(5);
+    expect(artifact).toMatchObject([
+      {
+        jpegSize: undefined,
+        webpSize: undefined,
+        originalSize: 10000000,
+        url: 'http://google.com/image.jpg',
+      },
+      {
+        jpegSize: 80,
+        webpSize: 60,
+        originalSize: 15000,
+        url: 'http://gmail.com/image.jpg',
+      },
+      {
+        jpegSize: 80,
+        webpSize: 60,
+        originalSize: 14000,
+        url: 'data: image/jpeg ; base64 ,SgVcAT32587935321...',
+      },
+      {
+        jpegSize: 80,
+        webpSize: 60,
+        originalSize: 11000,
+        url: 'http://google.com/transparent.png',
+      },
+      {
+        jpegSize: 80,
+        webpSize: 60,
+        originalSize: 9000,
+        url: 'http://google.com/image.bmp',
+      },
+    ]);
   });
 
   it('handles partial driver failure', () => {
     let calls = 0;
-    options.driver.evaluateAsync = () => {
+    options.driver.sendCommand = () => {
       calls++;
       if (calls > 2) {
         return Promise.reject(new Error('whoops driver failed'));
       } else {
-        return Promise.resolve(fakeImageStats);
+        return Promise.resolve({encodedSize: 60});
       }
     };
 
     return optimizedImages.afterPass(options, traceData).then(artifact => {
       const failed = artifact.find(record => record.failed);
 
-      assert.equal(artifact.length, 4);
-      assert.ok(failed, 'passed along failure');
-      assert.ok(/whoops/.test(failed.errMsg), 'passed along error message');
-    });
-  });
-
-  it('supports Audits.getEncodedResponse', () => {
-    options.driver.sendCommand = (method, params) => {
-      const encodedSize = params.encoding === 'webp' ? 60 : 80;
-      return Promise.resolve({encodedSize});
-    };
-
-    return optimizedImages.afterPass(options, traceData).then(artifact => {
-      assert.equal(artifact.length, 5);
-      assert.equal(artifact[0].originalSize, 10000);
-      assert.equal(artifact[0].webpSize, 60);
-      assert.equal(artifact[0].jpegSize, 80);
-      // supports cross-origin
-      assert.ok(/gmail.*image.jpg/.test(artifact[3].url));
+      expect(artifact).toHaveLength(5);
+      expect(failed && failed.errMsg).toEqual('whoops driver failed');
     });
   });
 

@@ -190,7 +190,7 @@ describe('Cache headers audit', () => {
 
   it('ignores assets where policy implies they should not be cached long periods', () => {
     const networkRecords = [
-      networkRecord({headers: {'cache-control': 'must-validate'}}),
+      networkRecord({headers: {'cache-control': 'must-revalidate'}}),
       networkRecord({headers: {'cache-control': 'no-cache'}}),
       networkRecord({headers: {'cache-control': 'private'}}),
     ];

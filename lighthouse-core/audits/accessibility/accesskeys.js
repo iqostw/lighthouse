@@ -6,15 +6,18 @@
 'use strict';
 
 /**
- * @fileoverview Manual a11y audit to remind to check every accesskey attribute value is unique.
+ * @fileoverview Ensures accesskey values are unique.
+ * See base class in axe-audit.js for audit() implementation.
  */
 
-const Audit = require('../../audit.js');
-const i18n = require('../../../lib/i18n/i18n.js');
+const AxeAudit = require('./axe-audit.js');
+const i18n = require('../../lib/i18n/i18n.js');
 
 const UIStrings = {
   /** Title of an accesibility audit that evaluates if the accesskey HTML attribute values are unique across all elements. This title is descriptive of the successful state and is shown to users when no user action is required. */
   title: '`[accesskey]` values are unique',
+  /** Title of an accesibility audit that evaluates if the ARIA HTML attributes are misaligned with the aria-role HTML attribute specificed on the element, such mismatches are invalid. This title is descriptive of the failing state and is shown to users when there is a failure that needs to be addressed. */
+  failureTitle: '`[accesskey]` values are not unique',
   /** Description of a Lighthouse audit that tells the user *why* they should try to pass. This is displayed after a user expands the section to see more. No character length limits. 'Learn More' becomes link text to additional documentation. */
   description: 'Access keys let users quickly focus a part of the page. For proper ' +
       'navigation, each access key must be unique. ' +
@@ -23,7 +26,7 @@ const UIStrings = {
 
 const str_ = i18n.createMessageInstanceIdFn(__filename, UIStrings);
 
-class Accesskeys extends Audit {
+class Accesskeys extends AxeAudit {
   /**
    * @return {LH.Audit.Meta}
    */
@@ -31,17 +34,10 @@ class Accesskeys extends Audit {
     return {
       id: 'accesskeys',
       title: str_(UIStrings.title),
+      failureTitle: str_(UIStrings.failureTitle),
       description: str_(UIStrings.description),
-      scoreDisplayMode: Audit.SCORING_MODES.MANUAL,
-      requiredArtifacts: [],
+      requiredArtifacts: ['Accessibility'],
     };
-  }
-
-  /**
-   * @return {LH.Audit.Product}
-   */
-  static audit() {
-    return {rawValue: false};
   }
 }
 

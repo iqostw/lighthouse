@@ -15,6 +15,7 @@ const dbwTrace = require('../results/artifacts/defaultPass.trace.json');
 const dbwResults = require('../results/sample_v2.json');
 const Audit = require('../../audits/audit.js');
 const fullTraceObj = require('../fixtures/traces/progressive-app-m60.json');
+const devtoolsLog = require('../fixtures/traces/progressive-app-m60.devtools.log.json');
 
 // deepStrictEqual can hang on a full trace, we assert trace same-ness like so
 function assertTraceEventsEqual(traceEventsA, traceEventsB) {
@@ -163,6 +164,33 @@ describe('asset-saver helper', () => {
       assert.strictEqual(artifacts.URL.requestedUrl, 'https://www.reddit.com/r/nba');
       assert.strictEqual(artifacts.devtoolsLogs.defaultPass.length, 555);
       assert.strictEqual(artifacts.traces.defaultPass.traceEvents.length, 12);
+    });
+  });
+
+  describe('saveLanternNetworkData', () => {
+    const outputFilename = 'test-lantern-network-data.json';
+
+    afterEach(() => {
+      fs.unlinkSync(outputFilename);
+    });
+
+    it('saves the network analysis to disk', async () => {
+      await assetSaver.saveLanternNetworkData(devtoolsLog, outputFilename);
+
+      const results = JSON.parse(fs.readFileSync(outputFilename, 'utf8'));
+
+      expect(results).toEqual({
+        additionalRttByOrigin: {
+          'https://pwa.rocks': expect.any(Number),
+          'https://www.google-analytics.com': expect.any(Number),
+          'https://www.googletagmanager.com': expect.any(Number),
+        },
+        serverResponseTimeByOrigin: {
+          'https://pwa.rocks': expect.any(Number),
+          'https://www.google-analytics.com': expect.any(Number),
+          'https://www.googletagmanager.com': expect.any(Number),
+        },
+      });
     });
   });
 });

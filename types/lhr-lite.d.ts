@@ -70,48 +70,9 @@ declare global {
         /** An explanation of audit-related issues encountered on the test page. */
         explanation?: string;
         /** Extra information provided by some types of audits. */
-        details?: Audit.MetricDetails | Audit.OpportunityDetails;
+        details?: never;
         /** Error message from any exception thrown while running this audit. */
         errorMessage?: string;
-      }
-
-      export module Audit {
-        export interface MetricDetails {
-          type: 'metric';
-          /** The value of the metric expressed in milliseconds. */
-          timespanMs?: number;
-        }
-
-        export interface OpportunityDetails {
-          type: 'opportunity';
-          overallSavingsMs: number
-          overallSavingsBytes?: number
-          headings: ColumnHeading[];
-          items: (WastedBytesDetailsItem | WastedTimeDetailsItem)[];
-        }
-
-        export interface ColumnHeading {
-          /** The property key name within DetailsItem being described. */
-          key: string;
-          /** Readable text label of the field. */
-          label: string;
-          // TODO(bckenny): should be just string and let lhr be more specific?
-          valueType: 'url' | 'timespanMs' | 'bytes' | 'thumbnail';
-        }
-
-        export interface WastedBytesDetailsItem {
-          url: string;
-          wastedBytes?: number;
-          totalBytes?: number;
-          [p: string]: number | boolean | string | undefined;
-        }
-
-        export interface WastedTimeDetailsItem {
-          url: string;
-          wastedMs: number;
-          totalBytes?: number;
-          [p: string]: number | boolean | string | undefined;
-        }
       }
     }
   }

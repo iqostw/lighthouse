@@ -18,7 +18,7 @@
 
 /* globals URL self */
 
-/** @typedef {HTMLElementTagNameMap & {[id: string]: HTMLElement}} HTMLElmentByTagName */
+/** @typedef {HTMLElementTagNameMap & {[id: string]: HTMLElement}} HTMLElementByTagName */
 
 class DOM {
   /**
@@ -36,7 +36,7 @@ class DOM {
    * @param {Object<string, (string|undefined)>=} attrs Attribute key/val pairs.
    *     Note: if an attribute key has an undefined value, this method does not
    *     set the attribute on the node.
-   * @return {HTMLElmentByTagName[T]}
+   * @return {HTMLElementByTagName[T]}
    */
   createElement(name, className, attrs = {}) {
     const element = this._document.createElement(name);
@@ -67,7 +67,7 @@ class DOM {
    * @param {Object<string, (string|undefined)>=} attrs Attribute key/val pairs.
    *     Note: if an attribute key has an undefined value, this method does not
    *     set the attribute on the node.
-   * @return {HTMLElmentByTagName[T]}
+   * @return {HTMLElementByTagName[T]}
    */
   createChildOf(parentElem, elementName, className, attrs) {
     const element = this.createElement(elementName, className, attrs);

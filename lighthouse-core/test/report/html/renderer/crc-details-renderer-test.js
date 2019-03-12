@@ -23,7 +23,6 @@ const superLongURL =
     'https://example.com/thisIsASuperLongURLThatWillTriggerFilenameTruncationWhichWeWantToTest.js';
 const DETAILS = {
   type: 'criticalrequestchain',
-  header: {type: 'text', text: 'CRC Header'},
   chains: {
     0: {
       request: {

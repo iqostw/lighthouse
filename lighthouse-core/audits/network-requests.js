@@ -46,12 +46,14 @@ class NetworkRequests extends Audit {
           startTime: timeToMs(record.startTime),
           endTime: timeToMs(record.endTime),
           transferSize: record.transferSize,
+          resourceSize: record.resourceSize,
           statusCode: record.statusCode,
           mimeType: record.mimeType,
           resourceType: record.resourceType,
         };
       });
 
+      /** @type {LH.Audit.Details.Table['headings']} */
       const headings = [
         {key: 'url', itemType: 'url', text: 'URL'},
         {key: 'startTime', itemType: 'ms', granularity: 1, text: 'Start Time'},
@@ -62,6 +64,13 @@ class NetworkRequests extends Audit {
           displayUnit: 'kb',
           granularity: 1,
           text: 'Transfer Size',
+        },
+        {
+          key: 'resourceSize',
+          itemType: 'bytes',
+          displayUnit: 'kb',
+          granularity: 1,
+          text: 'Resource Size',
         },
         {key: 'statusCode', itemType: 'text', text: 'Status Code'},
         {key: 'mimeType', itemType: 'text', text: 'MIME Type'},

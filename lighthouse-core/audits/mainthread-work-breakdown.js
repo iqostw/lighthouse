@@ -105,6 +105,7 @@ class MainThreadWorkBreakdown extends Audit {
       };
     });
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'groupLabel', itemType: 'text', text: str_(UIStrings.columnCategory)},
       {key: 'duration', itemType: 'ms', granularity: 1, text: str_(i18n.UIStrings.columnTimeSpent)},

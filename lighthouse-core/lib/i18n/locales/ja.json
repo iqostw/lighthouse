@@ -1,4 +1,322 @@
 {
+  "lighthouse-core/audits/accessibility/accesskeys.js | description": {
+    "message": "アクセスキーを使用すると、ユーザーがページの特定の部分にすばやくフォーカスを移動できるようになります。このナビゲーション機能が正しく動作するためには、各アクセスキーを一意にする必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/accesskeys?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | failureTitle": {
+    "message": "`[accesskey]` の値が一意ではありません"
+  },
+  "lighthouse-core/audits/accessibility/accesskeys.js | title": {
+    "message": "`[accesskey]` の値は一意です"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | description": {
+    "message": "各 ARIA `role` は、`aria-*` 属性の特定のサブセットに対応しています。これらが一致しない場合、`aria-*` 属性は無効になります。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-allowed-attr?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | failureTitle": {
+    "message": "`[aria-*]` 属性は役割と一致していません"
+  },
+  "lighthouse-core/audits/accessibility/aria-allowed-attr.js | title": {
+    "message": "`[aria-*]` 属性は役割と一致しています"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | description": {
+    "message": "一部の ARIA 役割には、要素の状態をスクリーン リーダーに説明する必須の属性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-required-attr?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | failureTitle": {
+    "message": "`[role]` に必須の `[aria-*]` 属性が一部指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-attr.js | title": {
+    "message": "`[role]` に必須の `[aria-*]` 属性がすべて指定されています"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | description": {
+    "message": "想定されるユーザー補助機能が動作するためには、一部の ARIA 親役割は、特定の子役割を含んでいる必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-required-children?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | failureTitle": {
+    "message": "特定の子 `[role]` を必要とする `[role]` を指定した要素が見つかりません。"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-children.js | title": {
+    "message": "特定の子 `[role]` を必要とする `[role]` を指定した要素があります"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | description": {
+    "message": "想定されるユーザー補助機能が適切に動作するためには、一部の ARIA 子役割は、特定の親役割に含まれている必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-required-parent?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | failureTitle": {
+    "message": "`[role]` が必須の親要素に含まれていません"
+  },
+  "lighthouse-core/audits/accessibility/aria-required-parent.js | title": {
+    "message": "`[role]` は必須の親要素に含まれています"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | description": {
+    "message": "想定されるユーザー補助機能が動作するためには、ARIA 役割に有効な値が指定されている必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-roles?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | failureTitle": {
+    "message": "`[role]` の値は無効です"
+  },
+  "lighthouse-core/audits/accessibility/aria-roles.js | title": {
+    "message": "`[role]` の値は有効です"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | description": {
+    "message": "支援技術（スクリーン リーダーなど）では、無効な値が指定された ARIA 属性を解釈することができません。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr-value?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | failureTitle": {
+    "message": "`[aria-*]` 属性に有効な値が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr-value.js | title": {
+    "message": "`[aria-*]` 属性に有効な値が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | description": {
+    "message": "支援技術（スクリーン リーダーなど）では、無効な名前が指定された ARIA 属性を解釈することができません。[詳細](https://dequeuniversity.com/rules/axe/2.2/aria-valid-attr?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | failureTitle": {
+    "message": "`[aria-*]` 属性は無効か、スペルミスがあります"
+  },
+  "lighthouse-core/audits/accessibility/aria-valid-attr.js | title": {
+    "message": "`[aria-*]` 属性は有効で、スペルミスもありません"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | description": {
+    "message": "字幕を使用すると、聴覚障がいのあるユーザーが音声要素を利用できるようになります。話している人物やその内容、その他の会話以外の情報など、重要な情報を字幕で伝えることができます。[詳細](https://dequeuniversity.com/rules/axe/2.2/audio-caption?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | failureTitle": {
+    "message": "`<audio>` 要素に `[kind=\"captions\"]` が指定された `<track>` 要素がありません。"
+  },
+  "lighthouse-core/audits/accessibility/audio-caption.js | title": {
+    "message": "`<audio>` 要素に `[kind=\"captions\"]` が指定された `<track>` 要素が含まれています"
+  },
+  "lighthouse-core/audits/accessibility/axe-audit.js | failingElementsHeader": {
+    "message": "問題のある要素"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | description": {
+    "message": "ボタンにユーザー補助機能名が指定されていない場合、スクリーン リーダーでは「ボタン」と読み上げられるため、スクリーン リーダーを使用しているユーザーはボタンの用途がわからず、使用することができなくなります。[詳細](https://dequeuniversity.com/rules/axe/2.2/button-name?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | failureTitle": {
+    "message": "ボタンにユーザー補助機能名が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/button-name.js | title": {
+    "message": "ボタンにユーザー補助機能名が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | description": {
+    "message": "重複するコンテンツをスキップする手段を追加すると、キーボードを使ったページの移動を効率化できます。[詳細](https://dequeuniversity.com/rules/axe/2.2/bypass?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | failureTitle": {
+    "message": "ページに見出し、スキップリンク、またはランドマーク領域が設定されていません"
+  },
+  "lighthouse-core/audits/accessibility/bypass.js | title": {
+    "message": "ページに見出し、スキップリンク、またはランドマーク領域が設定されています"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | description": {
+    "message": "低コントラストのテキストを使用すると、多くのユーザーは読むことが困難または不可能になります。[詳細](https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | failureTitle": {
+    "message": "背景色と前景色には十分なコントラスト比がありません"
+  },
+  "lighthouse-core/audits/accessibility/color-contrast.js | title": {
+    "message": "背景色と前景色には十分なコントラスト比があります"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | description": {
+    "message": "定義リストが適切にマークアップされていない場合、スクリーン リーダーでは、わかりにくく、不正確な内容が読み上げられる可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/definition-list?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | failureTitle": {
+    "message": "`<dl>` には、正しく順序付けられた `<dt>` および `<dd>` グループ、`<script>` または `<template>` 要素以外も含まれています。"
+  },
+  "lighthouse-core/audits/accessibility/definition-list.js | title": {
+    "message": "`<dl>` には、正しく順序付けられた `<dt>` および `<dd>` グループ、`<script>` または `<template>` 要素のみが含まれています。"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | description": {
+    "message": "スクリーン リーダーで定義リストが正しく読み上げられるようにするには、定義リストの項目（`<dt>` と `<dd>`）を親の `<dl>` 要素でラップする必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/dlitem?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | failureTitle": {
+    "message": "定義リストの項目が `<dl>` 要素でラップされていません"
+  },
+  "lighthouse-core/audits/accessibility/dlitem.js | title": {
+    "message": "定義リストの項目は `<dl>` 要素でラップされています"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | description": {
+    "message": "タイトルを指定すると、スクリーン リーダーのユーザーがページの概要を把握できるようになります。検索エンジンの使用時には、検索語句に関連するページかどうかを判断するための重要な要素となります。[詳細](https://developers.google.com/web/tools/lighthouse/audits/title)"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | failureTitle": {
+    "message": "ドキュメントに `<title>` 要素が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/document-title.js | title": {
+    "message": "ドキュメントに `<title>` 要素が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | description": {
+    "message": "他のインスタンスが支援技術によって見落とされることのないように、id 属性の値は一意にする必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/duplicate-id?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | failureTitle": {
+    "message": "ページの `[id]` 属性が一意ではありません"
+  },
+  "lighthouse-core/audits/accessibility/duplicate-id.js | title": {
+    "message": "ページの `[id]` 属性は一意です"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | description": {
+    "message": "スクリーン リーダーでは、フレームのコンテンツを説明するためにフレームのタイトルが使用されます。[詳細](https://dequeuniversity.com/rules/axe/2.2/frame-title?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | failureTitle": {
+    "message": "`<frame>` または `<iframe>` の要素にタイトルが指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/frame-title.js | title": {
+    "message": "`<frame>` または `<iframe>` の要素にタイトルが指定されています"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | description": {
+    "message": "ページの lang 属性が指定されていない場合、スクリーン リーダーでは、スクリーン リーダーの設定時にユーザーが選択したデフォルト言語がページで使用されているものとみなされます。そのページでデフォルト言語が実際には使用されていない場合、スクリーン リーダーはページのテキストを正しく読み上げられない可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/html-lang?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | failureTitle": {
+    "message": "`<html>` 要素に `[lang]` 属性が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/html-has-lang.js | title": {
+    "message": "`<html>` 要素に `[lang]` 属性が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | description": {
+    "message": "有効な [BCP 47 言語](https://www.w3.org/International/questions/qa-choosing-language-tags#question) を指定すると、スクリーン リーダーでテキストが正しく読み上げられるようになります。[詳細](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | failureTitle": {
+    "message": "`<html>` 要素の `[lang]` 属性に有効な値が指定されていません。"
+  },
+  "lighthouse-core/audits/accessibility/html-lang-valid.js | title": {
+    "message": "`<html>` 要素の `[lang]` 属性に有効な値が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | description": {
+    "message": "説明的要素は、簡潔でわかりやすい代替テキストにする必要があります。装飾的要素は、alt 属性が空の場合は無視される可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/image-alt?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | failureTitle": {
+    "message": "画像要素に `[alt]` 属性が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/image-alt.js | title": {
+    "message": "画像要素に `[alt]` 属性が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | description": {
+    "message": "画像を `<input>` ボタンとして使用している場合は、代替テキストを指定すると、スクリーン リーダーのユーザーがボタンの用途を理解しやすくなります。[詳細](https://dequeuniversity.com/rules/axe/2.2/input-image-alt?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | failureTitle": {
+    "message": "`<input type=\"image\">` 要素に `[alt]` テキストが指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/input-image-alt.js | title": {
+    "message": "`<input type=\"image\">` 要素に `[alt]` テキストが指定されています"
+  },
+  "lighthouse-core/audits/accessibility/label.js | description": {
+    "message": "ラベルを使用すると、フォームの各コントロールが支援技術（スクリーン リーダーなど）によって正しく読み上げられるようになります。[詳細](https://dequeuniversity.com/rules/axe/2.2/label?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/label.js | failureTitle": {
+    "message": "フォームの要素にラベルが関連付けられていません"
+  },
+  "lighthouse-core/audits/accessibility/label.js | title": {
+    "message": "フォームの要素にラベルが関連付けられています"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | description": {
+    "message": "レイアウト目的で表を使用している場合は、th や caption 要素、あるいは summary 属性などのデータ要素を含めないでください。これらを含めると、スクリーン リーダーの操作が紛らわしくなる可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/layout-table?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | failureTitle": {
+    "message": "レイアウト用の `<table>` 要素で、`<th>`、`<caption>`、または `[summary]` 属性が使用されています。"
+  },
+  "lighthouse-core/audits/accessibility/layout-table.js | title": {
+    "message": "レイアウト用の `<table>` 要素で、`<th>`、`<caption>`、または `[summary]` 属性は使用されていません。"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | description": {
+    "message": "識別可能、フォーカス可能な一意のリンクテキスト（および画像をリンクとして使用している場合はその代替テキスト）を使用すると、スクリーン リーダーでのナビゲーションの操作性が向上します。[詳細](https://dequeuniversity.com/rules/axe/2.2/link-name?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | failureTitle": {
+    "message": "リンクに識別可能な名前が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/link-name.js | title": {
+    "message": "リンクに識別可能な名前が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/list.js | description": {
+    "message": "スクリーン リーダーでは、特殊な方法でリストが読み上げられます。適切に読み上げられるようにするには、リスト構造が正しくなければなりません。[詳細](https://dequeuniversity.com/rules/axe/2.2/list?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/list.js | failureTitle": {
+    "message": "リストには、`<li>` 要素と、要素をサポートするスクリプト（`<script>` と `<template>`）以外も含まれています。"
+  },
+  "lighthouse-core/audits/accessibility/list.js | title": {
+    "message": "リストには、`<li>` 要素と、要素をサポートするスクリプト（`<script>` と `<template>`）のみが含まれています。"
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | description": {
+    "message": "スクリーン リーダーで正しく読み上げられるようにするには、リスト項目（`<li>`）が親の `<ul>` または `<ol>` 内に含まれている必要があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/listitem?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | failureTitle": {
+    "message": "リスト項目（`<li>`）が `<ul>` または `<ol>` の親要素に含まれていません。"
+  },
+  "lighthouse-core/audits/accessibility/listitem.js | title": {
+    "message": "リスト項目（`<li>`）は `<ul>` または `<ol>` の親要素に含まれています"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | description": {
+    "message": "ユーザーはページの自動更新を想定していません。また、更新により、フォーカスがページ上部に移動してしまうため、ユーザーは不便さや紛らわしさを感じる可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/meta-refresh?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | failureTitle": {
+    "message": "ドキュメントで `<meta http-equiv=\"refresh\">` が使用されています"
+  },
+  "lighthouse-core/audits/accessibility/meta-refresh.js | title": {
+    "message": "ドキュメントで `<meta http-equiv=\"refresh\">` が使用されていません"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | description": {
+    "message": "ズーム機能を無効にすると、ウェブページのコンテンツがよく見えるように画面の拡大機能を使っている視力の弱いユーザーは、コンテンツを確認できなくなります。[詳細](https://dequeuniversity.com/rules/axe/2.2/meta-viewport?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | failureTitle": {
+    "message": "`[user-scalable=\"no\"]` が `<meta name=\"viewport\">` 要素で使用されているか、`[maximum-scale]` 属性が 5 未満に指定されています。"
+  },
+  "lighthouse-core/audits/accessibility/meta-viewport.js | title": {
+    "message": "`[user-scalable=\"no\"]` は `<meta name=\"viewport\">` 要素で使用されておらず、`[maximum-scale]` 属性も 5 未満ではありません。"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | description": {
+    "message": "スクリーン リーダーでは、テキスト以外のコンテンツを解釈することはできません。`<object>` 要素に代替テキストを追加することで、スクリーン リーダーからユーザーに意味を伝えられるようになります。[詳細](https://dequeuniversity.com/rules/axe/2.2/object-alt?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | failureTitle": {
+    "message": "`<object>` 要素に `[alt]` テキストが指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/object-alt.js | title": {
+    "message": "`<object>` 要素に `[alt]` テキストが指定されています"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | description": {
+    "message": "値が 0 より大きい場合は、明示的なナビゲーション順序を示します。技術的には有効ですが、多くの場合、支援技術を使用しているユーザーにとって利便性が低下します。[詳細](https://dequeuniversity.com/rules/axe/2.2/tabindex?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | failureTitle": {
+    "message": "一部の要素で `[tabindex]` に 0 より大きい値が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/tabindex.js | title": {
+    "message": "`[tabindex]` に 0 より大きい値を指定している要素はありません"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | description": {
+    "message": "スクリーン リーダーには、表内の移動を補助する機能があります。`[headers]` 属性を使用している `<td>` セルが同じ表の他のセルのみを参照するように設定すると、スクリーン リーダーの利便性が向上する可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/td-headers-attr?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | failureTitle": {
+    "message": "`[headers]` 属性を使用している `<table>` 要素内のセルは、同じ表の他のセルを参照しています。"
+  },
+  "lighthouse-core/audits/accessibility/td-headers-attr.js | title": {
+    "message": "`[headers]` 属性を使用している `<table>` 要素内のセルは、同じ表の他のセルのみを参照しています。"
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | description": {
+    "message": "スクリーン リーダーには、表内の移動を補助する機能があります。表のヘッダーが常に一部のセルを参照するように設定すると、スクリーン リーダーの利便性が向上する可能性があります。[詳細](https://dequeuniversity.com/rules/axe/2.2/th-has-data-cells?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | failureTitle": {
+    "message": "`<th>` 要素および `[role=\"columnheader\"/\"rowheader\"]` が指定された要素に、記述されたデータセルがありません。"
+  },
+  "lighthouse-core/audits/accessibility/th-has-data-cells.js | title": {
+    "message": "`<th>` 要素および `[role=\"columnheader\"/\"rowheader\"]` が指定された要素に、記述されたデータセルがあります。"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | description": {
+    "message": "要素に有効な [BCP 47 言語](https://www.w3.org/International/questions/qa-choosing-language-tags#question) を指定すると、スクリーン リーダーでテキストが正しく読み上げられるようになります。[詳細](https://dequeuniversity.com/rules/axe/2.2/valid-lang?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | failureTitle": {
+    "message": "`[lang]` 属性に有効な値が指定されていません"
+  },
+  "lighthouse-core/audits/accessibility/valid-lang.js | title": {
+    "message": "`[lang]` 属性に有効な値が指定されています"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | description": {
+    "message": "動画で字幕を設定すると、聴覚障がいのあるユーザーが情報にアクセスしやすくなります。[詳細](https://dequeuniversity.com/rules/axe/2.2/video-caption?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | failureTitle": {
+    "message": "`<video>` 要素に、`[kind=\"captions\"]` が指定された `<track>` 要素が含まれていません。"
+  },
+  "lighthouse-core/audits/accessibility/video-caption.js | title": {
+    "message": "`<video>` 要素に `[kind=\"captions\"]` が指定された `<track>` 要素が含まれています"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | description": {
+    "message": "音声による説明を使用すると、顔の表情や場面といった、会話で伝えることのできない動画の関連情報を提供できます。[詳細](https://dequeuniversity.com/rules/axe/2.2/video-description?application=lighthouse)"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | failureTitle": {
+    "message": "`<video>` 要素に、`[kind=\"description\"]` が指定された `<track>` 要素が含まれていません。"
+  },
+  "lighthouse-core/audits/accessibility/video-description.js | title": {
+    "message": "`<video>` 要素に、`[kind=\"description\"]` が指定された `<track>` 要素が含まれています"
+  },
   "lighthouse-core/audits/bootup-time.js | chromeExtensionsWarning": {
     "message": "Chrome 拡張機能がこのページの読み込みに悪影響を及ぼしています。シークレット モードで、または拡張機能なしの Chrome プロファイルからページを監査してみてください。"
   },
@@ -245,6 +563,9 @@
   "lighthouse-core/audits/user-timings.js | title": {
     "message": "カスタム速度の記録と計測"
   },
+  "lighthouse-core/audits/uses-rel-preconnect.js | crossoriginWarning": {
+    "message": "「{securityOrigin}」で事前接続の <link> が見つかりましたが、ブラウザで使用されませんでした。`crossorigin` 属性を適切に使用していることをご確認ください。"
+  },
   "lighthouse-core/audits/uses-rel-preconnect.js | description": {
     "message": "事前接続または DNS プリフェッチのリソースヒントを追加して、重要な第三者ドメインへの接続を早期に確立できるようにすることをご検討ください。[詳細](https://developers.google.com/web/fundamentals/performance/resource-prioritization#preconnect)"
   },
@@ -256,6 +577,54 @@
   },
   "lighthouse-core/audits/uses-rel-preload.js | title": {
     "message": "キー リクエストのプリロード"
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupDescription": {
+    "message": "ここには、アプリでの ARIA の使用方法に関する改善点が表示されます。修正すると、支援技術（スクリーン リーダーなど）の利便性が向上する可能性があります。"
+  },
+  "lighthouse-core/config/default-config.js | a11yAriaGroupTitle": {
+    "message": "ARIA 属性はおすすめの方法に沿って使用されています"
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupDescription": {
+    "message": "ここには、コンテンツの読みやすさに関する改善点が表示されます。"
+  },
+  "lighthouse-core/config/default-config.js | a11yColorContrastGroupTitle": {
+    "message": "色のコントラストは十分です"
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupDescription": {
+    "message": "ここには、HTML 要素の構成に関する改善点が表示されます。"
+  },
+  "lighthouse-core/config/default-config.js | a11yCorrectAttributesGroupTitle": {
+    "message": "要素は属性を正しく使用しています"
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupDescription": {
+    "message": "ここには、支援技術（スクリーン リーダーなど）のユーザーがコンテンツをより簡単に理解できるようにするための改善点が表示されます。"
+  },
+  "lighthouse-core/config/default-config.js | a11yDescribeContentsGroupTitle": {
+    "message": "要素はコンテンツを的確に表現しています"
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupDescription": {
+    "message": "ここには、アプリ内のコントロールのセマンティクスに関する改善点が表示されます。修正すると、支援技術（スクリーン リーダーなど）の利便性が向上する可能性があります。"
+  },
+  "lighthouse-core/config/default-config.js | a11yElementNamesGroupTitle": {
+    "message": "要素に識別可能な名前が指定されています"
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupDescription": {
+    "message": "ここには、地域ユーザー別のコンテンツの解釈に関する改善点が表示されます。"
+  },
+  "lighthouse-core/config/default-config.js | a11yLanguageGroupTitle": {
+    "message": "ページで有効な言語が指定されています"
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupDescription": {
+    "message": "ここには、サイトのユーザー利便性に関する改善点が表示されます。"
+  },
+  "lighthouse-core/config/default-config.js | a11yMetaGroupTitle": {
+    "message": "メタタグは適切に使用されています"
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupDescription": {
+    "message": "ここには、HTML を正しく構成するための改善点が表示されます。"
+  },
+  "lighthouse-core/config/default-config.js | a11yWellStructuredGroupTitle": {
+    "message": "要素は正しく構成されています"
   },
   "lighthouse-core/config/default-config.js | diagnosticsGroupDescription": {
     "message": "アプリケーションのパフォーマンスに関する詳細。"
@@ -287,6 +656,15 @@
   "lighthouse-core/config/default-config.js | performanceCategoryTitle": {
     "message": "パフォーマンス"
   },
+  "lighthouse-core/config/default-config.js | pwaFastReliableGroupTitle": {
+    "message": "スピードと高い信頼性"
+  },
+  "lighthouse-core/config/default-config.js | pwaInstallableGroupTitle": {
+    "message": "インストール対応"
+  },
+  "lighthouse-core/config/default-config.js | pwaOptimizedGroupTitle": {
+    "message": "PWA の最適化"
+  },
   "lighthouse-core/lib/i18n/i18n.js | columnCacheTTL": {
     "message": "キャッシュの TTL"
   },
@@ -317,6 +695,45 @@
   "lighthouse-core/lib/i18n/i18n.js | seconds": {
     "message": "{timeInMs, number, seconds} 秒"
   },
+  "lighthouse-core/lib/lh-error.js | badTraceRecording": {
+    "message": "ページを読み込む際のトレースの記録中にエラーが発生しました。もう一度 Lighthouse を実行してください。（{errorCode}）"
+  },
+  "lighthouse-core/lib/lh-error.js | didntCollectScreenshots": {
+    "message": "Chrome でページの読み込み中にスクリーンショットが収集されませんでした。ページにコンテンツが表示されていることを確認してから、Lighthouse を再実行してください。（{errorCode}）"
+  },
+  "lighthouse-core/lib/lh-error.js | dnsFailure": {
+    "message": "DNS サーバーは指定したドメインを解決できませんでした。"
+  },
+  "lighthouse-core/lib/lh-error.js | internalChromeError": {
+    "message": "Chrome 内部エラーが発生しました。Chrome を再起動して Lighthouse を再実行してください。"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailed": {
+    "message": "リクエストしたページを Lighthouse で正確に読み込めませんでした。正しい URL でテストを行い、すべてのリクエストに対してサーバーからの応答が適切であることを確認してください。"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedHung": {
+    "message": "ページからの応答が停止されたため、リクエストした URL を Lighthouse で正確に読み込めませんでした。"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedInsecure": {
+    "message": "指定した URL には有効なセキュリティ認証情報がありません。（{securityMessages}）"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithDetails": {
+    "message": "リクエストしたページを Lighthouse で正確に読み込めませんでした。正しい URL でテストを行い、すべてのリクエストに対してサーバーからの応答が適切であることを確認してください。（詳細: {errorDetails}）"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadFailedWithStatusCode": {
+    "message": "リクエストしたページを Lighthouse で正確に読み込めませんでした。正しい URL でテストを行い、すべてのリクエストに対してサーバーからの応答が適切であることを確認してください。（ステータス コード: {statusCode}）"
+  },
+  "lighthouse-core/lib/lh-error.js | pageLoadTookTooLong": {
+    "message": "ページの読み込み時間が長すぎます。ページの読み込み時間を短縮するには、レポートに示される提案を実施してください。その後で、Lighthouse を再実行してください。（{errorCode}）"
+  },
+  "lighthouse-core/lib/lh-error.js | protocolTimeout": {
+    "message": "DevTools プロトコルからの応答の待ち時間が、割り当てられた時間を超えました。（メソッド: {protocolMethod}）"
+  },
+  "lighthouse-core/lib/lh-error.js | requestContentTimeout": {
+    "message": "リソース コンテンツの取得時間が、割り当てられた時間を超えました"
+  },
+  "lighthouse-core/lib/lh-error.js | urlInvalid": {
+    "message": "指定した URL は無効の可能性があります。"
+  },
   "lighthouse-core/report/html/renderer/util.js | auditGroupExpandTooltip": {
     "message": "監査を表示"
   },
@@ -336,7 +753,7 @@
     "message": "ラボデータ"
   },
   "lighthouse-core/report/html/renderer/util.js | lsPerformanceCategoryDescription": {
-    "message": "エミュレート済み 3G での現在のページに関する [Lighthouse](https://developers.google.com/web/tools/lighthouse/) 分析です。推定値のため変動する可能性があります。"
+    "message": "エミュレート済みモバイル ネットワークでの現在のページに関する [Lighthouse](https://developers.google.com/web/tools/lighthouse/) 分析です。推定値のため変動する可能性があります。"
   },
   "lighthouse-core/report/html/renderer/util.js | manualAuditsGroupTitle": {
     "message": "個別の検証が必要な他の項目"

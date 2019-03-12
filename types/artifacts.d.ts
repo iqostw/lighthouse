@@ -23,6 +23,8 @@ declare global {
       fetchTime: string;
       /** A set of warnings about unexpected things encountered while loading and testing the page. */
       LighthouseRunWarnings: string[];
+      /** Whether the page was loaded on either a real or emulated mobile device. */
+      TestedAsMobileDevice: boolean;
       /** The user agent string of the version of Chrome used. */
       HostUserAgent: string;
       /** The user agent string that Lighthouse used to load the page. */
@@ -50,18 +52,14 @@ declare global {
     export interface GathererArtifacts {
       /** The results of running the aXe accessibility tests on the page. */
       Accessibility: Artifacts.Accessibility;
-      /** Information on all anchors in the page that aren't nofollow or noreferrer. */
-      AnchorsWithNoRelNoopener: {href: string; rel: string; target: string, outerHTML: string}[];
+      /** Array of all anchors on the page. */
+      AnchorElements: Artifacts.AnchorElement[];
       /** The value of the page's <html> manifest attribute, or null if not defined */
       AppCacheManifest: string | null;
       /** Array of all URLs cached in CacheStorage. */
       CacheContents: string[];
-      /** Href values of link[rel=canonical] nodes found in HEAD (or null, if no href attribute). */
-      Canonical: (string | null)[];
       /** Console deprecation and intervention warnings logged by Chrome during page load. */
       ChromeConsoleMessages: Crdp.Log.EntryAddedEvent[];
-      /** The href and innerText of all non-nofollow anchors in the page. */
-      CrawlableLinks: {href: string, text: string}[];
       /** CSS coverage information for styles used by page's final state. */
       CSSUsage: {rules: Crdp.CSS.RuleUsage[], stylesheets: Artifacts.CSSStyleSheetInfo[]};
       /** Information on the document's doctype(or null if not present), specifically the name, publicId, and systemId.
@@ -71,7 +69,7 @@ declare global {
       DOMStats: Artifacts.DOMStats;
       /** Relevant attributes and child properties of all <object>s, <embed>s and <applet>s in the page. */
       EmbeddedContent: Artifacts.EmbeddedContentInfo[];
-      /** All the link elements on the page. */
+      /** All the link elements on the page or equivalently declared in `Link` headers. @see https://html.spec.whatwg.org/multipage/links.html */
       LinkElements: Artifacts.LinkElement[];
       /** Information for font faces used in the page. */
       Fonts: Artifacts.Font[];
@@ -83,7 +81,7 @@ declare global {
       HTMLWithoutJavaScript: {bodyText: string, hasNoScript: boolean};
       /** Whether the page ended up on an HTTPS page after attempting to load the HTTP version. */
       HTTPRedirect: {value: boolean};
-      /** Information on size and loading for all the images in the page. */
+      /** Information on size and loading for all the images in the page. Natural size information for `picture` and CSS images is only available if the image was one of the largest 50 images. */
       ImageElements: Artifacts.ImageElement[];
       /** Information on JS libraries and versions used by the page. */
       JSLibraries: {name: string, version: string, npmPkgName: string}[];
@@ -107,14 +105,16 @@ declare global {
       RobotsTxt: {status: number|null, content: string|null};
       /** Set of exceptions thrown during page load. */
       RuntimeExceptions: Crdp.Runtime.ExceptionThrownEvent[];
-      /** The content of all scripts loaded by the page, keyed by networkRecord requestId. */
-      Scripts: Record<string, string>;
+      /** The content of all scripts loaded by the page, and the networkRecord requestId that contained their content. Note, HTML documents will have one entry per script tag, all with the same requestId. */
+      Scripts: Array<{content: string, inline: boolean, requestId?: string}>;
       /** Version information for all ServiceWorkers active after the first page load. */
       ServiceWorker: {versions: Crdp.ServiceWorker.ServiceWorkerVersion[], registrations: Crdp.ServiceWorker.ServiceWorkerRegistration[]};
       /** The status of an offline fetch of the page's start_url. -1 and a explanation if missing or there was an error. */
       StartUrl: {statusCode: number, explanation?: string};
       /** Information on <script> and <link> tags blocking first paint. */
       TagsBlockingFirstPaint: Artifacts.TagBlockingFirstPaint[];
+      /** Information about tap targets including their position and size. */
+      TapTargets: Artifacts.TapTarget[];
       /** The dimensions and devicePixelRatio of the loaded viewport. */
       ViewportDimensions: Artifacts.ViewportDimensions;
     }
@@ -170,10 +170,29 @@ declare global {
 
       /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link#Attributes */
       export interface LinkElement {
+        /** The `rel` attribute of the link, normalized to lower case. @see https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types */
+        rel: 'alternate'|'canonical'|'dns-prefetch'|'preconnect'|'preload'|'stylesheet'|string;
+        /** The `href` attribute of the link or `null` if it was invalid in the header. */
+        href: string | null
+        /** The raw value of the `href` attribute. Only different from `href` when source is 'header' */
+        hrefRaw: string
+        /** The `hreflang` attribute of the link */
+        hreflang: string
+        /** The `as` attribute of the link */
+        as: string
+        /** The `crossOrigin` attribute of the link */
+        crossOrigin: 'anonymous'|'use-credentials'|null
+        /** Where the link was found, either in the DOM or in the headers of the main document */
+        source: 'head'|'body'|'headers'
+      }
+
+      /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#Attributes */
+      export interface AnchorElement {
         rel: string
         href: string
-        as: string
-        crossOrigin: 'anonymous'|'use-credentials'|null
+        text: string
+        target: string
+        outerHTML: string
       }
 
       export interface Font {
@@ -252,13 +271,10 @@ declare global {
 
       export interface OptimizedImage {
         failed: false;
-        fromProtocol: boolean;
         originalSize: number;
-        jpegSize: number;
-        webpSize: number;
+        jpegSize?: number;
+        webpSize?: number;
 
-        isSameOrigin: boolean;
-        isBase64DataUri: boolean;
         requestId: string;
         url: string;
         mimeType: string;
@@ -269,8 +285,6 @@ declare global {
         failed: true;
         errMsg: string;
 
-        isSameOrigin: boolean;
-        isBase64DataUri: boolean;
         requestId: string;
         url: string;
         mimeType: string;
@@ -294,6 +308,14 @@ declare global {
         right: number;
         bottom: number;
         left: number;
+      }
+
+      export interface TapTarget {
+        snippet: string,
+        selector: string,
+        path: string,
+        href: string,
+        clientRects: Rect[]
       }
 
       export interface ViewportDimensions {

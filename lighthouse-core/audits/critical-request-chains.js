@@ -211,7 +211,7 @@ class CriticalRequestChains extends Audit {
           },
         },
         details: {
-          type: 'criticalrequestchain',
+          type: /** @type {'criticalrequestchain'} */('criticalrequestchain'),
           chains: flattenedChains,
           longestChain,
         },

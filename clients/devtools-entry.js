@@ -36,6 +36,7 @@ function getDefaultConfigForCategories(categoryIDs) {
 function runLighthouseInWorker(port, url, flags, categoryIDs) {
   // Default to 'info' logging level.
   flags.logLevel = flags.logLevel || 'info';
+  flags.channel = 'devtools';
   const config = getDefaultConfigForCategories(categoryIDs);
   const connection = new RawProtocol(port);
 

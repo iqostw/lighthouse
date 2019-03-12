@@ -99,7 +99,8 @@ module.exports = [
       },
       'font-size': {
         rawValue: false,
-        explanation: 'Text is illegible because of a missing viewport config',
+        explanation:
+          'Text is illegible because there\'s no viewport meta tag optimized for mobile screens.',
       },
       'link-text': {
         score: 0,
@@ -136,7 +137,7 @@ module.exports = [
       },
       'canonical': {
         score: 0,
-        explanation: 'Multiple conflicting URLs (https://example.com, https://example.com/)',
+        explanation: 'Multiple conflicting URLs (https://example.com/other, https://example.com/)',
       },
     },
   },
@@ -175,6 +176,43 @@ module.exports = [
       },
       'canonical': {
         score: null,
+      },
+    },
+  },
+  {
+    requestedUrl: BASE_URL + 'seo-tap-targets.html',
+    finalUrl: BASE_URL + 'seo-tap-targets.html',
+    audits: {
+      'tap-targets': {
+        score: 0.8, // 10 passing targets/11 total visible targets, multiplied by 0.89 to get the score
+        details: {
+          items: [
+            {
+              'tapTarget': {
+                'type': 'node',
+                'snippet': '<a ' +
+                 'style="display: block; width: 100px; height: 30px;background: #ddd;">' +
+                 '\n        too small target\n      </a>',
+                'path': '2,HTML,1,BODY,2,DIV,21,DIV,0,A',
+                'selector': 'body > div > div > a',
+              },
+              'overlappingTarget': {
+                'type': 'node',
+                'snippet': '<a ' +
+                  'style="display: block; width: 100px; height: 100px;background: #aaa;">' +
+                  '\n        big enough target\n      </a>',
+                'path': '2,HTML,1,BODY,2,DIV,21,DIV,1,A',
+                'selector': 'body > div > div > a',
+              },
+              'size': '100x30',
+              'width': 100,
+              'height': 30,
+              'tapTargetScore': 1440,
+              'overlappingTargetScore': 432,
+              'overlapScoreRatio': 0.3,
+            },
+          ],
+        },
       },
     },
   },

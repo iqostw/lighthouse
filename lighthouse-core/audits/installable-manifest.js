@@ -34,7 +34,7 @@ class InstallableManifest extends MultiCheckAudit {
       description: 'Browsers can proactively prompt users to add your app to their homescreen, ' +
           'which can lead to higher engagement. ' +
           '[Learn more](https://developers.google.com/web/tools/lighthouse/audits/install-prompt).',
-      requiredArtifacts: ['URL', 'Manifest'],
+      requiredArtifacts: ['URL', 'WebAppManifest'],
     };
   }
 
@@ -79,7 +79,7 @@ class InstallableManifest extends MultiCheckAudit {
    * @return {Promise<{failures: Array<string>, manifestValues: LH.Artifacts.ManifestValues}>}
    */
   static async audit_(artifacts, context) {
-    const manifestValues = await ManifestValues.request(artifacts.Manifest, context);
+    const manifestValues = await ManifestValues.request(artifacts.WebAppManifest, context);
     const manifestFailures = InstallableManifest.assessManifest(manifestValues);
 
     return {

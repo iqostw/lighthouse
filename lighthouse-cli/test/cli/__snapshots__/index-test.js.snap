@@ -43,6 +43,9 @@ Object {
       "path": "metrics/estimated-input-latency",
     },
     Object {
+      "path": "metrics/max-potential-fid",
+    },
+    Object {
       "path": "errors-in-console",
     },
     Object {
@@ -97,7 +100,19 @@ Object {
       "path": "font-display",
     },
     Object {
+      "path": "diagnostics",
+    },
+    Object {
       "path": "network-requests",
+    },
+    Object {
+      "path": "network-rtt",
+    },
+    Object {
+      "path": "network-server-latency",
+    },
+    Object {
+      "path": "main-thread-tasks",
     },
     Object {
       "path": "metrics",
@@ -113,6 +128,9 @@ Object {
     },
     Object {
       "path": "manual/pwa-each-page-has-url",
+    },
+    Object {
+      "path": "accessibility/accesskeys",
     },
     Object {
       "path": "accessibility/aria-allowed-attr",
@@ -215,9 +233,6 @@ Object {
     },
     Object {
       "path": "accessibility/video-description",
-    },
-    Object {
-      "path": "accessibility/manual/accesskeys",
     },
     Object {
       "path": "accessibility/manual/custom-controls-labels",
@@ -343,6 +358,9 @@ Object {
       "path": "seo/robots-txt",
     },
     Object {
+      "path": "seo/tap-targets",
+    },
+    Object {
       "path": "seo/hreflang",
     },
     Object {
@@ -352,15 +370,17 @@ Object {
       "path": "seo/canonical",
     },
     Object {
-      "path": "seo/manual/mobile-friendly",
-    },
-    Object {
       "path": "seo/manual/structured-data",
     },
   ],
   "categories": Object {
     "accessibility": Object {
       "auditRefs": Array [
+        Object {
+          "group": "a11y-navigation",
+          "id": "accesskeys",
+          "weight": 3,
+        },
         Object {
           "group": "a11y-aria",
           "id": "aria-allowed-attr",
@@ -397,17 +417,17 @@ Object {
           "weight": 5,
         },
         Object {
-          "group": "a11y-correct-attributes",
+          "group": "a11y-audio-video",
           "id": "audio-caption",
           "weight": 4,
         },
         Object {
-          "group": "a11y-element-names",
+          "group": "a11y-names-labels",
           "id": "button-name",
           "weight": 10,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-navigation",
           "id": "bypass",
           "weight": 10,
         },
@@ -417,27 +437,27 @@ Object {
           "weight": 6,
         },
         Object {
-          "group": "a11y-well-structured",
+          "group": "a11y-tables-lists",
           "id": "definition-list",
           "weight": 1,
         },
         Object {
-          "group": "a11y-well-structured",
+          "group": "a11y-tables-lists",
           "id": "dlitem",
           "weight": 1,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-names-labels",
           "id": "document-title",
           "weight": 2,
         },
         Object {
-          "group": "a11y-well-structured",
+          "group": "a11y-best-practices",
           "id": "duplicate-id",
           "weight": 5,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-names-labels",
           "id": "frame-title",
           "weight": 5,
         },
@@ -452,67 +472,67 @@ Object {
           "weight": 1,
         },
         Object {
-          "group": "a11y-correct-attributes",
+          "group": "a11y-names-labels",
           "id": "image-alt",
           "weight": 8,
         },
         Object {
-          "group": "a11y-correct-attributes",
+          "group": "a11y-names-labels",
           "id": "input-image-alt",
           "weight": 1,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-names-labels",
           "id": "label",
           "weight": 10,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-tables-lists",
           "id": "layout-table",
           "weight": 1,
         },
         Object {
-          "group": "a11y-element-names",
+          "group": "a11y-names-labels",
           "id": "link-name",
           "weight": 9,
         },
         Object {
-          "group": "a11y-well-structured",
+          "group": "a11y-tables-lists",
           "id": "list",
           "weight": 5,
         },
         Object {
-          "group": "a11y-well-structured",
+          "group": "a11y-tables-lists",
           "id": "listitem",
           "weight": 4,
         },
         Object {
-          "group": "a11y-meta",
+          "group": "a11y-best-practices",
           "id": "meta-refresh",
           "weight": 1,
         },
         Object {
-          "group": "a11y-meta",
+          "group": "a11y-best-practices",
           "id": "meta-viewport",
           "weight": 3,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-names-labels",
           "id": "object-alt",
           "weight": 4,
         },
         Object {
-          "group": "a11y-correct-attributes",
+          "group": "a11y-navigation",
           "id": "tabindex",
           "weight": 4,
         },
         Object {
-          "group": "a11y-correct-attributes",
+          "group": "a11y-tables-lists",
           "id": "td-headers-attr",
           "weight": 1,
         },
         Object {
-          "group": "a11y-correct-attributes",
+          "group": "a11y-tables-lists",
           "id": "th-has-data-cells",
           "weight": 1,
         },
@@ -522,18 +542,14 @@ Object {
           "weight": 1,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-audio-video",
           "id": "video-caption",
           "weight": 4,
         },
         Object {
-          "group": "a11y-describe-contents",
+          "group": "a11y-audio-video",
           "id": "video-description",
           "weight": 3,
-        },
-        Object {
-          "id": "accesskeys",
-          "weight": 0,
         },
         Object {
           "id": "logical-tab-order",
@@ -682,6 +698,10 @@ Object {
           "weight": 0,
         },
         Object {
+          "id": "max-potential-fid",
+          "weight": 0,
+        },
+        Object {
           "group": "load-opportunities",
           "id": "render-blocking-resources",
           "weight": 0,
@@ -772,14 +792,6 @@ Object {
           "weight": 0,
         },
         Object {
-          "id": "network-requests",
-          "weight": 0,
-        },
-        Object {
-          "id": "metrics",
-          "weight": 0,
-        },
-        Object {
           "group": "diagnostics",
           "id": "user-timings",
           "weight": 0,
@@ -790,14 +802,6 @@ Object {
           "weight": 0,
         },
         Object {
-          "id": "screenshot-thumbnails",
-          "weight": 0,
-        },
-        Object {
-          "id": "final-screenshot",
-          "weight": 0,
-        },
-        Object {
           "group": "diagnostics",
           "id": "mainthread-work-breakdown",
           "weight": 0,
@@ -805,6 +809,38 @@ Object {
         Object {
           "group": "diagnostics",
           "id": "font-display",
+          "weight": 0,
+        },
+        Object {
+          "id": "network-requests",
+          "weight": 0,
+        },
+        Object {
+          "id": "network-rtt",
+          "weight": 0,
+        },
+        Object {
+          "id": "network-server-latency",
+          "weight": 0,
+        },
+        Object {
+          "id": "main-thread-tasks",
+          "weight": 0,
+        },
+        Object {
+          "id": "diagnostics",
+          "weight": 0,
+        },
+        Object {
+          "id": "metrics",
+          "weight": 0,
+        },
+        Object {
+          "id": "screenshot-thumbnails",
+          "weight": 0,
+        },
+        Object {
+          "id": "final-screenshot",
           "weight": 0,
         },
       ],
@@ -947,8 +983,9 @@ Object {
           "weight": 1,
         },
         Object {
-          "id": "mobile-friendly",
-          "weight": 0,
+          "group": "seo-mobile",
+          "id": "tap-targets",
+          "weight": 1,
         },
         Object {
           "id": "structured-data",
@@ -963,35 +1000,35 @@ Object {
   "groups": Object {
     "a11y-aria": Object {
       "description": "These are opportunities to improve the usage of ARIA in your application which may enhance the experience for users of assistive technology, like a screen reader.",
-      "title": "ARIA Attributes Follow Best Practices",
+      "title": "ARIA",
+    },
+    "a11y-audio-video": Object {
+      "description": "These are opportunities to provide alternative content for audio and video. This may improve the experience for users with hearing or vision impairments.",
+      "title": "Audio and video",
+    },
+    "a11y-best-practices": Object {
+      "description": "These items highlight common accessibility best practices.",
+      "title": "Best practices",
     },
     "a11y-color-contrast": Object {
       "description": "These are opportunities to improve the legibility of your content.",
-      "title": "Color Contrast Is Satisfactory",
-    },
-    "a11y-correct-attributes": Object {
-      "description": "These are opportunities to improve the configuration of your HTML elements.",
-      "title": "Elements Use Attributes Correctly",
-    },
-    "a11y-describe-contents": Object {
-      "description": "These are opportunities to make your content easier to understand for a user of assistive technology, like a screen reader.",
-      "title": "Elements Describe Contents Well",
-    },
-    "a11y-element-names": Object {
-      "description": "These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.",
-      "title": "Elements Have Discernible Names",
+      "title": "Contrast",
     },
     "a11y-language": Object {
       "description": "These are opportunities to improve the interpretation of your content by users in different locales.",
-      "title": "Page Specifies Valid Language",
+      "title": "Internationalization and localization",
     },
-    "a11y-meta": Object {
-      "description": "These are opportunities to improve the user experience of your site.",
-      "title": "Meta Tags Used Properly",
+    "a11y-names-labels": Object {
+      "description": "These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.",
+      "title": "Names and labels",
     },
-    "a11y-well-structured": Object {
-      "description": "These are opportunities to make sure your HTML is appropriately structured.",
-      "title": "Elements Are Well Structured",
+    "a11y-navigation": Object {
+      "description": "These are opportunities to improve keyboard navigation in your application.",
+      "title": "Navigation",
+    },
+    "a11y-tables-lists": Object {
+      "description": "These are opportunities to to improve the experience of reading tabular or list data using assistive technology, like a screen reader.",
+      "title": "Tables and lists",
     },
     "diagnostics": Object {
       "description": "More information about the performance of your application.",
@@ -1042,9 +1079,6 @@ Object {
           "path": "viewport-dimensions",
         },
         Object {
-          "path": "manifest",
-        },
-        Object {
           "path": "runtime-exceptions",
         },
         Object {
@@ -1054,6 +1088,9 @@ Object {
           "path": "accessibility",
         },
         Object {
+          "path": "anchor-elements",
+        },
+        Object {
           "path": "image-elements",
         },
         Object {
@@ -1061,9 +1098,6 @@ Object {
         },
         Object {
           "path": "meta-elements",
-        },
-        Object {
-          "path": "dobetterweb/anchors-with-no-rel-noopener",
         },
         Object {
           "path": "dobetterweb/appcache",
@@ -1093,19 +1127,16 @@ Object {
           "path": "seo/font-size",
         },
         Object {
-          "path": "seo/crawlable-links",
-        },
-        Object {
           "path": "seo/hreflang",
         },
         Object {
           "path": "seo/embedded-content",
         },
         Object {
-          "path": "seo/canonical",
+          "path": "seo/robots-txt",
         },
         Object {
-          "path": "seo/robots-txt",
+          "path": "seo/tap-targets",
         },
       ],
       "networkQuietThresholdMs": 1000,
@@ -1168,18 +1199,21 @@ Object {
     "additionalTraceCategories": null,
     "auditMode": false,
     "blockedUrlPatterns": null,
+    "channel": "cli",
     "disableDeviceEmulation": false,
     "disableStorageReset": false,
     "emulatedFormFactor": "mobile",
     "extraHeaders": null,
     "gatherMode": false,
     "locale": "en-US",
+    "maxWaitForFcp": 15000,
     "maxWaitForLoad": 45000,
     "onlyAudits": null,
     "onlyCategories": null,
     "output": Array [
       "html",
     ],
+    "precomputedLanternData": null,
     "skipAudits": null,
     "throttling": Object {
       "cpuSlowdownMultiplier": 4,
@@ -1215,35 +1249,35 @@ Object {
   "groups": Object {
     "a11y-aria": Object {
       "description": "These are opportunities to improve the usage of ARIA in your application which may enhance the experience for users of assistive technology, like a screen reader.",
-      "title": "ARIA Attributes Follow Best Practices",
+      "title": "ARIA",
+    },
+    "a11y-audio-video": Object {
+      "description": "These are opportunities to provide alternative content for audio and video. This may improve the experience for users with hearing or vision impairments.",
+      "title": "Audio and video",
+    },
+    "a11y-best-practices": Object {
+      "description": "These items highlight common accessibility best practices.",
+      "title": "Best practices",
     },
     "a11y-color-contrast": Object {
       "description": "These are opportunities to improve the legibility of your content.",
-      "title": "Color Contrast Is Satisfactory",
-    },
-    "a11y-correct-attributes": Object {
-      "description": "These are opportunities to improve the configuration of your HTML elements.",
-      "title": "Elements Use Attributes Correctly",
-    },
-    "a11y-describe-contents": Object {
-      "description": "These are opportunities to make your content easier to understand for a user of assistive technology, like a screen reader.",
-      "title": "Elements Describe Contents Well",
-    },
-    "a11y-element-names": Object {
-      "description": "These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.",
-      "title": "Elements Have Discernible Names",
+      "title": "Contrast",
     },
     "a11y-language": Object {
       "description": "These are opportunities to improve the interpretation of your content by users in different locales.",
-      "title": "Page Specifies Valid Language",
+      "title": "Internationalization and localization",
     },
-    "a11y-meta": Object {
-      "description": "These are opportunities to improve the user experience of your site.",
-      "title": "Meta Tags Used Properly",
+    "a11y-names-labels": Object {
+      "description": "These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.",
+      "title": "Names and labels",
     },
-    "a11y-well-structured": Object {
-      "description": "These are opportunities to make sure your HTML is appropriately structured.",
-      "title": "Elements Are Well Structured",
+    "a11y-navigation": Object {
+      "description": "These are opportunities to improve keyboard navigation in your application.",
+      "title": "Navigation",
+    },
+    "a11y-tables-lists": Object {
+      "description": "These are opportunities to to improve the experience of reading tabular or list data using assistive technology, like a screen reader.",
+      "title": "Tables and lists",
     },
     "diagnostics": Object {
       "description": "More information about the performance of your application.",
@@ -1295,12 +1329,14 @@ Object {
     "additionalTraceCategories": null,
     "auditMode": true,
     "blockedUrlPatterns": null,
+    "channel": "cli",
     "disableDeviceEmulation": false,
     "disableStorageReset": false,
     "emulatedFormFactor": "mobile",
     "extraHeaders": null,
     "gatherMode": false,
     "locale": "en-US",
+    "maxWaitForFcp": 15000,
     "maxWaitForLoad": 45000,
     "onlyAudits": Array [
       "metrics",
@@ -1309,6 +1345,7 @@ Object {
     "output": Array [
       "json",
     ],
+    "precomputedLanternData": null,
     "skipAudits": null,
     "throttling": Object {
       "cpuSlowdownMultiplier": 4,

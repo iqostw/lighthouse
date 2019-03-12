@@ -20,7 +20,7 @@ class ServiceWorker extends Audit {
       description: 'The service worker is the technology that enables your app to use many ' +
          'Progressive Web App features, such as offline, add to homescreen, and push ' +
          'notifications. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/registered-service-worker).',
-      requiredArtifacts: ['URL', 'ServiceWorker', 'Manifest'],
+      requiredArtifacts: ['URL', 'ServiceWorker', 'WebAppManifest'],
     };
   }
 
@@ -64,7 +64,7 @@ class ServiceWorker extends Audit {
   /**
    * Returns a failure message if there is no start_url or if the start_url isn't
    * contolled by the scopeUrl.
-   * @param {LH.Artifacts['Manifest']} manifest
+   * @param {LH.Artifacts['WebAppManifest']} manifest
    * @param {string} scopeUrl
    * @return {string|undefined}
    */
@@ -107,7 +107,8 @@ class ServiceWorker extends Audit {
       };
     }
 
-    const startUrlFailure = ServiceWorker.checkStartUrl(artifacts.Manifest, controllingScopeUrl);
+    const startUrlFailure = ServiceWorker.checkStartUrl(artifacts.WebAppManifest,
+        controllingScopeUrl);
     if (startUrlFailure) {
       return {
         rawValue: false,

@@ -28,9 +28,9 @@ const UIStrings = {
   failureTitle: 'Page load is not fast enough on mobile networks',
   /** Description of a Lighthouse audit that tells the user *why* they need to load fast enough on mobile networks. This is displayed after a user expands the section to see more. No character length limits. 'Learn More' becomes link text to additional documentation. */
   description: 'A fast page load over a cellular network ensures a good mobile user experience. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/fast-3g).',
-  /** [ICU Syntax] Label for the audit identifying the time it took for the page to become interactive. */
+  /** Label for the audit identifying the time it took for the page to become interactive. */
   displayValueText: 'Interactive at {timeInMs, number, seconds}\xa0s',
-  /** [ICU Syntax] Label for the audit identifying the time it took for the page to become interactive on a mobile network. */
+  /** Label for the audit identifying the time it took for the page to become interactive on a mobile network. */
   displayValueTextWithOverride: 'Interactive on simulated mobile network at ' +
   '{timeInMs, number, seconds}\xa0s',
 };

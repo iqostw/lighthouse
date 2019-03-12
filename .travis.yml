@@ -8,6 +8,8 @@ matrix:
     - node_js: "8"
     - node_js: "10"
       if: head_branch IS blank AND branch = master
+    - node_js: "11"
+      if: head_branch IS blank AND branch = master
 dist: trusty
 cache:
   yarn: true
@@ -46,6 +48,8 @@ before_cache:
   # the `yarn compile-devtools` task adds these to node_modules, which slows down caching
   - rm -rf ./node_modules/temp-devtoolsfrontend/
   - rm -rf ./node_modules/temp-devtoolsprotocol/
+  # nyc, jest and other projects store files in here. They mess up the travis build cache.
+  - rm -rf ./node_modules/.cache/
 after_success:
   - yarn coveralls
   - yarn codecov

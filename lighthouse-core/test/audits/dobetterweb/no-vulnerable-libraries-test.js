@@ -43,6 +43,33 @@ describe('Avoids front-end JavaScript libraries with known vulnerabilities', () 
     assert.equal(auditResult.details.items[0].detectedLib.url, 'https://snyk.io/vuln/npm:angular?lh=1.1.4&utm_source=lighthouse&utm_medium=ref&utm_campaign=audit');
   });
 
+  it('fails when libraries w/ vulnerabilities are detected (anywhere in the semver array)', () => {
+    // Vulnerability with an array of semver ranges
+    const mockSnykDb = {
+      npm: {
+        badlib: [
+          {id: 'badlibvuln:12345', severity: 'medium', semver: {vulnerable: ['<2', '>=3.0.0']}},
+        ],
+      },
+    };
+    const JSLibraries = [{name: 'Badlib', version: '3.0.0', npmPkgName: 'badlib'}];
+    const vulns = NoVulnerableLibrariesAudit.getVulnerabilities(
+      '3.0.0',
+      JSLibraries[0],
+      mockSnykDb
+    );
+    expect(vulns).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "library": "Badlib@3.0.0",
+    "numericSeverity": 2,
+    "severity": "medium",
+    "url": "https://snyk.io/vuln/badlibvuln:12345",
+  },
+]
+`);
+  });
+
   it('handles ill-specified versions', () => {
     const auditResult = NoVulnerableLibrariesAudit.audit({
       JSLibraries: [

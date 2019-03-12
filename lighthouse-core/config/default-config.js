@@ -31,38 +31,52 @@ const UIStrings = {
   diagnosticsGroupTitle: 'Diagnostics',
   /** Description of the diagnostics section of the Performance category. Within this section are audits with non-imperative titles that provide more detail on the page's page load performance characteristics. Whereas the 'Opportunities' suggest an action along with expected time savings, diagnostics do not. Within this section, the user may read the details and deduce additional actions they could take. */
   diagnosticsGroupDescription: 'More information about the performance of your application.',
+  /** Title of the Accessibility category of audits. This section contains audits focused on making web content accessible to all users. Also used as a label of a score gauge; try to limit to 20 characters. */
+  a11yCategoryTitle: 'Accessibility',
+  /** Description of the Accessibility category. This is displayed at the top of a list of audits focused on making web content accessible to all users. No character length limits. 'improve the accessibility of your web app' becomes link text to additional documentation. */
+  a11yCategoryDescription: 'These checks highlight opportunities to [improve the accessibility of your web app](https://developers.google.com/web/fundamentals/accessibility). Only a subset of accessibility issues can be automatically detected so manual testing is also encouraged.',
+  /** Description of the Accessibility manual checks category. This description is displayed above a list of accessibility audits that currently have no automated test and so must be verified manually by the user. No character length limits. 'conducting an accessibility review' becomes link text to additional documentation. */
+  a11yCategoryManualDescription: 'These items address areas which an automated testing tool cannot cover. Learn more in our guide on [conducting an accessibility review](https://developers.google.com/web/fundamentals/accessibility/how-to-review).',
+  /** Title of the best practices section of the Accessibility category. Within this section are audits with descriptive titles that highlight common accessibility best practices. */
+  a11yBestPracticesGroupTitle: 'Best practices',
+  /* Description of the best practices section within the Accessibility category. Within this section are audits with descriptive titles that highlight common accessibility best practices. */
+  a11yBestPracticesGroupDescription: 'These items highlight common accessibility best practices.',
   /* Title of the color contrast section within the Accessibility category. Within this section are audits with descriptive titles that highlight the color and vision aspects of the page's accessibility that are passing or failing. */
-  a11yColorContrastGroupTitle: 'Color Contrast Is Satisfactory',
+  a11yColorContrastGroupTitle: 'Contrast',
   /* Description of the color contrast section within the Accessibility category. Within this section are audits with descriptive titles that highlight the color and vision aspects of the page's accessibility that are passing or failing. */
   a11yColorContrastGroupDescription: 'These are opportunities to improve the legibility of your content.',
-  /* Title of the screen reader annotation section within the Accessibility category. Within this section are audits with descriptive titles that highlight the screen reader readability aspects of the page's accessibility that are passing or failing. 'Elements' refers to HTML elements. */
-  a11yDescribeContentsGroupTitle: 'Elements Describe Contents Well',
-  /* Description of the screen reader annotation section within the Accessibility category. Within this section are audits with descriptive titles that highlight the screen reader readability aspects of the page's accessibility that are passing or failing. */
-  a11yDescribeContentsGroupDescription: 'These are opportunities to make your content easier to understand for a user of assistive technology, like a screen reader.',
-  /* Title of the HTML validity section within the Accessibility category. Within this section are audits with descriptive titles that highlight structural HTML aspects of the page's accessibility that are passing or failing (i.e. that list items are contained within list parents, etc). 'Elements' refers to HTML elements. */
-  a11yWellStructuredGroupTitle: 'Elements Are Well Structured',
-  /* Description of the HTML validity section within the Accessibility category. Within this section are audits with descriptive titles that highlight structural HTML aspects of the page's accessibility that are passing or failing. */
-  a11yWellStructuredGroupDescription: 'These are opportunities to make sure your HTML is appropriately structured.',
+  /* Title of the HTML element naming section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the non-textual HTML elements on the page have names discernible by a screen reader. */
+  a11yNamesLabelsGroupTitle: 'Names and labels',
+  /* Description of the HTML element naming section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the non-textual HTML elements on the page have names discernible by a screen reader. */
+  a11yNamesLabelsGroupDescription: 'These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.',
+  /* Title of the navigation section within the Accessibility category. Within this section are audits with descriptive titles that highlight opportunities to improve keyboard navigation. */
+  a11yNavigationGroupTitle: 'Navigation',
+  /* Description of the navigation section within the Accessibility category. Within this section are audits with descriptive titles that highlight opportunities to improve keyboard navigation. */
+  a11yNavigationGroupDescription: 'These are opportunities to improve keyboard navigation in your application.',
   /* Title of the ARIA validity section within the Accessibility category. Within this section are audits with descriptive titles that highlight if whether all the aria-* HTML attributes have been used properly. */
-  a11yAriaGroupTitle: 'ARIA Attributes Follow Best Practices',
+  a11yAriaGroupTitle: 'ARIA',
   /* Description of the ARIA validity section within the Accessibility category. Within this section are audits with descriptive titles that highlight if whether all the aria-* HTML attributes have been used properly. */
   a11yAriaGroupDescription: 'These are opportunities to improve the usage of ARIA in your application which may enhance the experience for users of assistive technology, like a screen reader.',
-  /* Title of the HTML attribute validity section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the HTML attribute values on the page are used correctly. 'Elements' refers to HTML elements. */
-  a11yCorrectAttributesGroupTitle: 'Elements Use Attributes Correctly',
-  /* Description of the HTML attribute validity section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the HTML attribute values on the page are used correctly. */
-  a11yCorrectAttributesGroupDescription: 'These are opportunities to improve the configuration of your HTML elements.',
-  /* Title of the HTML element naming section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the non-textual HTML elements on the page have names discernible by a screen reader. */
-  a11yElementNamesGroupTitle: 'Elements Have Discernible Names',
-  /* Description of the HTML element naming section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the non-textual HTML elements on the page have names discernible by a screen reader. */
-  a11yElementNamesGroupDescription: 'These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.',
   /* Title of the language section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the language has been annotated in the correct HTML attributes on the page. */
-  a11yLanguageGroupTitle: 'Page Specifies Valid Language',
+  a11yLanguageGroupTitle: 'Internationalization and localization',
   /* Description of the language section within the Accessibility category. Within this section are audits with descriptive titles that highlight if the language has been annotated in the correct HTML attributes on the page. */
   a11yLanguageGroupDescription: 'These are opportunities to improve the interpretation of your content by users in different locales.',
-  /* Title of the meta tag section within the Accessibility category. Within this section are audits with descriptive titles that highlight if meta tags on the page have been used properly and if any important ones are missing. */
-  a11yMetaGroupTitle: 'Meta Tags Used Properly',
-  /* Description of the meta tag section within the Accessibility category. Within this section are audits with descriptive titles that highlight if meta tags on the page have been used properly and if any important ones are missing. */
-  a11yMetaGroupDescription: 'These are opportunities to improve the user experience of your site.',
+  /* Title of the navigation section within the Accessibility category. Within this section are audits with descriptive titles that highlight opportunities to provide alternative content for audio and video. */
+  a11yAudioVideoGroupTitle: 'Audio and video',
+  /* Description of the navigation section within the Accessibility category. Within this section are audits with descriptive titles that highlight opportunities to provide alternative content for audio and video. */
+  a11yAudioVideoGroupDescription: 'These are opportunities to provide alternative content for audio and video. This may improve the experience for users with hearing or vision impairments.',
+  /* Title of the navigation section within the Accessibility category. Within this section are audits with descriptive titles that highlight opportunities to improve the experience of reading tabular or list data using assistive technology. */
+  a11yTablesListsVideoGroupTitle: 'Tables and lists',
+  /* Description of the navigation section within the Accessibility category. Within this section are audits with descriptive titles that highlight opportunities to improve the experience of reading tabular or list data using assistive technology. */
+  a11yTablesListsVideoGroupDescription: 'These are opportunities to to improve the experience of reading tabular or list data using assistive technology, like a screen reader.',
+  /** Title of the Search Engine Optimization (SEO) category of audits. This is displayed at the top of a list of audits focused on topics related to optimizing a website for indexing by search engines. Also used as a label of a score gauge; try to limit to 20 characters. */
+  seoCategoryTitle: 'SEO',
+  /** Description of the Search Engine Optimization (SEO) category. This is displayed at the top of a list of audits focused on optimizing a website for indexing by search engines. No character length limits. 'Learn More' becomes link text to additional documentation. */
+  seoCategoryDescription: 'These checks ensure that your page is optimized for search engine results ranking. ' +
+  'There are additional factors Lighthouse does not check that may affect your search ranking. ' +
+  '[Learn more](https://support.google.com/webmasters/answer/35769).',
+  /** Description of the Search Engine Optimization (SEO) manual checks category, the additional validators must be run by hand in order to check all SEO best practices. This is displayed at the top of a list of manually run audits focused on optimizing a website for indexing by search engines. No character length limits. */
+  seoCategoryManualDescription: 'Run these additional validators on your site to check additional SEO best practices.',
   /** Title of the Fast and Reliable section of the web app category. Within this section are audits that check if the web site loaded quickly and can reliably load even if the internet connection is very slow or goes offline. */
   pwaFastReliableGroupTitle: 'Fast and reliable',
   /** Title of the Installable section of the web app category. Within this section are audits that check if Chrome supports installing the web site as an app on their device. */
@@ -87,14 +101,13 @@ const defaultConfig = {
       'scripts',
       'css-usage',
       'viewport-dimensions',
-      'manifest',
       'runtime-exceptions',
       'chrome-console-messages',
       'accessibility',
+      'anchor-elements',
       'image-elements',
       'link-elements',
       'meta-elements',
-      'dobetterweb/anchors-with-no-rel-noopener',
       'dobetterweb/appcache',
       'dobetterweb/doctype',
       'dobetterweb/domstats',
@@ -104,11 +117,10 @@ const defaultConfig = {
       'dobetterweb/response-compression',
       'dobetterweb/tags-blocking-first-paint',
       'seo/font-size',
-      'seo/crawlable-links',
       'seo/hreflang',
       'seo/embedded-content',
-      'seo/canonical',
       'seo/robots-txt',
+      'seo/tap-targets',
     ],
   },
   {
@@ -142,6 +154,7 @@ const defaultConfig = {
     'screenshot-thumbnails',
     'final-screenshot',
     'metrics/estimated-input-latency',
+    'metrics/max-potential-fid',
     'errors-in-console',
     'time-to-first-byte',
     'metrics/first-cpu-idle',
@@ -160,12 +173,17 @@ const defaultConfig = {
     'uses-rel-preload',
     'uses-rel-preconnect',
     'font-display',
+    'diagnostics',
     'network-requests',
+    'network-rtt',
+    'network-server-latency',
+    'main-thread-tasks',
     'metrics',
     'offline-start-url',
     'manual/pwa-cross-browser',
     'manual/pwa-page-transitions',
     'manual/pwa-each-page-has-url',
+    'accessibility/accesskeys',
     'accessibility/aria-allowed-attr',
     'accessibility/aria-required-attr',
     'accessibility/aria-required-children',
@@ -200,7 +218,6 @@ const defaultConfig = {
     'accessibility/valid-lang',
     'accessibility/video-caption',
     'accessibility/video-description',
-    'accessibility/manual/accesskeys',
     'accessibility/manual/custom-controls-labels',
     'accessibility/manual/custom-controls-roles',
     'accessibility/manual/focus-traps',
@@ -242,10 +259,10 @@ const defaultConfig = {
     'seo/link-text',
     'seo/is-crawlable',
     'seo/robots-txt',
+    'seo/tap-targets',
     'seo/hreflang',
     'seo/plugins',
     'seo/canonical',
-    'seo/manual/mobile-friendly',
     'seo/manual/structured-data',
   ],
 
@@ -270,37 +287,37 @@ const defaultConfig = {
     'pwa-optimized': {
       title: str_(UIStrings.pwaOptimizedGroupTitle),
     },
+    'a11y-best-practices': {
+      title: str_(UIStrings.a11yBestPracticesGroupTitle),
+      description: str_(UIStrings.a11yBestPracticesGroupDescription),
+    },
     'a11y-color-contrast': {
       title: str_(UIStrings.a11yColorContrastGroupTitle),
       description: str_(UIStrings.a11yColorContrastGroupDescription),
     },
-    'a11y-describe-contents': {
-      title: str_(UIStrings.a11yDescribeContentsGroupTitle),
-      description: str_(UIStrings.a11yDescribeContentsGroupDescription),
+    'a11y-names-labels': {
+      title: str_(UIStrings.a11yNamesLabelsGroupTitle),
+      description: str_(UIStrings.a11yNamesLabelsGroupDescription),
     },
-    'a11y-well-structured': {
-      title: str_(UIStrings.a11yWellStructuredGroupTitle),
-      description: str_(UIStrings.a11yWellStructuredGroupDescription),
+    'a11y-navigation': {
+      title: str_(UIStrings.a11yNavigationGroupTitle),
+      description: str_(UIStrings.a11yNavigationGroupDescription),
     },
     'a11y-aria': {
       title: str_(UIStrings.a11yAriaGroupTitle),
       description: str_(UIStrings.a11yAriaGroupDescription),
     },
-    'a11y-correct-attributes': {
-      title: str_(UIStrings.a11yCorrectAttributesGroupTitle),
-      description: str_(UIStrings.a11yCorrectAttributesGroupDescription),
-    },
-    'a11y-element-names': {
-      title: str_(UIStrings.a11yElementNamesGroupTitle),
-      description: str_(UIStrings.a11yElementNamesGroupDescription),
-    },
     'a11y-language': {
       title: str_(UIStrings.a11yLanguageGroupTitle),
       description: str_(UIStrings.a11yLanguageGroupDescription),
     },
-    'a11y-meta': {
-      title: str_(UIStrings.a11yMetaGroupTitle),
-      description: str_(UIStrings.a11yMetaGroupDescription),
+    'a11y-audio-video': {
+      title: str_(UIStrings.a11yAudioVideoGroupTitle),
+      description: str_(UIStrings.a11yAudioVideoGroupDescription),
+    },
+    'a11y-tables-lists': {
+      title: str_(UIStrings.a11yTablesListsVideoGroupTitle),
+      description: str_(UIStrings.a11yTablesListsVideoGroupDescription),
     },
     'seo-mobile': {
       title: 'Mobile Friendly',
@@ -326,6 +343,7 @@ const defaultConfig = {
         {id: 'interactive', weight: 5, group: 'metrics'},
         {id: 'first-cpu-idle', weight: 2, group: 'metrics'},
         {id: 'estimated-input-latency', weight: 0, group: 'metrics'},
+        {id: 'max-potential-fid', weight: 0}, // intentionally left out of metrics so it won't be displayed yet
 
         {id: 'render-blocking-resources', weight: 0, group: 'load-opportunities'},
         {id: 'uses-responsive-images', weight: 0, group: 'load-opportunities'},
@@ -345,21 +363,27 @@ const defaultConfig = {
         {id: 'uses-long-cache-ttl', weight: 0, group: 'diagnostics'},
         {id: 'dom-size', weight: 0, group: 'diagnostics'},
         {id: 'critical-request-chains', weight: 0, group: 'diagnostics'},
-        {id: 'network-requests', weight: 0},
-        {id: 'metrics', weight: 0},
         {id: 'user-timings', weight: 0, group: 'diagnostics'},
         {id: 'bootup-time', weight: 0, group: 'diagnostics'},
-        {id: 'screenshot-thumbnails', weight: 0},
-        {id: 'final-screenshot', weight: 0},
         {id: 'mainthread-work-breakdown', weight: 0, group: 'diagnostics'},
         {id: 'font-display', weight: 0, group: 'diagnostics'},
+        // Audits past this point don't belong to a group and will not be shown automatically
+        {id: 'network-requests', weight: 0},
+        {id: 'network-rtt', weight: 0},
+        {id: 'network-server-latency', weight: 0},
+        {id: 'main-thread-tasks', weight: 0},
+        {id: 'diagnostics', weight: 0},
+        {id: 'metrics', weight: 0},
+        {id: 'screenshot-thumbnails', weight: 0},
+        {id: 'final-screenshot', weight: 0},
       ],
     },
     'accessibility': {
-      title: 'Accessibility',
-      description: 'These checks highlight opportunities to [improve the accessibility of your web app](https://developers.google.com/web/fundamentals/accessibility). Only a subset of accessibility issues can be automatically detected so manual testing is also encouraged.',
-      manualDescription: 'These items address areas which an automated testing tool cannot cover. Learn more in our guide on [conducting an accessibility review](https://developers.google.com/web/fundamentals/accessibility/how-to-review).',
+      title: str_(UIStrings.a11yCategoryTitle),
+      description: str_(UIStrings.a11yCategoryDescription),
+      manualDescription: str_(UIStrings.a11yCategoryManualDescription),
       auditRefs: [
+        {id: 'accesskeys', weight: 3, group: 'a11y-navigation'},
         {id: 'aria-allowed-attr', weight: 3, group: 'a11y-aria'},
         {id: 'aria-required-attr', weight: 2, group: 'a11y-aria'},
         {id: 'aria-required-children', weight: 5, group: 'a11y-aria'},
@@ -367,35 +391,34 @@ const defaultConfig = {
         {id: 'aria-roles', weight: 3, group: 'a11y-aria'},
         {id: 'aria-valid-attr-value', weight: 2, group: 'a11y-aria'},
         {id: 'aria-valid-attr', weight: 5, group: 'a11y-aria'},
-        {id: 'audio-caption', weight: 4, group: 'a11y-correct-attributes'},
-        {id: 'button-name', weight: 10, group: 'a11y-element-names'},
-        {id: 'bypass', weight: 10, group: 'a11y-describe-contents'},
+        {id: 'audio-caption', weight: 4, group: 'a11y-audio-video'},
+        {id: 'button-name', weight: 10, group: 'a11y-names-labels'},
+        {id: 'bypass', weight: 10, group: 'a11y-navigation'},
         {id: 'color-contrast', weight: 6, group: 'a11y-color-contrast'},
-        {id: 'definition-list', weight: 1, group: 'a11y-well-structured'},
-        {id: 'dlitem', weight: 1, group: 'a11y-well-structured'},
-        {id: 'document-title', weight: 2, group: 'a11y-describe-contents'},
-        {id: 'duplicate-id', weight: 5, group: 'a11y-well-structured'},
-        {id: 'frame-title', weight: 5, group: 'a11y-describe-contents'},
+        {id: 'definition-list', weight: 1, group: 'a11y-tables-lists'},
+        {id: 'dlitem', weight: 1, group: 'a11y-tables-lists'},
+        {id: 'document-title', weight: 2, group: 'a11y-names-labels'},
+        {id: 'duplicate-id', weight: 5, group: 'a11y-best-practices'},
+        {id: 'frame-title', weight: 5, group: 'a11y-names-labels'},
         {id: 'html-has-lang', weight: 4, group: 'a11y-language'},
         {id: 'html-lang-valid', weight: 1, group: 'a11y-language'},
-        {id: 'image-alt', weight: 8, group: 'a11y-correct-attributes'},
-        {id: 'input-image-alt', weight: 1, group: 'a11y-correct-attributes'},
-        {id: 'label', weight: 10, group: 'a11y-describe-contents'},
-        {id: 'layout-table', weight: 1, group: 'a11y-describe-contents'},
-        {id: 'link-name', weight: 9, group: 'a11y-element-names'},
-        {id: 'list', weight: 5, group: 'a11y-well-structured'},
-        {id: 'listitem', weight: 4, group: 'a11y-well-structured'},
-        {id: 'meta-refresh', weight: 1, group: 'a11y-meta'},
-        {id: 'meta-viewport', weight: 3, group: 'a11y-meta'},
-        {id: 'object-alt', weight: 4, group: 'a11y-describe-contents'},
-        {id: 'tabindex', weight: 4, group: 'a11y-correct-attributes'},
-        {id: 'td-headers-attr', weight: 1, group: 'a11y-correct-attributes'},
-        {id: 'th-has-data-cells', weight: 1, group: 'a11y-correct-attributes'},
+        {id: 'image-alt', weight: 8, group: 'a11y-names-labels'},
+        {id: 'input-image-alt', weight: 1, group: 'a11y-names-labels'},
+        {id: 'label', weight: 10, group: 'a11y-names-labels'},
+        {id: 'layout-table', weight: 1, group: 'a11y-tables-lists'},
+        {id: 'link-name', weight: 9, group: 'a11y-names-labels'},
+        {id: 'list', weight: 5, group: 'a11y-tables-lists'},
+        {id: 'listitem', weight: 4, group: 'a11y-tables-lists'},
+        {id: 'meta-refresh', weight: 1, group: 'a11y-best-practices'},
+        {id: 'meta-viewport', weight: 3, group: 'a11y-best-practices'},
+        {id: 'object-alt', weight: 4, group: 'a11y-names-labels'},
+        {id: 'tabindex', weight: 4, group: 'a11y-navigation'},
+        {id: 'td-headers-attr', weight: 1, group: 'a11y-tables-lists'},
+        {id: 'th-has-data-cells', weight: 1, group: 'a11y-tables-lists'},
         {id: 'valid-lang', weight: 1, group: 'a11y-language'},
-        {id: 'video-caption', weight: 4, group: 'a11y-describe-contents'},
-        {id: 'video-description', weight: 3, group: 'a11y-describe-contents'},
+        {id: 'video-caption', weight: 4, group: 'a11y-audio-video'},
+        {id: 'video-description', weight: 3, group: 'a11y-audio-video'},
         // Manual audits
-        {id: 'accesskeys', weight: 0},
         {id: 'logical-tab-order', weight: 0},
         {id: 'focusable-controls', weight: 0},
         {id: 'interactive-element-affordance', weight: 0},
@@ -430,11 +453,9 @@ const defaultConfig = {
       ],
     },
     'seo': {
-      title: 'SEO',
-      description: 'These checks ensure that your page is optimized for search engine results ranking. ' +
-          'There are additional factors Lighthouse does not check that may affect your search ranking. ' +
-          '[Learn more](https://support.google.com/webmasters/answer/35769).',
-      manualDescription: 'Run these additional validators on your site to check additional SEO best practices.',
+      title: str_(UIStrings.seoCategoryTitle),
+      description: str_(UIStrings.seoCategoryDescription),
+      manualDescription: str_(UIStrings.seoCategoryManualDescription),
       auditRefs: [
         {id: 'viewport', weight: 1, group: 'seo-mobile'},
         {id: 'document-title', weight: 1, group: 'seo-content'},
@@ -447,8 +468,8 @@ const defaultConfig = {
         {id: 'canonical', weight: 1, group: 'seo-content'},
         {id: 'font-size', weight: 1, group: 'seo-mobile'},
         {id: 'plugins', weight: 1, group: 'seo-content'},
+        {id: 'tap-targets', weight: 1, group: 'seo-mobile'},
         // Manual audits
-        {id: 'mobile-friendly', weight: 0},
         {id: 'structured-data', weight: 0},
       ],
     },

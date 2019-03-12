@@ -8,7 +8,7 @@ declare module 'parse-cache-control' {
   // Follows the potential settings of cache-control, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
   interface CacheHeaders {
     'max-age'?: number;
-    'must-validate'?: boolean;
+    'must-revalidate'?: boolean;
     'no-cache'?: boolean;
     'no-store'?: boolean;
     'private'?: boolean;

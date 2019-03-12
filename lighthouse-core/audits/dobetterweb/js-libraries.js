@@ -32,10 +32,11 @@ class JsLibrariesAudit extends Audit {
   static audit(artifacts) {
     const libDetails = artifacts.JSLibraries.map(lib => ({
       name: lib.name,
-      version: lib.version, // null if not detected
-      npm: lib.npmPkgName || null, // ~70% of libs come with this field
+      version: lib.version || undefined, // null if not detected
+      npm: lib.npmPkgName || undefined, // ~70% of libs come with this field
     }));
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'name', itemType: 'text', text: 'Name'},
       {key: 'version', itemType: 'text', text: 'Version'},

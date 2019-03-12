@@ -79,14 +79,15 @@ class NoVulnerableLibrariesAudit extends Audit {
   /**
    * @param {string} normalizedVersion
    * @param {{name: string, version: string, npmPkgName: string|undefined}} lib
+   * @param {SnykDB} snykDB
    * @return {Array<Vulnerability>}
    */
-  static getVulnerabilities(normalizedVersion, lib) {
-    const snykDB = NoVulnerableLibrariesAudit.snykDB;
+  static getVulnerabilities(normalizedVersion, lib, snykDB) {
     if (!lib.npmPkgName || !snykDB.npm[lib.npmPkgName]) {
       return [];
     }
 
+    // Verify the version is well-formed first
     try {
       semver.satisfies(normalizedVersion, '*');
     } catch (err) {
@@ -96,18 +97,25 @@ class NoVulnerableLibrariesAudit extends Audit {
       return [];
     }
 
-    const snykInfo = snykDB.npm[lib.npmPkgName];
-    const vulns = snykInfo
-      .filter(vuln => semver.satisfies(normalizedVersion, vuln.semver.vulnerable[0]))
-      // valid vulnerability
-      .map(vuln => {
-        return {
-          severity: vuln.severity,
-          numericSeverity: this.severityMap[vuln.severity],
-          library: `${lib.name}@${normalizedVersion}`,
-          url: 'https://snyk.io/vuln/' + vuln.id,
-        };
-      });
+    // Match the vulnerability candidates from snyk against the version we see in the page
+    const vulnCandidatesForLib = snykDB.npm[lib.npmPkgName];
+    const matchingVulns = vulnCandidatesForLib.filter(vulnCandidate => {
+      // Each snyk vulnerability comes with an array of semver ranges
+      // The page is vulnerable if any of the ranges match.
+      const hasMatchingVersion = vulnCandidate.semver.vulnerable.some(vulnSemverRange =>
+        semver.satisfies(normalizedVersion, vulnSemverRange)
+      );
+      return hasMatchingVersion;
+    });
+
+    const vulns = matchingVulns.map(vuln => {
+      return {
+        severity: vuln.severity,
+        numericSeverity: this.severityMap[vuln.severity],
+        library: `${lib.name}@${normalizedVersion}`,
+        url: 'https://snyk.io/vuln/' + vuln.id,
+      };
+    });
 
     return vulns;
   }
@@ -128,6 +136,8 @@ class NoVulnerableLibrariesAudit extends Audit {
    */
   static audit(artifacts) {
     const foundLibraries = artifacts.JSLibraries;
+    const snykDB = NoVulnerableLibrariesAudit.snykDB;
+
     if (!foundLibraries.length) {
       return {
         rawValue: true,
@@ -135,12 +145,12 @@ class NoVulnerableLibrariesAudit extends Audit {
     }
 
     let totalVulns = 0;
-    /** @type {Array<{highestSeverity: string, vulnCount: number, detectedLib: LH.Audit.DetailsRendererLinkDetailsJSON}>} */
+    /** @type {Array<{highestSeverity: string, vulnCount: number, detectedLib: LH.Audit.Details.LinkValue}>} */
     const vulnerabilityResults = [];
 
     const libraryVulns = foundLibraries.map(lib => {
       const version = this.normalizeVersion(lib.version) || '';
-      const vulns = this.getVulnerabilities(version, lib);
+      const vulns = this.getVulnerabilities(version, lib, snykDB);
       const vulnCount = vulns.length;
       totalVulns += vulnCount;
 
@@ -175,6 +185,7 @@ class NoVulnerableLibrariesAudit extends Audit {
       displayValue = `${totalVulns} vulnerability detected`;
     }
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'detectedLib', itemType: 'link', text: 'Library Version'},
       {key: 'vulnCount', itemType: 'text', text: 'Vulnerability Count'},

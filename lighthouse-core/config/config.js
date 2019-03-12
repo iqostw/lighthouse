@@ -16,6 +16,7 @@ const log = require('lighthouse-logger');
 const path = require('path');
 const Audit = require('../audits/audit.js');
 const Runner = require('../runner.js');
+const ConfigPlugin = require('./config-plugin.js');
 
 /** @typedef {typeof import('../gather/gatherers/gatherer.js')} GathererConstructor */
 /** @typedef {InstanceType<GathererConstructor>} Gatherer */
@@ -159,6 +160,22 @@ function assertValidGatherer(gathererInstance, gathererName) {
 
   if (typeof gathererInstance.afterPass !== 'function') {
     throw new Error(`${gathererName} has no afterPass() method.`);
+  }
+}
+
+/**
+ * Throws if pluginName is invalid or (somehow) collides with a category in the
+ * configJSON being added to.
+ * @param {LH.Config.Json} configJSON
+ * @param {string} pluginName
+ */
+function assertValidPluginName(configJSON, pluginName) {
+  if (!pluginName.startsWith('lighthouse-plugin-')) {
+    throw new Error(`plugin name '${pluginName}' does not start with 'lighthouse-plugin-'`);
+  }
+
+  if (configJSON.categories && configJSON.categories[pluginName]) {
+    throw new Error(`plugin name '${pluginName}' not allowed because it is the id of a category already found in config`); // eslint-disable-line max-len
   }
 }
 
@@ -344,6 +361,9 @@ class Config {
     // The directory of the config path, if one was provided.
     const configDir = configPath ? path.dirname(configPath) : undefined;
 
+    // Validate and merge in plugins (if any).
+    configJSON = Config.mergePlugins(configJSON, flags, configDir);
+
     const settings = Config.initSettings(configJSON.settings, flags);
 
     // Augment passes with necessary defaults and require gatherers.
@@ -435,6 +455,30 @@ class Config {
     }
 
     return merge(baseJSON, extendJSON);
+  }
+
+  /**
+   * @param {LH.Config.Json} configJSON
+   * @param {LH.Flags=} flags
+   * @param {string=} configDir
+   * @return {LH.Config.Json}
+   */
+  static mergePlugins(configJSON, flags, configDir) {
+    const configPlugins = configJSON.plugins || [];
+    const flagPlugins = (flags && flags.plugins) || [];
+    const pluginNames = new Set([...configPlugins, ...flagPlugins]);
+
+    for (const pluginName of pluginNames) {
+      assertValidPluginName(configJSON, pluginName);
+
+      const pluginPath = Config.resolveModule(pluginName, configDir, 'plugin');
+      const rawPluginJson = require(pluginPath);
+      const pluginJson = ConfigPlugin.parsePlugin(rawPluginJson, pluginName);
+
+      configJSON = Config.extendConfigJSON(configJSON, pluginJson);
+    }
+
+    return configJSON;
   }
 
   /**

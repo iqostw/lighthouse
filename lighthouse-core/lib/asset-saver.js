@@ -9,11 +9,13 @@ const fs = require('fs');
 const path = require('path');
 const log = require('lighthouse-logger');
 const stream = require('stream');
-const Simulator = require('./dependency-graph/simulator/simulator');
-const lanternTraceSaver = require('./lantern-trace-saver');
-const Metrics = require('./traces/pwmetrics-events');
+const Simulator = require('./dependency-graph/simulator/simulator.js');
+const lanternTraceSaver = require('./lantern-trace-saver.js');
+const Metrics = require('./traces/pwmetrics-events.js');
 const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
+const NetworkAnalysisComputed = require('../computed/network-analysis.js');
+const LoadSimulatorComputed = require('../computed/load-simulator.js');
 
 const artifactsFilename = 'artifacts.json';
 const traceSuffix = '.trace.json';
@@ -272,6 +274,19 @@ async function logAssets(artifacts, audits) {
   });
 }
 
+/**
+ * @param {LH.DevtoolsLog} devtoolsLog
+ * @param {string} outputPath
+ * @return {Promise<void>}
+ */
+async function saveLanternNetworkData(devtoolsLog, outputPath) {
+  const context = /** @type {LH.Audit.Context} */ ({computedCache: new Map()});
+  const networkAnalysis = await NetworkAnalysisComputed.request(devtoolsLog, context);
+  const lanternData = LoadSimulatorComputed.convertAnalysisToSaveableLanternData(networkAnalysis);
+
+  fs.writeFileSync(outputPath, JSON.stringify(lanternData));
+}
+
 module.exports = {
   saveArtifacts,
   loadArtifacts,
@@ -279,4 +294,5 @@ module.exports = {
   prepareAssets,
   saveTrace,
   logAssets,
+  saveLanternNetworkData,
 };

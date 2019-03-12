@@ -53,7 +53,7 @@ declare global {
       /** List of top-level warnings for this Lighthouse run. */
       runWarnings: string[];
       /** A top-level error message that, if present, indicates a serious enough problem that this Lighthouse result may need to be discarded. */
-      runtimeError: {code: string, message: string};
+      runtimeError?: {code: string, message: string};
       /** The User-Agent string of the browser used run Lighthouse for these results. */
       userAgent: string;
       /** Information about the environment in which Lighthouse was run. */
@@ -112,20 +112,6 @@ declare global {
         }[];
         blockedUrlPatterns: string[];
         extraHeaders: Crdp.Network.Headers;
-      }
-
-      export module Audit {
-        export interface OpportunityDetailsItem {
-          url: string;
-          wastedBytes?: number;
-          totalBytes?: number;
-          wastedMs?: number;
-          [p: string]: number | boolean | string | undefined;
-        }
-
-        export interface OpportunityDetails extends ResultLite.Audit.OpportunityDetails {
-          items: OpportunityDetailsItem[];
-        }
       }
     }
   }

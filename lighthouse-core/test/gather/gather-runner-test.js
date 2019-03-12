@@ -33,6 +33,7 @@ class TestGathererNoArtifact extends Gatherer {
 }
 
 const fakeDriver = require('./fake-driver');
+const fakeDriverUsingRealMobileDevice = fakeDriver.fakeDriverUsingRealMobileDevice;
 
 function getMockedEmulationDriver(emulationFn, netThrottleFn, cpuThrottleFn,
   blockUrlFn, extraHeadersFn) {
@@ -153,6 +154,50 @@ describe('GatherRunner', function() {
     return GatherRunner.run(config.passes, options).then(artifacts => {
       assert.deepStrictEqual(artifacts.URL, {requestedUrl, finalUrl},
         'did not find expected URL artifact');
+    });
+  });
+
+  describe('collects TestedAsMobileDevice as an artifact', () => {
+    const url = 'https://example.com';
+
+    it('works when running on desktop device without emulation', async () => {
+      const driver = fakeDriver;
+      const config = new Config({passes: [{}]});
+      const settings = {};
+      const options = {url, driver, config, settings};
+
+      const results = await GatherRunner.run(config.passes, options);
+      expect(results.TestedAsMobileDevice).toBe(false);
+    });
+
+    it('works when running on desktop device with mobile emulation', async () => {
+      const driver = fakeDriver;
+      const config = new Config({passes: [{}]});
+      const settings = {emulatedFormFactor: 'mobile'};
+      const options = {url, driver, config, settings};
+
+      const results = await GatherRunner.run(config.passes, options);
+      expect(results.TestedAsMobileDevice).toBe(true);
+    });
+
+    it('works when running on mobile device without emulation', async () => {
+      const driver = fakeDriverUsingRealMobileDevice;
+      const config = new Config({passes: [{}]});
+      const settings = {};
+      const options = {url, driver, config, settings};
+
+      const results = await GatherRunner.run(config.passes, options);
+      expect(results.TestedAsMobileDevice).toBe(true);
+    });
+
+    it('works when running on mobile device with desktop emulation', async () => {
+      const driver = fakeDriverUsingRealMobileDevice;
+      const config = new Config({passes: [{}]});
+      const settings = {emulatedFormFactor: 'desktop'};
+      const options = {url, driver, config, settings};
+
+      const results = await GatherRunner.run(config.passes, options);
+      expect(results.TestedAsMobileDevice).toBe(false);
     });
   });
 

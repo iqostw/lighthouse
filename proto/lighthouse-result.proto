@@ -139,6 +139,9 @@ message LighthouseResult {
     // List of the categories that were run, empty if all were run
     // nullable list of strings
     google.protobuf.Value only_categories = 3;
+
+    // How Lighthouse was run, e.g. from the Chrome extension or from the npm module
+    string channel = 4;
   }
 
   // The settings that were used to run this audit
@@ -334,6 +337,12 @@ message I18n {
 
     // The heading that is shown above a list of audits that have warnings
     string warning_audits_group_title = 17;
+
+    // The label for the button to show all lines of a snippet
+    string snippet_expand_button_label = 18;
+
+    // The label for the button to show only a few lines of a snippet
+    string snippet_collapse_button_label = 19;
   }
 
   // The message holding all formatted strings

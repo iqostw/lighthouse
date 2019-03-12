@@ -94,6 +94,7 @@ class UserTimings extends Audit {
         }
       });
 
+      /** @type {LH.Audit.Details.Table['headings']} */
       const headings = [
         {key: 'name', itemType: 'text', text: str_(UIStrings.columnName)},
         {key: 'timingType', itemType: 'text', text: str_(UIStrings.columnType)},

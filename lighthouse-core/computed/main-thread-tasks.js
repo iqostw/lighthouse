@@ -41,6 +41,8 @@ const TraceOfTab = require('./trace-of-tab.js');
  * @prop {TaskGroup} group
  */
 
+/** @typedef {{timers: Map<string, TaskNode>}} PriorTaskData */
+
 class MainThreadTasks {
   /**
    * @param {LH.TraceEvent} event
@@ -71,15 +73,24 @@ class MainThreadTasks {
 
   /**
    * @param {LH.TraceEvent[]} mainThreadEvents
+   * @param {PriorTaskData} priorTaskData
    * @return {TaskNode[]}
    */
-  static _createTasksFromEvents(mainThreadEvents) {
+  static _createTasksFromEvents(mainThreadEvents, priorTaskData) {
     /** @type {TaskNode[]} */
     const tasks = [];
     /** @type {TaskNode|undefined} */
     let currentTask;
 
     for (const event of mainThreadEvents) {
+      // Save the timer data, TimerInstall events are instant events `ph === 'I'` so process them first.
+      if (event.name === 'TimerInstall' && currentTask) {
+        /** @type {string} */
+        // @ts-ignore - timerId exists when name is TimerInstall
+        const timerId = event.args.data.timerId;
+        priorTaskData.timers.set(timerId, currentTask);
+      }
+
       // Only look at X (Complete), B (Begin), and E (End) events as they have most data
       if (event.ph !== 'X' && event.ph !== 'B' && event.ph !== 'E') continue;
 
@@ -141,11 +152,13 @@ class MainThreadTasks {
   /**
    * @param {TaskNode} task
    * @param {string[]} parentURLs
+   * @param {PriorTaskData} priorTaskData
    */
-  static _computeRecursiveAttributableURLs(task, parentURLs) {
+  static _computeRecursiveAttributableURLs(task, parentURLs, priorTaskData) {
     const argsData = task.event.args.data || {};
     const stackFrameURLs = (argsData.stackTrace || []).map(entry => entry.url);
 
+    /** @type {Array<string|undefined>} */
     let taskURLs = [];
     switch (task.event.name) {
       /**
@@ -161,6 +174,15 @@ class MainThreadTasks {
       case 'v8.compileModule':
         taskURLs = [task.event.args.fileName].concat(stackFrameURLs);
         break;
+      case 'TimerFire': {
+        /** @type {string} */
+        // @ts-ignore - timerId exists when name is TimerFire
+        const timerId = task.event.args.data.timerId;
+        const timerInstallerTaskNode = priorTaskData.timers.get(timerId);
+        if (!timerInstallerTaskNode) break;
+        taskURLs = timerInstallerTaskNode.attributableURLs.concat(stackFrameURLs);
+        break;
+      }
       default:
         taskURLs = stackFrameURLs;
         break;
@@ -178,7 +200,7 @@ class MainThreadTasks {
 
     task.attributableURLs = attributableURLs;
     task.children.forEach(child =>
-      MainThreadTasks._computeRecursiveAttributableURLs(child, attributableURLs));
+      MainThreadTasks._computeRecursiveAttributableURLs(child, attributableURLs, priorTaskData));
   }
 
   /**
@@ -196,14 +218,16 @@ class MainThreadTasks {
    * @return {TaskNode[]}
    */
   static getMainThreadTasks(traceEvents) {
-    const tasks = MainThreadTasks._createTasksFromEvents(traceEvents);
+    const timers = new Map();
+    const priorTaskData = {timers};
+    const tasks = MainThreadTasks._createTasksFromEvents(traceEvents, priorTaskData);
 
     // Compute the recursive properties we couldn't compute earlier, starting at the toplevel tasks
     for (const task of tasks) {
       if (task.parent) continue;
 
       MainThreadTasks._computeRecursiveSelfTime(task);
-      MainThreadTasks._computeRecursiveAttributableURLs(task, []);
+      MainThreadTasks._computeRecursiveAttributableURLs(task, [], priorTaskData);
       MainThreadTasks._computeRecursiveTaskGroup(task);
     }
 

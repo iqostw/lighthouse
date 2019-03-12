@@ -24,16 +24,20 @@ const LR_PRESETS = {
  * @param {Connection} connection
  * @param {string} url
  * @param {LH.Flags} flags Lighthouse flags, including `output`
- * @param {{lrDevice?: 'desktop'|'mobile', categoryIDs?: Array<string>, logAssets: boolean}} lrOpts Options coming from Lightrider
+ * @param {{lrDevice?: 'desktop'|'mobile', categoryIDs?: Array<string>, logAssets: boolean, keepRawValues: boolean}} lrOpts Options coming from Lightrider
  * @return {Promise<string|Array<string>|void>}
  */
-async function runLighthouseInLR(connection, url, flags, {lrDevice, categoryIDs, logAssets}) {
+async function runLighthouseInLR(connection, url, flags, lrOpts) {
+  const {lrDevice, categoryIDs, logAssets, keepRawValues} = lrOpts;
+
   // Certain fixes need to kick in under LR, see https://github.com/GoogleChrome/lighthouse/issues/5839
   global.isLightRider = true;
 
   // disableStorageReset because it causes render server hang
   flags.disableStorageReset = true;
   flags.logLevel = flags.logLevel || 'info';
+  flags.channel = 'lr';
+
   const config = lrDevice === 'desktop' ? LR_PRESETS.desktop : LR_PRESETS.mobile;
   if (categoryIDs) {
     config.settings = config.settings || {};
@@ -50,7 +54,7 @@ async function runLighthouseInLR(connection, url, flags, {lrDevice, categoryIDs,
 
     // pre process the LHR for proto
     if (flags.output === 'json' && typeof results.report === 'string') {
-      return preprocessor.processForProto(results.report);
+      return preprocessor.processForProto(results.report, {keepRawValues});
     }
 
     return results.report;

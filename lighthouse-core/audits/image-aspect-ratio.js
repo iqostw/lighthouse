@@ -93,6 +93,7 @@ class ImageAspectRatio extends Audit {
       if (!processed.doRatiosMatch) results.push(processed);
     });
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'url', itemType: 'thumbnail', text: ''},
       {key: 'url', itemType: 'url', text: 'URL'},

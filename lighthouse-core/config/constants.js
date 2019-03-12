@@ -8,7 +8,8 @@
 /**
  * Adjustments needed for DevTools network throttling to simulate
  * more realistic network conditions.
- * See: crbug.com/721112
+ * @see https://crbug.com/721112
+ * @see https://docs.google.com/document/d/10lfVdS1iDWCRKQXPfbxEn4Or99D64mvNlugP1AQuFlE/edit
  */
 const DEVTOOLS_RTT_ADJUSTMENT_FACTOR = 3.75;
 const DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR = 0.9;
@@ -16,6 +17,8 @@ const DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR = 0.9;
 const throttling = {
   DEVTOOLS_RTT_ADJUSTMENT_FACTOR,
   DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
+  // These values align with WebPageTest's definition of "Fast 3G"
+  // But offer similar charateristics to roughly the 75th percentile of 4G connections.
   mobileSlow4G: {
     rttMs: 150,
     throughputKbps: 1.6 * 1024,
@@ -24,11 +27,23 @@ const throttling = {
     uploadThroughputKbps: 750 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
     cpuSlowdownMultiplier: 4,
   },
+  // These values partially align with WebPageTest's definition of "Regular 3G".
+  // These values are meant to roughly align with Chrome UX report's 3G definition which are based
+  // on HTTP RTT of 300-1400ms and downlink throughput of <700kbps.
+  mobileRegluar3G: {
+    rttMs: 300,
+    throughputKbps: 700,
+    requestLatencyMs: 300 * DEVTOOLS_RTT_ADJUSTMENT_FACTOR,
+    downloadThroughputKbps: 700 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
+    uploadThroughputKbps: 700 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
+    cpuSlowdownMultiplier: 4,
+  },
 };
 
 /** @type {LH.Config.Settings} */
 const defaultSettings = {
   output: 'json',
+  maxWaitForFcp: 15 * 1000,
   maxWaitForLoad: 45 * 1000,
   throttlingMethod: 'simulate',
   throttling: throttling.mobileSlow4G,
@@ -37,6 +52,7 @@ const defaultSettings = {
   disableStorageReset: false,
   disableDeviceEmulation: false,
   emulatedFormFactor: 'mobile',
+  channel: 'node',
 
   // the following settings have no defaults but we still want ensure that `key in settings`
   // in config will work in a typechecked way
@@ -44,6 +60,7 @@ const defaultSettings = {
   blockedUrlPatterns: null,
   additionalTraceCategories: null,
   extraHeaders: null,
+  precomputedLanternData: null,
   onlyAudits: null,
   onlyCategories: null,
   skipAudits: null,

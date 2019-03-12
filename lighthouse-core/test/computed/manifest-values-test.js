@@ -66,34 +66,34 @@ describe('ManifestValues computed artifact', () => {
     assert.equal(results.allChecks.every(i => i.passing), true, 'not all checks passed');
   });
 
-  describe('color checks', async () => {
+  describe('color checks', () => {
     it('fails when a minimal manifest contains no background_color', async () => {
-      const Manifest = noUrlManifestParser(JSON.stringify({
+      const WebAppManifest = noUrlManifestParser(JSON.stringify({
         start_url: '/',
       }));
-      const results = await ManifestValues.request(Manifest, getMockContext());
+      const results = await ManifestValues.request(WebAppManifest, getMockContext());
       const colorResults = results.allChecks.filter(i => i.id.includes('Color'));
       assert.equal(colorResults.every(i => i.passing === false), true);
     });
 
     it('fails when a minimal manifest contains an invalid background_color', async () => {
-      const Manifest = noUrlManifestParser(JSON.stringify({
+      const WebAppManifest = noUrlManifestParser(JSON.stringify({
         background_color: 'no',
         theme_color: 'no',
       }));
 
-      const results = await ManifestValues.request(Manifest, getMockContext());
+      const results = await ManifestValues.request(WebAppManifest, getMockContext());
       const colorResults = results.allChecks.filter(i => i.id.includes('Color'));
       assert.equal(colorResults.every(i => i.passing === false), true);
     });
 
     it('succeeds when a minimal manifest contains a valid background_color', async () => {
-      const Manifest = noUrlManifestParser(JSON.stringify({
+      const WebAppManifest = noUrlManifestParser(JSON.stringify({
         background_color: '#FAFAFA',
         theme_color: '#FAFAFA',
       }));
 
-      const results = await ManifestValues.request(Manifest, getMockContext());
+      const results = await ManifestValues.request(WebAppManifest, getMockContext());
       const colorResults = results.allChecks.filter(i => i.id.includes('Color'));
       assert.equal(colorResults.every(i => i.passing === true), true);
     });
@@ -103,31 +103,31 @@ describe('ManifestValues computed artifact', () => {
     const check = ManifestValues.manifestChecks.find(i => i.id === 'hasPWADisplayValue');
 
     it('passes accepted values', () => {
-      let Manifest;
-      Manifest = noUrlManifestParser(JSON.stringify({display: 'minimal-ui'}));
-      assert.equal(check.validate(Manifest.value), true, 'doesnt pass minimal-ui');
-      Manifest = noUrlManifestParser(JSON.stringify({display: 'standalone'}));
-      assert.equal(check.validate(Manifest.value), true, 'doesnt pass standalone');
-      Manifest = noUrlManifestParser(JSON.stringify({display: 'fullscreen'}));
-      assert.equal(check.validate(Manifest.value), true, 'doesnt pass fullscreen');
+      let WebAppManifest;
+      WebAppManifest = noUrlManifestParser(JSON.stringify({display: 'minimal-ui'}));
+      assert.equal(check.validate(WebAppManifest.value), true, 'doesnt pass minimal-ui');
+      WebAppManifest = noUrlManifestParser(JSON.stringify({display: 'standalone'}));
+      assert.equal(check.validate(WebAppManifest.value), true, 'doesnt pass standalone');
+      WebAppManifest = noUrlManifestParser(JSON.stringify({display: 'fullscreen'}));
+      assert.equal(check.validate(WebAppManifest.value), true, 'doesnt pass fullscreen');
     });
     it('fails invalid values', () => {
-      let Manifest;
-      Manifest = noUrlManifestParser(JSON.stringify({display: 'display'}));
-      assert.equal(check.validate(Manifest.value), false, 'doesnt fail display');
-      Manifest = noUrlManifestParser(JSON.stringify({display: ''}));
-      assert.equal(check.validate(Manifest.value), false, 'doesnt fail empty string');
+      let WebAppManifest;
+      WebAppManifest = noUrlManifestParser(JSON.stringify({display: 'display'}));
+      assert.equal(check.validate(WebAppManifest.value), false, 'doesnt fail display');
+      WebAppManifest = noUrlManifestParser(JSON.stringify({display: ''}));
+      assert.equal(check.validate(WebAppManifest.value), false, 'doesnt fail empty string');
     });
   });
 
-  describe('icons checks', async () => {
+  describe('icons checks', () => {
     describe('icons exist check', () => {
       it('fails when a manifest contains no icons array', async () => {
         const manifestSrc = JSON.stringify({
           name: 'NoIconsHere',
         });
-        const Manifest = noUrlManifestParser(manifestSrc);
-        const results = await ManifestValues.request(Manifest, getMockContext());
+        const WebAppManifest = noUrlManifestParser(manifestSrc);
+        const results = await ManifestValues.request(WebAppManifest, getMockContext());
         const iconResults = results.allChecks.filter(i => i.id.includes('Icons'));
         assert.equal(iconResults.every(i => i.passing === false), true);
       });
@@ -136,8 +136,8 @@ describe('ManifestValues computed artifact', () => {
         const manifestSrc = JSON.stringify({
           icons: [],
         });
-        const Manifest = noUrlManifestParser(manifestSrc);
-        const results = await ManifestValues.request(Manifest, getMockContext());
+        const WebAppManifest = noUrlManifestParser(manifestSrc);
+        const results = await ManifestValues.request(WebAppManifest, getMockContext());
         const iconResults = results.allChecks.filter(i => i.id.includes('Icons'));
         assert.equal(iconResults.every(i => i.passing === false), true);
       });
@@ -150,8 +150,8 @@ describe('ManifestValues computed artifact', () => {
             src: 'icon.png',
           }],
         });
-        const Manifest = noUrlManifestParser(manifestSrc);
-        const results = await ManifestValues.request(Manifest, getMockContext());
+        const WebAppManifest = noUrlManifestParser(manifestSrc);
+        const results = await ManifestValues.request(WebAppManifest, getMockContext());
         const iconResults = results.allChecks.filter(i => i.id.includes('Icons'));
 
         assert.equal(iconResults.every(i => i.passing === false), true);
@@ -164,8 +164,8 @@ describe('ManifestValues computed artifact', () => {
             sizes: '72x72 96x96 128x128 256x256 1024x1024',
           }],
         });
-        const Manifest = noUrlManifestParser(manifestSrc);
-        const results = await ManifestValues.request(Manifest, getMockContext());
+        const WebAppManifest = noUrlManifestParser(manifestSrc);
+        const results = await ManifestValues.request(WebAppManifest, getMockContext());
         const iconResults = results.allChecks.filter(i => i.id.includes('Icons'));
 
         assert.equal(iconResults.every(i => i.passing === true), true);
@@ -180,8 +180,8 @@ describe('ManifestValues computed artifact', () => {
             sizes: '1256x1256',
           }],
         });
-        const Manifest = noUrlManifestParser(manifestSrc);
-        const results = await ManifestValues.request(Manifest, getMockContext());
+        const WebAppManifest = noUrlManifestParser(manifestSrc);
+        const results = await ManifestValues.request(WebAppManifest, getMockContext());
         const iconResults = results.allChecks.filter(i => i.id.includes('Icons'));
 
         assert.equal(iconResults.every(i => i.passing === true), true);
@@ -195,8 +195,8 @@ describe('ManifestValues computed artifact', () => {
             sizes: '200x220',
           }],
         });
-        const Manifest = noUrlManifestParser(manifestSrc);
-        const results = await ManifestValues.request(Manifest, getMockContext());
+        const WebAppManifest = noUrlManifestParser(manifestSrc);
+        const results = await ManifestValues.request(WebAppManifest, getMockContext());
         const iconResults = results.allChecks.filter(i => i.id.includes('Icons'));
 
         assert.equal(iconResults.every(i => i.passing === false), true);

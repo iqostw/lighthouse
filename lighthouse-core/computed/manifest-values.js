@@ -77,7 +77,7 @@ class ManifestValues {
 
   /**
    * Returns results of all manifest checks
-   * @param {LH.Artifacts['Manifest']} manifest
+   * @param {LH.Artifacts['WebAppManifest']} manifest
    * @return {Promise<LH.Artifacts.ManifestValues>}
    */
   static async compute_(manifest) {

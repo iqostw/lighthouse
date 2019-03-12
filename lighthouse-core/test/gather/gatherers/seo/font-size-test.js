@@ -172,69 +172,63 @@ describe('Font size gatherer', () => {
 
     it('should identify inline styles', () => {
       const result = FontSizeGather.getEffectiveFontRule({inlineStyle});
-      expect(result).toMatchInlineSnapshot(`
-Object {
-  "cssProperties": Array [
-    Object {
-      "name": "font-size",
-      "value": "1em",
-    },
-  ],
-  "styleSheetId": 1,
-  "type": "Inline",
-}
-`);
+      expect(result).toEqual({
+        cssProperties: [
+          {
+            name: 'font-size',
+            value: '1em',
+          },
+        ],
+        styleSheetId: 1,
+        type: 'Inline',
+      });
     });
 
     it('should identify direct CSS rules', () => {
       const result = FontSizeGather.getEffectiveFontRule({matchedCSSRules});
-      expect(result).toMatchInlineSnapshot(`
-Object {
-  "cssProperties": Array [
-    Object {
-      "name": "font-size",
-      "value": "1em",
-    },
-  ],
-  "parentRule": Object {
-    "origin": "regular",
-    "selectors": Array [
-      Object {
-        "text": "html body *",
-      },
-      Object {
-        "text": "#main",
-      },
-    ],
-  },
-  "styleSheetId": 123,
-  "type": "Regular",
-}
-`);
+      expect(result).toEqual({
+        cssProperties: [
+          {
+            name: 'font-size',
+            value: '1em',
+          },
+        ],
+        parentRule: {
+          origin: 'regular',
+          selectors: [
+            {
+              text: 'html body *',
+            },
+            {
+              text: '#main',
+            },
+          ],
+        },
+        styleSheetId: 123,
+        type: 'Regular',
+      });
     });
 
     it('should identify inherited CSS rules', () => {
       const result = FontSizeGather.getEffectiveFontRule({inherited});
-      expect(result).toMatchInlineSnapshot(`
-Object {
-  "cssProperties": Array [
-    Object {
-      "name": "font-size",
-      "value": 12,
-    },
-  ],
-  "parentRule": Object {
-    "origin": "user-agent",
-    "selectors": Array [
-      Object {
-        "text": "body",
-      },
-    ],
-  },
-  "styleSheetId": undefined,
-  "type": "Regular",
-}
-`);
+      expect(result).toEqual({
+        cssProperties: [
+          {
+            name: 'font-size',
+            value: 12,
+          },
+        ],
+        parentRule: {
+          origin: 'user-agent',
+          selectors: [
+            {
+              text: 'body',
+            },
+          ],
+        },
+        styleSheetId: undefined,
+        type: 'Regular',
+      });
     });
 
     it('should respect precendence', () => {

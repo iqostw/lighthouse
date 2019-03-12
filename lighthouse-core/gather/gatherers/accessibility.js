@@ -33,6 +33,7 @@ function runA11yChecks() {
     resultTypes: ['violations', 'inapplicable'],
     rules: {
       'tabindex': {enabled: true},
+      'accesskeys': {enabled: true},
       'table-fake-caption': {enabled: false},
       'td-has-header': {enabled: false},
       'marquee': {enabled: false},

@@ -53,9 +53,11 @@ describe('Byte efficiency base audit', () => {
   describe('#estimateTransferSize', () => {
     const estimate = ByteEfficiencyAudit.estimateTransferSize;
 
-    it('should estimate by compression ratio when no network record available', () => {
-      const result = estimate(undefined, 1000, '', 0.345);
-      assert.equal(result, 345);
+    it('should estimate by resource type compression ratio when no network info available', () => {
+      assert.equal(estimate(undefined, 1000, 'Stylesheet'), 200);
+      assert.equal(estimate(undefined, 1000, 'Script'), 330);
+      assert.equal(estimate(undefined, 1000, 'Document'), 330);
+      assert.equal(estimate(undefined, 1000, ''), 500);
     });
 
     it('should return transferSize when asset matches', () => {

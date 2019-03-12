@@ -6,7 +6,7 @@
 'use strict';
 
 const makeComputedArtifact = require('./computed-artifact.js');
-const URL = require('../lib/url-shim.js');
+const NetworkAnalyzer = require('../lib/dependency-graph/simulator/network-analyzer.js');
 const NetworkRecords = require('./network-records.js');
 
 /**
@@ -22,10 +22,7 @@ class MainResource {
   static async compute_(data, context) {
     const finalUrl = data.URL.finalUrl;
     const requests = await NetworkRecords.request(data.devtoolsLog, context);
-    // equalWithExcludedFragments is expensive, so check that the finalUrl starts with the request first
-    const mainResource = requests.find(request => finalUrl.startsWith(request.url) &&
-      URL.equalWithExcludedFragments(request.url, finalUrl));
-
+    const mainResource = NetworkAnalyzer.findMainDocument(requests, finalUrl);
     if (!mainResource) {
       throw new Error('Unable to identify the main resource');
     }

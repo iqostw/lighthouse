@@ -16,7 +16,7 @@ const exampleManifest = noUrlManifestParser(manifestSrc);
 
 function generateMockArtifacts() {
   return {
-    Manifest: exampleManifest,
+    WebAppManifest: exampleManifest,
     MetaElements: [{name: 'theme-color', content: '#bada55'}],
   };
 }
@@ -30,7 +30,7 @@ function generateMockAuditContext() {
  * Simple manifest parsing helper when the manifest URLs aren't material to the
  * test. Uses example.com URLs for testing.
  * @param {string} manifestSrc
- * @return {!ManifestNode<(!Manifest|undefined)>}
+ * @return {!ManifestNode<(!WebAppManifest|undefined)>}
  */
 function noUrlManifestParser(manifestSrc) {
   return manifestParser(manifestSrc, EXAMPLE_MANIFEST_URL, EXAMPLE_DOC_URL);
@@ -40,7 +40,7 @@ function noUrlManifestParser(manifestSrc) {
 describe('PWA: themed omnibox audit', () => {
   it('fails if page had no manifest', () => {
     const artifacts = generateMockArtifacts();
-    artifacts.Manifest = null;
+    artifacts.WebAppManifest = null;
     const context = generateMockAuditContext();
 
     return ThemedOmniboxAudit.audit(artifacts, context).then(result => {
@@ -53,7 +53,7 @@ describe('PWA: themed omnibox audit', () => {
   /* eslint-disable camelcase */
   it('fails when a minimal manifest contains no theme_color', () => {
     const artifacts = generateMockArtifacts();
-    artifacts.Manifest = noUrlManifestParser(JSON.stringify({
+    artifacts.WebAppManifest = noUrlManifestParser(JSON.stringify({
       start_url: '/',
     }));
     const context = generateMockAuditContext();
@@ -66,7 +66,7 @@ describe('PWA: themed omnibox audit', () => {
 
   it('succeeds when a minimal manifest contains a theme_color', () => {
     const artifacts = generateMockArtifacts();
-    artifacts.Manifest = noUrlManifestParser(JSON.stringify({
+    artifacts.WebAppManifest = noUrlManifestParser(JSON.stringify({
       theme_color: '#bada55',
     }));
     const context = generateMockAuditContext();
@@ -126,10 +126,19 @@ describe('PWA: themed omnibox audit', () => {
     });
   });
 
+  it('succeeds when theme-color has a CSS4 nickname content value', async () => {
+    const artifacts = generateMockArtifacts();
+    artifacts.MetaElements = [{name: 'theme-color', content: 'rebeccapurple'}]; // <3
+    const context = generateMockAuditContext();
+
+    const result = await ThemedOmniboxAudit.audit(artifacts, context);
+    assert.equal(result.rawValue, true);
+    assert.equal(result.explanation, undefined);
+  });
 
   it('fails if HTML theme color is good, but manifest themecolor is bad', () => {
     const artifacts = generateMockArtifacts();
-    artifacts.Manifest = noUrlManifestParser(JSON.stringify({
+    artifacts.WebAppManifest = noUrlManifestParser(JSON.stringify({
       start_url: '/',
     }));
     const context = generateMockAuditContext();

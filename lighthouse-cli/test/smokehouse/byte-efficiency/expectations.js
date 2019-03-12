@@ -17,7 +17,7 @@ module.exports = [
         details: {
           overallSavingsBytes: '>17000',
           items: {
-            length: 1,
+            length: 2,
           },
         },
       },
@@ -26,14 +26,28 @@ module.exports = [
         details: {
           overallSavingsBytes: '>45000',
           overallSavingsMs: '>500',
-          items: {
-            length: 1,
-          },
+          items: [
+            {
+              url: 'http://localhost:10200/byte-efficiency/script.js',
+              wastedBytes: '46481 +/- 100',
+              wastedPercent: '87 +/- 5',
+            },
+            {
+              url: 'inline: \n  function unusedFunction() {\n    // Un...',
+              wastedBytes: '6581 +/- 100',
+              wastedPercent: '99.6 +/- 0.1',
+            },
+            {
+              url: 'inline: \n  // Used block #1\n  // FILLER DATA JUS...',
+              wastedBytes: '6559 +/- 100',
+              wastedPercent: 100,
+            },
+          ],
         },
       },
       'unused-css-rules': {
         details: {
-          overallSavingsBytes: '>39000',
+          overallSavingsBytes: '>35000',
           items: {
             length: 2,
           },
@@ -98,6 +112,31 @@ module.exports = [
             {wastedPercent: '<60'},
             {wastedPercent: '<60'},
             {wastedPercent: '<60'},
+          ],
+        },
+      },
+    },
+  },
+  {
+    requestedUrl: 'http://localhost:10200/byte-efficiency/gzip.html',
+    finalUrl: 'http://localhost:10200/byte-efficiency/gzip.html',
+    audits: {
+      'network-requests': {
+        details: {
+          items: [
+            {
+              url: 'http://localhost:10200/byte-efficiency/gzip.html',
+            },
+            {
+              url: 'http://localhost:10200/byte-efficiency/script.js?gzip=1',
+              transferSize: 1136,
+              resourceSize: 52997,
+            },
+            {
+              url: 'http://localhost:10200/byte-efficiency/script.js',
+              transferSize: 53181,
+              resourceSize: 52997,
+            },
           ],
         },
       },

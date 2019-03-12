@@ -6,6 +6,7 @@
 'use strict';
 
 const MetricsAudit = require('../../audits/metrics.js');
+const TTIComputed = require('../../computed/metrics/interactive.js');
 
 const pwaTrace = require('../fixtures/traces/progressive-app-m60.json');
 const pwaDevtoolsLog = require('../fixtures/traces/progressive-app-m60.devtools.log.json');
@@ -26,5 +27,22 @@ describe('Performance: metrics', () => {
     const context = {settings: {throttlingMethod: 'simulate'}, computedCache: new Map()};
     const result = await MetricsAudit.audit(artifacts, context);
     expect(result.details.items[0]).toMatchSnapshot();
+  });
+
+  it('does to fail the entire audit when TTI errors', async () => {
+    const artifacts = {
+      traces: {
+        [MetricsAudit.DEFAULT_PASS]: pwaTrace,
+      },
+      devtoolsLogs: {
+        [MetricsAudit.DEFAULT_PASS]: pwaDevtoolsLog,
+      },
+    };
+
+    const mockTTIFn = jest.spyOn(TTIComputed, 'request');
+    mockTTIFn.mockRejectedValueOnce(new Error('TTI failed'));
+    const context = {settings: {throttlingMethod: 'simulate'}, computedCache: new Map()};
+    const result = await MetricsAudit.audit(artifacts, context);
+    expect(result.details.items[0].interactive).toEqual(undefined);
   });
 });

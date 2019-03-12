@@ -90,7 +90,11 @@ class PredictivePerf extends Audit {
       score,
       rawValue: values.roughEstimateOfTTI,
       displayValue: Util.formatMilliseconds(values.roughEstimateOfTTI),
-      details: {items: [values]},
+      details: {
+        type: 'diagnostic',
+        // TODO: Consider not nesting values under `items`.
+        items: [values],
+      },
     };
   }
 }

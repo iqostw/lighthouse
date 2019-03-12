@@ -331,7 +331,7 @@ class Runner {
   /**
    * Returns first runtimeError found in artifacts.
    * @param {LH.Artifacts} artifacts
-   * @return {LH.Result['runtimeError']}
+   * @return {LH.Result['runtimeError']|undefined}
    */
   static getArtifactRuntimeError(artifacts) {
     for (const possibleErrorArtifact of Object.values(artifacts)) {
@@ -345,10 +345,7 @@ class Runner {
       }
     }
 
-    return {
-      code: LHError.NO_ERROR,
-      message: '',
-    };
+    return undefined;
   }
 
   /**

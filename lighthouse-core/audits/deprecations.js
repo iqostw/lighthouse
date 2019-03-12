@@ -45,6 +45,7 @@ class Deprecations extends Audit {
       };
     });
 
+    /** @type {LH.Audit.Details.Table['headings']} */
     const headings = [
       {key: 'value', itemType: 'code', text: 'Deprecation / Warning'},
       {key: 'url', itemType: 'url', text: 'URL'},

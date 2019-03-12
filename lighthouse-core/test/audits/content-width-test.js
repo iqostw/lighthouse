@@ -13,25 +13,12 @@ const assert = require('assert');
 describe('Mobile-friendly: content-width audit', () => {
   it('fails when scroll width differs from viewport width', () => {
     const result = Audit.audit({
-      HostUserAgent: 'Desktop',
+      TestedAsMobileDevice: true,
       ViewportDimensions: {
         innerWidth: 100,
         outerWidth: 300,
       },
-    }, {settings: {emulatedFormFactor: 'mobile'}});
-
-    assert.equal(result.rawValue, false);
-    assert.ok(result.explanation);
-  });
-
-  it('fails when host user agent is a phone', () => {
-    const result = Audit.audit({
-      HostUserAgent: 'Mobile Android',
-      ViewportDimensions: {
-        innerWidth: 100,
-        outerWidth: 300,
-      },
-    }, {settings: {emulatedFormFactor: 'none'}});
+    });
 
     assert.equal(result.rawValue, false);
     assert.ok(result.explanation);
@@ -47,13 +34,13 @@ describe('Mobile-friendly: content-width audit', () => {
     }, {settings: {emulatedFormFactor: 'mobile'}}).rawValue, true);
   });
 
-  it('not applicable when device emulation is turned off', () => {
+  it('not applicable when run on desktop', () => {
     return assert.equal(Audit.audit({
-      HostUserAgent: 'Mobile Android Chrome',
+      TestedAsMobileDevice: false,
       ViewportDimensions: {
         innerWidth: 300,
         outerWidth: 450,
       },
-    }, {settings: {emulatedFormFactor: 'desktop'}}).notApplicable, true);
+    }).notApplicable, true);
   });
 });

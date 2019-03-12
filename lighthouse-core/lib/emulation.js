@@ -38,15 +38,10 @@ const DESKTOP_EMULATION_METRICS = {
   deviceScaleFactor: 1,
 };
 
-const NEXUS5X_USERAGENT = {
-  // eslint-disable-next-line max-len
-  userAgent: 'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3559.0 Mobile Safari/537.36',
-};
-
-const DESKTOP_USERAGENT = {
-  // eslint-disable-next-line max-len
-  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3559.0 Safari/537.36',
-};
+// eslint-disable-next-line max-len
+const NEXUS5X_USERAGENT = 'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3694.0 Mobile Safari/537.36 Chrome-Lighthouse';
+// eslint-disable-next-line max-len
+const DESKTOP_USERAGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3694.0 Safari/537.36 Chrome-Lighthouse';
 
 const OFFLINE_METRICS = {
   offline: true,
@@ -76,7 +71,7 @@ async function enableNexus5X(driver) {
     driver.sendCommand('Emulation.setDeviceMetricsOverride', NEXUS5X_EMULATION_METRICS),
     // Network.enable must be called for UA overriding to work
     driver.sendCommand('Network.enable'),
-    driver.sendCommand('Network.setUserAgentOverride', NEXUS5X_USERAGENT),
+    driver.sendCommand('Network.setUserAgentOverride', {userAgent: NEXUS5X_USERAGENT}),
     driver.sendCommand('Emulation.setTouchEmulationEnabled', {enabled: true}),
   ]);
 }
@@ -90,7 +85,7 @@ async function enableDesktop(driver) {
     driver.sendCommand('Emulation.setDeviceMetricsOverride', DESKTOP_EMULATION_METRICS),
     // Network.enable must be called for UA overriding to work
     driver.sendCommand('Network.enable'),
-    driver.sendCommand('Network.setUserAgentOverride', DESKTOP_USERAGENT),
+    driver.sendCommand('Network.setUserAgentOverride', {userAgent: DESKTOP_USERAGENT}),
     driver.sendCommand('Emulation.setTouchEmulationEnabled', {enabled: false}),
   ]);
 }
@@ -157,4 +152,6 @@ module.exports = {
   enableCPUThrottling,
   disableCPUThrottling,
   goOffline,
+  MOBILE_USERAGENT: NEXUS5X_USERAGENT,
+  DESKTOP_USERAGENT,
 };

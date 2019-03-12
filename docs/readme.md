@@ -82,6 +82,29 @@ log.setLevel(flags.logLevel);
 launchChromeAndRunLighthouse('https://example.com', flags).then(...);
 ```
 
+## Configuration
+In order to extend the Lighthouse configuration programmatically, you need to pass the config object as the 3rd argument. If omitted, a default configuration is used.
+
+**Example:**
+```js
+{
+  extends: 'lighthouse:default',
+  settings: {
+    onlyAudits: [
+      'first-meaningful-paint',
+      'speed-index-metric',
+      'estimated-input-latency',
+      'first-interactive',
+      'consistently-interactive',
+    ],
+  },
+}
+```
+
+You can extend base configuration from either [lighthouse:default](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/default-config.js) or [lighthouse:full](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/full-config.js). Alternatively, you can build up your own configuration from scratch to have complete control.
+
+For more information on the types of config you can provide, see [Lighthouse Configuration](https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md).
+
 ## Testing on a site with authentication
 
 When installed globally via `npm i -g lighthouse` or `yarn global add lighthouse`,

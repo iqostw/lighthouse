@@ -5,24 +5,42 @@
  */
 'use strict';
 
-const UsesOptimizedImagesAudit =
-    require('../../../audits/byte-efficiency/uses-optimized-images.js');
-const assert = require('assert');
+const OptimizedImagesAudit = require('../../../audits/byte-efficiency/uses-optimized-images.js');
 
-function generateImage(type, originalSize, webpSize, jpegSize) {
-  const isData = /^data:/.test(type);
-  if (isData) {
-    type = type.slice('data:'.length);
+function generateArtifacts(images) {
+  const optimizedImages = [];
+  const imageElements = [];
+
+  for (const image of images) {
+    let {type = 'jpeg'} = image;
+    const isData = /^data:/.test(type);
+    if (isData) {
+      type = type.slice('data:'.length);
+    }
+
+    const mimeType = image.mimeType || `image/${type}`;
+    const url = isData
+      ? `data:${mimeType};base64,reaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaly ` +
+        'reaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaly long'
+      : `http://google.com/image.${type}`;
+
+    optimizedImages.push({
+      url,
+      mimeType,
+      ...image,
+    });
+
+    imageElements.push({
+      src: url,
+      naturalWidth: image.width,
+      naturalHeight: image.height,
+    });
   }
 
   return {
-    isBase64DataUri: isData,
-    url: isData ?
-      `data:image/${type};base64,reaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaly ` +
-      'reaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaly long' :
-      `http://google.com/image.${type}`,
-    mimeType: `image/${type}`,
-    originalSize, webpSize, jpegSize,
+    URL: {finalUrl: 'http://google.com/'},
+    ImageElements: imageElements,
+    OptimizedImages: optimizedImages,
   };
 }
 
@@ -30,64 +48,101 @@ function generateImage(type, originalSize, webpSize, jpegSize) {
 
 describe('Page uses optimized images', () => {
   it('ignores files when there is only insignificant savings', () => {
-    const auditResult = UsesOptimizedImagesAudit.audit_({
-      OptimizedImages: [
-        generateImage('jpeg', 5000, 4000, 4500),
-      ],
-    });
+    const artifacts = generateArtifacts([{originalSize: 5000, jpegSize: 4500}]);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
 
-    assert.equal(auditResult.items.length, 0);
+    expect(auditResult.items).toEqual([]);
   });
 
   it('flags files when there is only small savings', () => {
-    const auditResult = UsesOptimizedImagesAudit.audit_({
-      OptimizedImages: [
-        generateImage('jpeg', 15000, 4000, 4500),
-      ],
-    });
+    const artifacts = generateArtifacts([{originalSize: 15000, jpegSize: 4500}]);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
 
-    assert.equal(auditResult.items.length, 1);
+    expect(auditResult.items).toEqual([
+      {
+        fromProtocol: true,
+        isCrossOrigin: false,
+        totalBytes: 15000,
+        wastedBytes: 15000 - 4500,
+        url: 'http://google.com/image.jpeg',
+      },
+    ]);
   });
 
-  it('ignores files when no jpeg savings is available', () => {
-    const auditResult = UsesOptimizedImagesAudit.audit_({
-      OptimizedImages: [
-        generateImage('png', 150000, 40000),
-      ],
-    });
+  it('estimates savings on files without jpegSize', () => {
+    const artifacts = generateArtifacts([{originalSize: 1e6, width: 1000, height: 1000}]);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
 
-    assert.equal(auditResult.items.length, 0);
+    expect(auditResult.items).toEqual([
+      {
+        fromProtocol: false,
+        isCrossOrigin: false,
+        totalBytes: 1e6,
+        wastedBytes: 1e6 - 1000 * 1000 * 2 / 8,
+        url: 'http://google.com/image.jpeg',
+      },
+    ]);
+  });
+
+  it('estimates savings on cross-origin files', () => {
+    const artifacts = generateArtifacts([{
+      url: 'http://localhost:1234/image.jpg', originalSize: 50000, jpegSize: 20000,
+    }]);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
+
+    expect(auditResult.items).toMatchObject([
+      {
+        fromProtocol: true,
+        isCrossOrigin: true,
+        url: 'http://localhost:1234/image.jpg',
+      },
+    ]);
+  });
+
+  it('ignores files when file type is not JPEG/BMP', () => {
+    const artifacts = generateArtifacts([{type: 'png', originalSize: 150000}]);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
+
+    expect(auditResult.items).toEqual([]);
   });
 
   it('passes when all images are sufficiently optimized', () => {
-    const auditResult = UsesOptimizedImagesAudit.audit_({
-      OptimizedImages: [
-        generateImage('png', 50000, 30000),
-        generateImage('jpeg', 50000, 30000, 50001),
-        generateImage('png', 50000, 30000),
-        generateImage('jpeg', 50000, 30000, 50001),
-        generateImage('png', 49999, 30000),
-      ],
-    });
+    const artifacts = generateArtifacts([
+      {type: 'png', originalSize: 50000},
+      {type: 'jpeg', originalSize: 50000, jpegSize: 50001},
+      {type: 'png', originalSize: 50000},
+    ]);
 
-    assert.equal(auditResult.items.length, 0);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
+
+    expect(auditResult.items).toEqual([]);
   });
 
-  it('limits output of data URIs', () => {
-    const image = generateImage('data:jpeg', 50000, 30000, 30000);
-    const auditResult = UsesOptimizedImagesAudit.audit_({
-      OptimizedImages: [image],
-    });
+  it('elides data URIs', () => {
+    const artifacts = generateArtifacts([
+      {type: 'data:jpeg', originalSize: 15000, jpegSize: 4500},
+    ]);
 
-    const actualUrl = auditResult.items[0].url;
-    assert.ok(actualUrl.length < image.url.length, `${actualUrl} >= ${image.url}`);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
+
+    expect(auditResult.items).toHaveLength(1);
+    expect(auditResult.items[0].url).toMatch(/^data.{2,40}/);
   });
 
   it('warns when images have failed', () => {
-    const auditResult = UsesOptimizedImagesAudit.audit_({
-      OptimizedImages: [{failed: true, url: 'http://localhost/image.jpg'}],
-    });
+    const artifacts = generateArtifacts([{failed: true, url: 'http://localhost/image.jpeg'}]);
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
 
-    assert.ok(/image.jpg/.test(auditResult.warnings[0]));
+    expect(auditResult.items).toHaveLength(0);
+    expect(auditResult.warnings).toHaveLength(1);
+  });
+
+  it('warns when missing ImageElement', () => {
+    const artifacts = generateArtifacts([{originalSize: 1e6}]);
+    artifacts.ImageElements = [];
+    const auditResult = OptimizedImagesAudit.audit_(artifacts);
+
+    expect(auditResult.items).toHaveLength(0);
+    expect(auditResult.warnings).toHaveLength(1);
   });
 });

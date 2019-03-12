@@ -82,6 +82,7 @@ async function runLighthouseInExtension(flags, categoryIDs) {
   // Default to 'info' logging level.
   flags.logLevel = flags.logLevel || 'info';
   flags.output = 'html';
+  flags.channel = 'extension';
 
   const connection = new ExtensionProtocol();
   const url = await connection.getCurrentTabURL();
