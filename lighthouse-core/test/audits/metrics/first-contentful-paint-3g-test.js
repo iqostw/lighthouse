@@ -28,8 +28,8 @@ describe('Performance: first-contentful-paint-3g audit', () => {
     // Use InlineSnapshot here so changes to Lantern coefficients can be easily updated en masse
     expect({score: result.score, value: Math.round(result.rawValue)}).toMatchInlineSnapshot(`
 Object {
-  "score": 1,
-  "value": 1661,
+  "score": 0.99,
+  "value": 2057,
 }
 `);
   });

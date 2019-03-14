@@ -2,13 +2,13 @@
 
 exports[`Performance: metrics evaluates valid input correctly 1`] = `
 Object {
-  "estimatedInputLatency": 100,
+  "estimatedInputLatency": 78,
   "estimatedInputLatencyTs": undefined,
   "firstCPUIdle": 3351,
   "firstCPUIdleTs": undefined,
-  "firstContentfulPaint": 911,
+  "firstContentfulPaint": 1307,
   "firstContentfulPaintTs": undefined,
-  "firstMeaningfulPaint": 1355,
+  "firstMeaningfulPaint": 1511,
   "firstMeaningfulPaintTs": undefined,
   "interactive": 3427,
   "interactiveTs": undefined,
