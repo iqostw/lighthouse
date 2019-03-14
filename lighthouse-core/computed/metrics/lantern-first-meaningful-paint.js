@@ -36,22 +36,11 @@ class LanternFirstMeaningfulPaint extends LanternMetric {
       throw new LHError(LHError.errors.NO_FMP);
     }
 
-    const blockingScriptUrls = LanternMetric.getScriptUrls(dependencyGraph, node => {
-      return (
-        node.endTime <= fmp && node.hasRenderBlockingPriority() && node.initiatorType !== 'script'
-      );
-    });
-
-    return dependencyGraph.cloneWithRelationships(node => {
-      if (node.endTime > fmp && !node.isMainDocument()) return false;
-      // Include EvaluateScript tasks for blocking scripts
-      if (node.type === BaseNode.TYPES.CPU) {
-        return node.isEvaluateScriptFor(blockingScriptUrls);
-      }
-
-      // Include non-script-initiated network requests with a render-blocking priority
-      return node.hasRenderBlockingPriority() && node.initiatorType !== 'script';
-    });
+    return LanternFirstContentfulPaint.getFirstPaintBasedGraph(
+      dependencyGraph,
+      fmp,
+      node => node.hasRenderBlockingPriority() && node.initiatorType !== 'script'
+    );
   }
 
   /**
@@ -65,21 +54,13 @@ class LanternFirstMeaningfulPaint extends LanternMetric {
       throw new LHError(LHError.errors.NO_FMP);
     }
 
-    const requiredScriptUrls = LanternMetric.getScriptUrls(dependencyGraph, node => {
-      return node.endTime <= fmp && node.hasRenderBlockingPriority();
-    });
-
-    return dependencyGraph.cloneWithRelationships(node => {
-      if (node.endTime > fmp && !node.isMainDocument()) return false;
-
-      // Include CPU tasks that performed a layout or were evaluations of required scripts
-      if (node.type === BaseNode.TYPES.CPU) {
-        return node.didPerformLayout() || node.isEvaluateScriptFor(requiredScriptUrls);
-      }
-
-      // Include all network requests that had render-blocking priority (even script-initiated)
-      return node.hasRenderBlockingPriority();
-    });
+    return LanternFirstContentfulPaint.getFirstPaintBasedGraph(
+      dependencyGraph,
+      fmp,
+      node => node.hasRenderBlockingPriority(),
+      // For pessimistic FMP we'll include *all* layout nodes
+      node => node.didPerformLayout()
+    );
   }
 
   /**

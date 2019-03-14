@@ -61,6 +61,17 @@ class CPUNode extends BaseNode {
   }
 
   /**
+   * Returns true if this node contains any EvaluateScript task with a URL.
+   * @return {boolean}
+   */
+  isEvaluateScript() {
+    return this._childEvents.some(evt => {
+      return evt.name === 'EvaluateScript' &&
+        !!evt.args.data && !!evt.args.data.url;
+    });
+  }
+
+  /**
    * Returns true if this node contains the EvaluateScript task for a URL in the given set.
    * @param {Set<string>} urls
    * @return {boolean}
