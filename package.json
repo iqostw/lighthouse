@@ -28,21 +28,19 @@
     "test-viewer": "yarn unit-viewer && jest lighthouse-viewer/test/viewer-test-pptr.js",
     "test-lantern": "bash lighthouse-core/scripts/test-lantern.sh",
     "unit-core": "jest \"lighthouse-core/\"",
-    "unit-core:ci": "jest --runInBand --coverage --ci \"lighthouse-core/\"",
-    "unit-cli": "jest --runInBand \"lighthouse-cli/\"",
-    "unit-cli:ci": "jest --runInBand --coverage --ci \"lighthouse-cli/\"",
-    "unit-sd": "jest --runInBand \"sd-validation/\"",
-    "unit-viewer": "jest \"lighthouse-viewer/\"",
+    "unit-cli": "jest \"lighthouse-cli/\"",
+    "unit-sd": "jest \"sd-validation/\"",
+    "unit-viewer": "jest \"lighthouse-viewer/**/*-test.js\"",
     "unit": "yarn unit-core && yarn unit-cli && yarn unit-viewer && yarn unit-sd",
-    "unit:ci": "yarn unit-core:ci && yarn unit-cli:ci && yarn unit-viewer && yarn unit-sd",
+    "unit:ci": "npm run unit-core -- --runInBand --ci --coverage && npm run unit-cli -- --runInBand --ci --coverage && npm run unit-viewer -- --runInBand --ci --coverage && npm run unit-sd -- --runInBand --ci --coverage",
     "core-unit": "yarn unit-core",
     "cli-unit": "yarn unit-cli",
     "viewer-unit": "yarn unit-viewer",
     "watch": "yarn unit-core --watch",
-    "unit:silentcoverage": "nyc --silent yarn unit:ci && nyc report --reporter text-lcov > unit-coverage.lcov",
-    "coverage": "nyc yarn unit:ci && nyc report --reporter html",
-    "smoke:silentcoverage": "nyc --silent yarn smoke && nyc report --reporter text-lcov > smoke-coverage.lcov",
-    "coverage:smoke": "nyc yarn smoke && nyc report --reporter html",
+    "unit:cicoverage": "nyc --all --hook-run-in-context npm run unit:ci && nyc report --reporter text-lcov > unit-coverage.lcov",
+    "coverage": "yarn unit:cicoverage && nyc report --reporter html",
+    "smoke:cicoverage": "nyc npm run smoke && nyc report --reporter text-lcov > smoke-coverage.lcov",
+    "coverage:smoke": "yarn smoke:cicoverage && nyc report --reporter html",
     "coveralls": "cat unit-coverage.lcov | coveralls",
     "codecov": "codecov -f unit-coverage.lcov -F unit && codecov -f smoke-coverage.lcov -F smoke",
     "devtools": "bash lighthouse-core/scripts/roll-to-devtools.sh",
@@ -190,14 +188,18 @@
   ],
   "nyc": {
     "reporter": [
-      "lcov",
-      "text"
+      "text-summary"
     ],
     "tempDirectory": "./coverage",
+    "include": [
+      "**/lighthouse-core/**/*.js",
+      "**/lighthouse-cli/**/*.js",
+      "**/lighthouse-viewer/**/*.js"
+    ],
     "exclude": [
       "**/third_party/**",
       "**/test/",
-      "clients/"
+      "**/scripts/"
     ]
   },
   "homepage": "https://github.com/GoogleChrome/lighthouse#readme",

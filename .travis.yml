@@ -33,9 +33,9 @@ script:
   - yarn bundlesize
   - yarn diff:sample-json
   - yarn lint
-  - yarn unit:silentcoverage
+  - yarn unit:cicoverage
   - yarn type-check
-  - yarn smoke:silentcoverage
+  - yarn smoke:cicoverage
   - yarn test-clients
   - yarn test-viewer
   - yarn test-lantern

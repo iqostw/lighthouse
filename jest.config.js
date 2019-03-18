@@ -12,6 +12,7 @@ module.exports = {
     '**/lighthouse-core/**/*.js',
     '**/lighthouse-cli/**/*.js',
     '**/sd-validation/**/*.js',
+    '**/lighthouse-viewer/**/*.js',
     '!**/test/',
     '!**/scripts/',
   ],
