@@ -9,6 +9,7 @@ coverage
 lcov.info
 .nyc_output
 *.lcov
+.stryker-tmp
 
 lighthouse-cli/results
 results.html
