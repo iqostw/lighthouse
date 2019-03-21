@@ -30,7 +30,7 @@
     "unit-core": "jest \"lighthouse-core/\"",
     "unit-cli": "jest \"lighthouse-cli/\"",
     "unit-sd": "jest \"sd-validation/\"",
-    "unit-viewer": "jest \"lighthouse-viewer/**/*-test.js\"",
+    "unit-viewer": "jest lighthouse-viewer/**/*-test.js",
     "unit": "yarn unit-core && yarn unit-cli && yarn unit-viewer && yarn unit-sd",
     "unit:ci": "npm run unit-core -- --runInBand --ci --coverage && npm run unit-cli -- --runInBand --ci --coverage && npm run unit-viewer -- --runInBand --ci --coverage && npm run unit-sd -- --runInBand --ci --coverage",
     "core-unit": "yarn unit-core",
