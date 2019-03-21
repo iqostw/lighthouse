@@ -26,18 +26,30 @@ class LanternFirstContentfulPaint extends LanternMetric {
   }
 
   /**
+   * This function computes the set of URLs that *appeared* to be render-blocking based on our filter,
+   * *but definitely were not* render-blocking based on the timing of their EvaluateScript task.
+   * It also computes the set of corresponding CPU node ids that were needed for the paint at the
+   * given timestamp.
    *
    * @param {Node} graph
-   * @param {number} fcpTs
-   * @param {function(NetworkNode):boolean} networkFilter
-   * @param {function(CPUNode):boolean=} cpuFilter
-   * @return {{possiblyRenderBlockingScriptUrls: Set<string>, actuallyRenderBlockingScriptUrls: Set<string>, blockingCpuNodeIds: Set<string>}}
+   * @param {number} filterTimestamp The timestamp used to filter out tasks that occured after our
+   *    paint of interest. Typically this is First Contentful Paint or First Meaningful Paint.
+   * @param {function(NetworkNode):boolean} blockingScriptFilter The function that determines which scripts
+   *    should be considered *possibly* render-blocking.
+   * @param {(function(CPUNode):boolean)=} extraBlockingCpuNodesToIncludeFilter The function that determines which CPU nodes
+   *    should also be included in our blocking node IDs set.
+   * @return {{definitelyNotRenderBlockingScriptUrls: Set<string>, blockingCpuNodeIds: Set<string>}}
    */
-  static getBlockingCpuData(graph, fcpTs, networkFilter, cpuFilter) {
+  static getBlockingCpuData(
+    graph,
+    filterTimestamp,
+    blockingScriptFilter,
+    extraBlockingCpuNodesToIncludeFilter
+  ) {
     /** @type {Array<CPUNode>} */
     const cpuNodes = [];
     graph.traverse(node => {
-      if (node.type === BaseNode.TYPES.CPU && node.startTime <= fcpTs) {
+      if (node.type === BaseNode.TYPES.CPU && node.startTime <= filterTimestamp) {
         cpuNodes.push(node);
       }
     });
@@ -46,24 +58,32 @@ class LanternFirstContentfulPaint extends LanternMetric {
 
     // A script is *possibly* render blocking if it finished loading before FCP
     const possiblyRenderBlockingScriptUrls = LanternMetric.getScriptUrls(graph, node => {
-      return node.endTime <= fcpTs && networkFilter(node);
+      return node.endTime <= filterTimestamp && blockingScriptFilter(node);
     });
 
-    // A script is *actually* render blocking if it finished loading before FCP *and* its
-    // EvaluateScript task finished before FCP as well.
+    // A script is *definitely not* render blocking if its EvaluateScript task finished after FCP.
     /** @type {Set<string>} */
-    const actuallyRenderBlockingScriptUrls = new Set();
+    const definitelyNotRenderBlockingScriptUrls = new Set();
+    /** @type {Set<string>} */
     const blockingCpuNodeIds = new Set();
     for (const url of possiblyRenderBlockingScriptUrls) {
+      let hadEvaluateScript = false;
+
       for (const cpuNode of cpuNodes) {
         if (cpuNode.isEvaluateScriptFor(new Set([url]))) {
-          actuallyRenderBlockingScriptUrls.add(url);
-          blockingCpuNodeIds.add(cpuNode);
+          hadEvaluateScript = true;
+          blockingCpuNodeIds.add(cpuNode.id);
           break;
         }
       }
+
+      // We couldn't find the evaluate script in the set of CPU nodes that ran before our paint, so
+      // it must not have been necessary for the paint.
+      if (!hadEvaluateScript) definitelyNotRenderBlockingScriptUrls.add(url);
     }
 
+    // The first layout, first paint, and first ParseHTML are almost always necessary for first paint,
+    // so we always include those CPU nodes.
     const firstLayout = cpuNodes.find(node => node.didPerformLayout());
     if (firstLayout) blockingCpuNodeIds.add(firstLayout.id);
     const firstPaint = cpuNodes.find(node => node.childEvents.some(e => e.name === 'Paint'));
@@ -71,33 +91,53 @@ class LanternFirstContentfulPaint extends LanternMetric {
     const firstParse = cpuNodes.find(node => node.childEvents.some(e => e.name === 'ParseHTML'));
     if (firstParse) blockingCpuNodeIds.add(firstParse.id);
 
-    if (cpuFilter) cpuNodes.filter(cpuFilter).forEach(node => blockingCpuNodeIds.add(node.id));
+    // If a CPU filter was passed in, we also want to include those extra nodes.
+    if (extraBlockingCpuNodesToIncludeFilter) {
+      cpuNodes
+        .filter(extraBlockingCpuNodesToIncludeFilter)
+        .forEach(node => blockingCpuNodeIds.add(node.id));
+    }
 
-    return {possiblyRenderBlockingScriptUrls, actuallyRenderBlockingScriptUrls, blockingCpuNodeIds};
+    return {
+      definitelyNotRenderBlockingScriptUrls,
+      blockingCpuNodeIds,
+    };
   }
 
   /**
+   * This function computes the graph required for the first paint of interest.
+   *
    * @param {Node} dependencyGraph
-   * @param {number} fcpTs
+   * @param {number} paintTs
    * @param {function(NetworkNode):boolean} blockingScriptFilter
-   * @param {function(CPUNode):boolean=} cpuNodeFilter
+   * @param {function(CPUNode):boolean=} extraBlockingCpuNodesToIncludeFilter
    * @return {Node}
    */
-  static getFirstPaintBasedGraph(dependencyGraph, fcpTs, blockingScriptFilter, cpuNodeFilter) {
+  static getFirstPaintBasedGraph(
+    dependencyGraph,
+    paintTs,
+    blockingScriptFilter,
+    extraBlockingCpuNodesToIncludeFilter
+  ) {
     const {
-      possiblyRenderBlockingScriptUrls,
-      actuallyRenderBlockingScriptUrls,
+      definitelyNotRenderBlockingScriptUrls,
       blockingCpuNodeIds,
-    } = this.getBlockingCpuData(dependencyGraph, fcpTs, blockingScriptFilter, cpuNodeFilter);
+    } = this.getBlockingCpuData(
+      dependencyGraph,
+      paintTs,
+      blockingScriptFilter,
+      extraBlockingCpuNodesToIncludeFilter
+    );
 
     return dependencyGraph.cloneWithRelationships(node => {
       if (node.type === BaseNode.TYPES.NETWORK) {
         // Exclude all nodes that ended after FCP (except for the main document which we always consider necessary)
-        if (node.endTime > fcpTs && !node.isMainDocument()) return false;
+        if (node.endTime > paintTs && !node.isMainDocument()) return false;
 
         const url = node.record.url;
-        if (possiblyRenderBlockingScriptUrls.has(url))
-          return actuallyRenderBlockingScriptUrls.has(url);
+        // If the URL definitely wasn't render-blocking then we filter it out.
+        if (definitelyNotRenderBlockingScriptUrls.has(url))
+          return false;
         return node.hasRenderBlockingPriority();
       } else {
         // If it's a CPU node, just check if it was blocking.
@@ -125,8 +165,10 @@ class LanternFirstContentfulPaint extends LanternMetric {
    * @return {Node}
    */
   static getPessimisticGraph(dependencyGraph, traceOfTab) {
-    return this.getFirstPaintBasedGraph(dependencyGraph, traceOfTab.timestamps.firstContentfulPaint, node =>
-      node.hasRenderBlockingPriority()
+    return this.getFirstPaintBasedGraph(
+      dependencyGraph,
+      traceOfTab.timestamps.firstContentfulPaint,
+      node => node.hasRenderBlockingPriority()
     );
   }
 }
