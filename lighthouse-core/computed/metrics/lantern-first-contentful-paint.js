@@ -41,10 +41,10 @@ class LanternFirstContentfulPaint extends LanternMetric {
    * @return {{definitelyNotRenderBlockingScriptUrls: Set<string>, blockingCpuNodeIds: Set<string>}}
    */
   static getBlockingCpuData(
-    graph,
-    filterTimestamp,
-    blockingScriptFilter,
-    extraBlockingCpuNodesToIncludeFilter
+      graph,
+      filterTimestamp,
+      blockingScriptFilter,
+      extraBlockingCpuNodesToIncludeFilter
   ) {
     /** @type {Array<CPUNode>} */
     const cpuNodes = [];
@@ -114,10 +114,10 @@ class LanternFirstContentfulPaint extends LanternMetric {
    * @return {Node}
    */
   static getFirstPaintBasedGraph(
-    dependencyGraph,
-    paintTs,
-    blockingScriptFilter,
-    extraBlockingCpuNodesToIncludeFilter
+      dependencyGraph,
+      paintTs,
+      blockingScriptFilter,
+      extraBlockingCpuNodesToIncludeFilter
   ) {
     const {
       definitelyNotRenderBlockingScriptUrls,
@@ -136,8 +136,9 @@ class LanternFirstContentfulPaint extends LanternMetric {
 
         const url = node.record.url;
         // If the URL definitely wasn't render-blocking then we filter it out.
-        if (definitelyNotRenderBlockingScriptUrls.has(url))
+        if (definitelyNotRenderBlockingScriptUrls.has(url)) {
           return false;
+        }
         return node.hasRenderBlockingPriority();
       } else {
         // If it's a CPU node, just check if it was blocking.

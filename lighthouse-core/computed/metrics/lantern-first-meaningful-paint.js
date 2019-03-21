@@ -7,11 +7,10 @@
 
 const makeComputedArtifact = require('../computed-artifact.js');
 const LanternMetric = require('./lantern-metric.js');
-const BaseNode = require('../../lib/dependency-graph/base-node.js');
 const LHError = require('../../lib/lh-error.js');
 const LanternFirstContentfulPaint = require('./lantern-first-contentful-paint.js');
 
-/** @typedef {BaseNode.Node} Node */
+/** @typedef {import('../../lib/dependency-graph/base-node.js').Node} Node */
 
 class LanternFirstMeaningfulPaint extends LanternMetric {
   /**
