@@ -2238,12 +2238,12 @@
                         "wastedMs": 723.0
                     }
                 ], 
-                "overallSavingsMs": 1129.0, 
+                "overallSavingsMs": 2002.0, 
                 "type": "opportunity"
             }, 
-            "displayValue": "Potential savings of 1,130\u00a0ms", 
+            "displayValue": "Potential savings of 2,000\u00a0ms", 
             "id": "render-blocking-resources", 
-            "score": 0.46, 
+            "score": 0.35, 
             "scoreDisplayMode": "numeric", 
             "title": "Eliminate render-blocking resources"
         }, 
