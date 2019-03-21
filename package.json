@@ -27,6 +27,7 @@
     "test-clients": "jest \"clients/\"",
     "test-viewer": "yarn unit-viewer && jest lighthouse-viewer/test/viewer-test-pptr.js",
     "test-lantern": "bash lighthouse-core/scripts/test-lantern.sh",
+    "test-lhci": "jest \"lighthouse-ci/\" && bash lighthouse-ci/scripts/test-lh-report.sh",
     "unit-core": "jest \"lighthouse-core/\"",
     "unit-cli": "jest \"lighthouse-cli/\"",
     "unit-viewer": "jest \"lighthouse-viewer/.*-test.js\"",

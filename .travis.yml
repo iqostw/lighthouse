@@ -23,6 +23,7 @@ install:
   # @see https://github.com/GoogleChrome/lighthouse/pull/4640/files#r171425004
   - export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
   - yarn
+  - cd lighthouse-ci/ && yarn && cd ../
 before_script:
   - export DISPLAY=:99.0
   # see comment above about puppeteer
@@ -39,6 +40,7 @@ script:
   - yarn test-clients
   - yarn test-viewer
   - yarn test-lantern
+  - yarn test-lhci
   - yarn i18n:checks
   # _JAVA_OPTIONS is breaking parsing of `compile-devtools` output. See #3338.
   - unset _JAVA_OPTIONS

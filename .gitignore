@@ -3,6 +3,7 @@ node_modules
 npm-debug.log
 .vscode
 .tmp
+.lighthouseci
 
 /dist
 coverage
@@ -14,6 +15,7 @@ lighthouse-cli/results
 results.html
 last-run-results.html
 
+*.tmp.sql
 *.trace.json
 *.devtoolslog.json
 *.report.html

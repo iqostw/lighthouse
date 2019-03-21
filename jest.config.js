@@ -19,6 +19,7 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: [
     '**/lighthouse-core/**/*-test.js',
+    '**/lighthouse-ci/**/*.test.js',
     '**/lighthouse-cli/**/*-test.js',
     '**/lighthouse-viewer/**/*-test.js',
     '**/lighthouse-viewer/**/*-test-pptr.js',
