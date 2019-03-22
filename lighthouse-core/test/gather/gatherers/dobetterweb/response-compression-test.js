@@ -57,6 +57,19 @@ const traceData = {
     },
     {
       url: 'http://google.com/index.json',
+      _statusCode: 200,
+      mimeType: 'application/json',
+      requestId: 27,
+      resourceSize: 7,
+      transferSize: 8,
+      resourceType: 'XHR',
+      responseHeaders: [],
+      content: '1234567',
+      finished: true,
+      sessionId: 'oopif', // ignore for being from oopif
+    },
+    {
+      url: 'http://google.com/index.json',
       _statusCode: 304, // ignore for being a cache not modified response
       mimeType: 'application/json',
       requestId: 22,

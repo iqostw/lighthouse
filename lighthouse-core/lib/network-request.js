@@ -253,7 +253,7 @@ module.exports = class NetworkRequest {
       this.targetId = source.targetId;
       this.sessionId = source.sessionId;
     } else {
-      this.targetId = undefined
+      this.targetId = undefined;
       this.sessionId = undefined;
     }
   }
