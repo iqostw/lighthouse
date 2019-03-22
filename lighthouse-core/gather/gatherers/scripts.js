@@ -58,6 +58,9 @@ class Scripts extends Gatherer {
     }
 
     const scriptRecords = loadData.networkRecords
+      // Ignore records from OOPIFs
+      .filter(record => !record.sessionId)
+      // Only get the content of script requests
       .filter(record => record.resourceType === NetworkRequest.TYPES.Script);
 
     for (const record of scriptRecords) {

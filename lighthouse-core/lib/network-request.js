@@ -103,6 +103,18 @@ module.exports = class NetworkRequest {
     this.fetchedViaServiceWorker = false;
     /** @type {string|undefined} */
     this.frameId = '';
+    /**
+     * @type {string|undefined}
+     * Only set for OOPIFs. This is the targetId of the protocol target from which this
+     * request came. Undefined means it came from the root.
+     */
+    this.targetId = undefined;
+    /**
+     * @type {string|undefined}
+     * Only set for OOPIFs. This is the sessionId of the protocol connection on which this
+     * request was discovered. Undefined means it came from the root.
+     */
+    this.sessionId = undefined;
     this.isLinkPreload = false;
   }
 
@@ -231,6 +243,19 @@ module.exports = class NetworkRequest {
     this.endTime = data.timestamp;
 
     this._updateResponseReceivedTimeIfNecessary();
+  }
+
+  /**
+   * @param {LH.Protocol.RawSource|undefined} source
+   */
+  setSource(source) {
+    if (source) {
+      this.targetId = source.targetId;
+      this.sessionId = source.sessionId;
+    } else {
+      this.targetId = undefined
+      this.sessionId = undefined;
+    }
   }
 
   /**

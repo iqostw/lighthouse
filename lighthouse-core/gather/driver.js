@@ -295,7 +295,7 @@ class Driver {
    * @param {string[]} parentSessionIds The list of session ids of the parents from youngest to oldest.
    */
   async _handleReceivedMessageFromTarget(event, parentSessionIds) {
-    const {sessionId, message} = event;
+    const {targetId, sessionId, message} = event;
     /** @type {LH.Protocol.RawMessage} */
     const protocolMessage = JSON.parse(message);
 
@@ -317,7 +317,7 @@ class Driver {
     }
 
     if (protocolMessage.method.startsWith('Network')) {
-      this._handleProtocolEvent(protocolMessage);
+      this._handleProtocolEvent({...protocolMessage, source: {targetId, sessionId}});
     }
   }
 
