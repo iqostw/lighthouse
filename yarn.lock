@@ -35,7 +35,7 @@
   dependencies:
     tslib "1.9.0"
 
-"@lighthouse/stack-packs@file:./lighthouse-core/lib/stack-packs-test":
+"@lighthouse/stack-packs@file:./stack-packs":
   version "1.0.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
@@ -4907,10 +4907,10 @@ jpeg-js@0.1.2, jpeg-js@^0.1.2:
   resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.1.2.tgz#135b992c0575c985cfa0f494a3227ed238583ece"
   integrity sha1-E1uZLAV1yYXPoPSUoyJ+0jhYPs4=
 
-js-library-detector@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.1.0.tgz#1e2e88b119bb91e6581b28f4a90018ea1320de73"
-  integrity sha512-EIBFkV6/3PFoTp3V7BjuPTPuc8/2wjPMyI5A0t2eicZ/RhXHBYnWzb+E3Ai2H8kVW/N+a+pYMyWqVcV3CBCtzw==
+js-library-detector@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.4.0.tgz#d1b08dfbdc3886258f888bd441801ef9e5b69567"
+  integrity sha512-lSTEC9Q3L/cXOhYIilW3GH/v4tOnPIN40NTIBHRcn2vxTwGhMyySQTQpJ0W68ISGzOgvwVe7KCfQ9PJi6MsOIw==
 
 js-tokens@^1.0.1:
   version "1.0.3"

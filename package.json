@@ -162,7 +162,7 @@
     "ws": "3.3.2",
     "yargs": "3.32.0",
     "yargs-parser": "7.0.0",
-    "@lighthouse/stack-packs": "file:./lighthouse-core/lib/stack-packs-test/"
+    "@lighthouse/stack-packs": "file:./stack-packs"
   },
   "resolutions": {
     "chrome-launcher/@types/node": "*"
