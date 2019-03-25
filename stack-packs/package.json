@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "description": "Lighthouse",
   "main": "./index.js",
-  "author": "The Chromium Authors"
+  "author": "The Chromium Authors",
+  "typings": "./index.d.ts"
 }
