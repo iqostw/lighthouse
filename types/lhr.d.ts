@@ -31,7 +31,6 @@ declare global {
       id: string;
       title: string;
       iconDataURL: string;
-      requiredStack: string[];
       descriptions: Record<string, string>;
     }
 

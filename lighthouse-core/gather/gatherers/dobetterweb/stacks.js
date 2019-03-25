@@ -22,8 +22,8 @@ class Stacks extends JSLibraries {
     const libs = await super.afterPass(passContext);
 
     return libs.map(lib => ({
-      detector: 'js-library-detector',
-      id: lib.npmPkgName,
+      detector: 'js',
+      id: lib.npmPkgName || lib.name.toLowerCase(),
       name: lib.name,
       version: lib.version,
       npm: lib.npmPkgName,
