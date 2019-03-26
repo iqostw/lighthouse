@@ -46,13 +46,24 @@ class LanternFirstContentfulPaint extends LanternMetric {
       blockingScriptFilter,
       extraBlockingCpuNodesToIncludeFilter
   ) {
+    /** @type {Map<string, CPUNode>} */
+    const scriptUrlToNodeMap = new Map();
+
     /** @type {Array<CPUNode>} */
     const cpuNodes = [];
     graph.traverse(node => {
-      // A task is *possibly* render blocking if it *started* before filterTimestamp.
-      // We use startTime here because the paint event can be *inside* the task that was render blocking.
-      if (node.type === BaseNode.TYPES.CPU && node.startTime <= filterTimestamp) {
-        cpuNodes.push(node);
+      if (node.type === BaseNode.TYPES.CPU) {
+        // A task is *possibly* render blocking if it *started* before filterTimestamp.
+        // We use startTime here because the paint event can be *inside* the task that was render blocking.
+        if (node.startTime <= filterTimestamp) cpuNodes.push(node);
+
+        // Make sure we still build our script URL to node map.
+        const scriptUrls = node.getEvaluateScriptURLs();
+        for (const url of scriptUrls) {
+          // Use the earliest CPU node we find.
+          const existing = scriptUrlToNodeMap.get(url) || node;
+          scriptUrlToNodeMap.set(url, node.startTime < existing.startTime ? node : existing);
+        }
       }
     });
 
@@ -64,26 +75,26 @@ class LanternFirstContentfulPaint extends LanternMetric {
     });
 
     // A script is *definitely not* render blocking if its EvaluateScript task started after filterTimestamp.
-    // We'll check `cpuNodes` to see if we can find its EvaluateScript.
-    // If we can't, that means it started after filterTimestamp, and we add it to our set.
     /** @type {Set<string>} */
     const definitelyNotRenderBlockingScriptUrls = new Set();
     /** @type {Set<string>} */
     const blockingCpuNodeIds = new Set();
     for (const url of possiblyRenderBlockingScriptUrls) {
-      let hadEvaluateScript = false;
+      // Lookup the CPU node that had the EvaluateScript for this URL.
+      const cpuNodeForUrl = scriptUrlToNodeMap.get(url);
 
-      for (const cpuNode of cpuNodes) {
-        if (cpuNode.isEvaluateScriptFor(new Set([url]))) {
-          hadEvaluateScript = true;
-          blockingCpuNodeIds.add(cpuNode.id);
-          break;
-        }
+      // If we can't find it at all, we'll assume it was render-blocking.
+      if (!cpuNodeForUrl) continue;
+
+      // If we found it and it was in our `cpuNodes` set that means it finished before filterTimestamp, we're good.
+      if (cpuNodes.includes(cpuNodeForUrl)) {
+        blockingCpuNodeIds.add(cpuNodeForUrl.id);
+        continue;
       }
 
       // We couldn't find the evaluate script in the set of CPU nodes that ran before our paint, so
       // it must not have been necessary for the paint.
-      if (!hadEvaluateScript) definitelyNotRenderBlockingScriptUrls.add(url);
+      definitelyNotRenderBlockingScriptUrls.add(url);
     }
 
     // The first layout, first paint, and first ParseHTML are almost always necessary for first paint,

@@ -61,27 +61,18 @@ class CPUNode extends BaseNode {
   }
 
   /**
-   * Returns true if this node contains any EvaluateScript task with a URL.
-   * @return {boolean}
+   * Returns the script URLs that had their EvaluateScript events occur in this task.
    */
-  isEvaluateScript() {
-    return this._childEvents.some(evt => {
-      return evt.name === 'EvaluateScript' &&
-        !!evt.args.data && !!evt.args.data.url;
-    });
-  }
+  getEvaluateScriptURLs() {
+    /** @type {Set<string>} */
+    const urls = new Set();
+    for (const event of this._childEvents) {
+      if (event.name !== 'EvaluateScript') continue;
+      if (!event.args.data || !event.args.data.url) continue;
+      urls.add(event.args.data.url);
+    }
 
-  /**
-   * Returns true if this node contains the EvaluateScript task for a URL in the given set.
-   * @param {Set<string>} urls
-   * @return {boolean}
-   */
-  isEvaluateScriptFor(urls) {
-    return this._childEvents.some(evt => {
-      return evt.name === 'EvaluateScript' &&
-        !!evt.args.data && !!evt.args.data.url &&
-        urls.has(evt.args.data.url);
-    });
+    return urls;
   }
 
   /**
