@@ -2306,10 +2306,10 @@
       "id": "render-blocking-resources",
       "title": "Eliminate render-blocking resources",
       "description": "Resources are blocking the first paint of your page. Consider delivering critical JS/CSS inline and deferring all non-critical JS/styles. [Learn more](https://developers.google.com/web/tools/lighthouse/audits/blocking-resources).",
-      "score": 0.88,
+      "score": 0.46,
       "scoreDisplayMode": "numeric",
-      "rawValue": 150,
-      "displayValue": "Potential savings of 150 ms",
+      "rawValue": 1129,
+      "displayValue": "Potential savings of 1,130 ms",
       "details": {
         "type": "opportunity",
         "headings": [
@@ -2356,7 +2356,7 @@
             "wastedMs": 723
           }
         ],
-        "overallSavingsMs": 150
+        "overallSavingsMs": 1129
       }
     },
     "unminified-css": {
@@ -5343,7 +5343,7 @@
       "lighthouse-core/lib/i18n/i18n.js | displayValueMsSavings": [
         {
           "values": {
-            "wastedMs": 150
+            "wastedMs": 1129
           },
           "path": "audits[render-blocking-resources].displayValue"
         }
