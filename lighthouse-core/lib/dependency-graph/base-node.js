@@ -180,16 +180,18 @@ class BaseNode {
     let shouldIncludeNode = () => true;
     if (predicate) {
       const idsToInclude = new Set();
-      rootNode.traverse(node => {
-        if (predicate(node)) {
-          node.traverse(
-            node => idsToInclude.add(node.id),
-            node => node._dependencies.filter(parent => !idsToInclude.has(parent))
-          );
-        }
-      });
-
       shouldIncludeNode = node => idsToInclude.has(node.id);
+
+      // Walk down dependents, looking for any that pass the predicate.
+      rootNode.traverse(node => {
+        if (!predicate(node)) return;
+
+        // Walk back up dependencies, adding all nodes in the path to this one to the inclusion list.
+        node.traverse(
+          node => idsToInclude.add(node.id),
+          node => node.getDependencies()
+        );
+      });
     }
 
     const idToNodeMap = new Map();
@@ -214,50 +216,36 @@ class BaseNode {
   }
 
   /**
-   * Traverses all paths in the graph, calling iterator on each node visited. Decides which nodes to
-   * visit with the getNext function.
-   * @param {function(Node, Node[]): void} iterator
-   * @param {function(Node): Node[]} getNext
+   * Traverses all connected nodes in BFS order, calling `callback` exactly once
+   * on each. `traversalPath` is the shortest (though not necessarily unique)
+   * path from `node` to the root of the iteration.
+   *
+   * Decides which nodes to visit with the `getNextNodes` function.
+   * @param {(node: Node, traversalPath: Node[]) => void} callback
+   * @param {function(Node): Node[]} [getNextNodes] Defaults to returning the dependents.
    */
-  _traversePaths(iterator, getNext) {
-    const stack = [[/** @type {Node} */(/** @type {BaseNode} */(this))]];
-    while (stack.length) {
-      /** @type {Node[]} */
-      // @ts-ignore - stack has length so it's guaranteed to have an item
-      const path = stack.shift();
-      const node = path[0];
-      iterator(node, path);
+  traverse(callback, getNextNodes) {
+    if (!getNextNodes) {
+      getNextNodes = node => node.getDependents();
+    }
 
-      const nodesToAdd = getNext(node);
-      for (const nextNode of nodesToAdd) {
-        stack.push([nextNode].concat(path));
+    const visited = new Set([this.id]);
+    const queue = [[/** @type {Node} */(/** @type {BaseNode} */(this))]];
+
+    while (queue.length) {
+      /** @type {Node[]} */
+      // @ts-ignore - queue has length so it's guaranteed to have an item
+      const traversalPath = queue.shift();
+      const node = traversalPath[0];
+      callback(node, traversalPath);
+
+      for (const nextNode of getNextNodes(node)) {
+        if (visited.has(nextNode.id)) continue;
+        visited.add(nextNode.id);
+
+        queue.push([nextNode, ...traversalPath]);
       }
     }
-  }
-
-  /**
-   * Traverses all connected nodes exactly once, calling iterator on each. Decides which nodes to
-   * visit with the getNext function.
-   * @param {function(Node, Node[]): void} iterator
-   * @param {function(Node): Node[]} [getNext] Defaults to returning the dependents.
-   */
-  traverse(iterator, getNext) {
-    if (!getNext) {
-      getNext = node => node.getDependents();
-    }
-
-    const visited = new Set();
-    const originalGetNext = getNext;
-
-    getNext = node => {
-      visited.add(node.id);
-      const allNodesToVisit = originalGetNext(node);
-      const nodesToVisit = allNodesToVisit.filter(nextNode => !visited.has(nextNode.id));
-      nodesToVisit.forEach(nextNode => visited.add(nextNode.id));
-      return nodesToVisit;
-    };
-
-    this._traversePaths(iterator, getNext);
   }
 
   /**
